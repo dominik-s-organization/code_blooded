@@ -1,5 +1,5 @@
 package game;
 
-public class snowPlower {
+public class SnowPlower {
     
 }

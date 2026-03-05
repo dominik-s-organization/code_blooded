@@ -1,9 +1,9 @@
 package game;
 
-public class busDriver extends Player {
+public class BusDriver extends Player {
     private int completedRoutes = 0;
 
-    public busDriver(String name, int completedRoutes) {
+    public BusDriver(String name, int completedRoutes) {
         super(name);
         this.completedRoutes = completedRoutes;
     }
