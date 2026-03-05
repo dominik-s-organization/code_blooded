@@ -2,6 +2,7 @@ package game;
 
 public class BusDriver extends Player {
     private int completedRoutes = 0;
+    private Bus bus;
 
     public BusDriver(String name, int completedRoutes) {
         super(name);
@@ -9,5 +10,5 @@ public class BusDriver extends Player {
     }
 
     @Override
-    public void makeMove() {}
+    public Junction selectDestination(){}
 }

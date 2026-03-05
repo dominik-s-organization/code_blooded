@@ -11,5 +11,5 @@ abstract class Player {
         return name;
     }
 
-    public abstract void makeMove();
+    public abstract Junction selectDestination();
 }

@@ -18,7 +18,7 @@ public class snowCleaner extends Player {
     }
 
     @Override
-    public void makeMove() {}
+    public Junction selectDestination() {}
 
     public void getPaid(int osszeg) {}
 
