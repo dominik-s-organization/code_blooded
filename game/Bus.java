@@ -1,13 +1,19 @@
 package game;
 
 public class Bus extends Vehicle {
-    private Junction beginningJunction;
-    private Junction destinationJunction;
+    private BusDriver owner;
+    private Point beginningPoint;
+    private Point endPoint;
+
+    public void switchRoute() {
+        beginningPoint = endPoint;
+        endPoint = beginningPoint;
+    }
 
     @Override
     public void jam() {}
 
     @Override
-    public void move() {}
+    public void move(Point point) {}
     
 }

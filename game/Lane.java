@@ -1,14 +1,15 @@
 package game;
 
 public class Lane {
-    private Junction startpoint;
-    private Junction endpoint;
+    private Point startpoint;
+    private Point endpoint;
     private Lane leftLane;
     private Lane rightLane;
-    private int snowLevel;
     private boolean isJammed;
-    private int iceLevel; //max =( frozen ) , how many cars crossed it
-    private int saltLevel;
+    private boolean isUnderground;
 
-    public void change(){}
+    private int saltLevel;  //min = ( nem sózott ) , minden lépés után csökken
+    private Snow snow;
+
+    public void change(Vehicle vehicle){}   // vehicle lehet majd null, akkor csak a hó változik
 }
