@@ -8,10 +8,10 @@ public class SnowCleaner extends Player {
     private int saltStock;
     private int bioKeroseneStock;
 
-    public void getPaid(int osszeg) {}
+    public void getPaid(int amount) {}
 
-    public void consumeMaterial(String tipus) {}
+    public void consumeMaterial(String type) {}
 
-    public void buy(String tipus, int quantity, Store store) {}
+    public void buy(String type, int quantity, Store store) {}
 }
 
