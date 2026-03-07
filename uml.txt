@@ -1,0 +1,196 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide circle
+
+class Bus {
+  -owner: BusDriver
+  -beginningPoint: Point
+  -endPoint: Point
+  --
+  +switchRoute(): void
+  +jam(): void
+  +move(point: Point): void
+}
+
+class BusDriver {
+  -completedRoutes: int = 0
+  -bus: Bus
+  --
+  +completeRoute(): void
+}
+
+class Car {
+  -home: Point
+  -work: Point
+  -moveable: boolean
+  --
+  +jam(): void
+  +move(point: Point): void
+}
+
+class City {
+  +points: List<Point>
+  +lanes: List<Lane>
+  +vehicles: List<Vehicle>
+}
+
+class CrossRoads {
+  +isReachable(vehicle: Vehicle, point: Point): boolean
+}
+
+class DragonHead {
+  +clean(lane: Lane): void
+}
+
+class Game {
+  -city: City
+  -players: List<Player>
+  --
+  +startGame(): void
+  +endGame(): void
+  +saveGame(): void
+  +loadGame(): void
+  +simulateStep(): void
+}
+
+abstract class Head {
+  +clean(lane: Lane): void
+}
+
+class IceBreakerHead {
+  +clean(lane: Lane): void
+}
+
+class Junction {
+  +isReachable(vehicle: Vehicle, point: Point): boolean
+}
+
+class Lane {
+  -startpoint: Point
+  -endpoint: Point
+  -leftLane: Lane
+  -rightLane: Lane
+  -isJammed: boolean
+  -isUnderground: boolean
+  -saltLevel: int
+  -snow: Snow
+  --
+  +change(vehicle: Vehicle): void
+}
+
+abstract class Player {
+  -name: String
+  --
+  +selectDestination(): Point
+}
+
+abstract class Point {
+  -vehicles: List<Vehicle>
+  -incomingLanes: List<Lane>
+  -outgoingLanes: List<Lane>
+  --
+  +isReachable(vehicle: Vehicle, point: Point): boolean
+}
+
+class SalterHead {
+  +clean(lane: Lane): void
+}
+
+class Snow {
+  -level: int
+  -vehiclesPassed: int
+  -ice: boolean
+  -brokenIce: boolean
+  --
+  +raise(): void
+  +raiseBy(amount: int): void
+  +passVehicle(): void
+}
+
+class SnowCleaner {
+  -snowPlowers: List<SnowPlower>
+  -inventory: List<Head>
+  -money: int
+  -saltStock: int
+  -bioKeroseneStock: int
+  --
+  +getPaid(osszeg: int): void
+  +consumeMaterial(tipus: String): void
+  +buy(tipus: String, quantity: int, store: Store): void
+}
+
+class SnowPlower {
+  -currentHead: Head
+  -owner: SnowCleaner
+  --
+  +jam(): void
+  +move(point: Point): void
+  +changeHead(head: Head): void
+}
+
+class Store {
+  ~inventory: Map<String, Integer>
+  --
+  +buy(item: String, quantity: int, buyer: SnowCleaner): boolean
+}
+
+class SweepingHead {
+  +clean(lane: Lane): void
+}
+
+class ThrowerHead {
+  +clean(lane: Lane): void
+}
+
+class Tunnel {
+  +isReachable(vehicle: Vehicle, point: Point): boolean
+}
+
+abstract class Vehicle {
+  -currentPoint: Point
+  -lastLane: Lane
+  -nextPoint: Point
+  --
+  +jam(): void
+  +move(point: Point): void
+}
+
+Bus --|> Vehicle
+Bus --> Point
+BusDriver --|> Player
+BusDriver *-- Bus
+Car --|> Vehicle
+Car --> Point
+City o-- Point
+City o-- Lane
+City o-- Vehicle
+CrossRoads --|> Point
+CrossRoads ..> Vehicle
+DragonHead --|> Head
+Game *-- City
+Game o-- Player
+Head --> Lane
+IceBreakerHead --|> Head
+Junction --|> Point
+Junction ..> Vehicle
+Lane --> Point
+Lane *-- Snow
+Lane --> Lane
+Player --> Point
+Point o-- Vehicle
+Point o-- Lane
+SalterHead --|> Head
+SnowCleaner --|> Player
+SnowCleaner *-- SnowPlower
+SnowCleaner o-- Head
+SnowCleaner --> Store
+SnowPlower --|> Vehicle
+SnowPlower *-- Head
+SnowPlower --> Point
+SweepingHead --|> Head
+ThrowerHead --|> Head
+Tunnel --|> Point
+Tunnel ..> Vehicle
+Vehicle --> Point
+Vehicle --> Lane
+@enduml
