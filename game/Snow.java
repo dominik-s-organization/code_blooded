@@ -5,6 +5,7 @@ public class Snow {
     private int vehiclesPassed;
     private boolean ice;
     private boolean brokenIce;
+    private int saltLevel;  //min = ( nem sózott ) , minden lépés után csökken (0-30)
 
     public void raise() {
         if (level < 30) {
@@ -15,6 +16,9 @@ public class Snow {
     public void raiseBy(int amount) {
         level = Math.min(level + amount, 30);
     }
+    public void lower() {}
 
-      public void passVehicle() {}
+    public void clean() {}
+
+    public void passVehicle() {}
 }

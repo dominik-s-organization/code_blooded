@@ -10,4 +10,6 @@ public class Car extends Vehicle {
 
     @Override
     public void move(Point point){}
+
+    public Point calculateNextPoint() {}
 }
