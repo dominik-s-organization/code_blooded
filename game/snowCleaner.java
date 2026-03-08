@@ -11,9 +11,5 @@ public class SnowCleaner extends Player {
     public void getPaid(int amount) {}
 
     public void consumeMaterial(String type) {}
-
-    public void buyHead(Head head, int price) {}
-
-    public void buyMaterial(String material, int price) {}
 }
 
