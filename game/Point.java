@@ -7,5 +7,5 @@ public abstract class Point {
     private List<Lane> incomingLanes;
     private List<Lane> outgoingLanes;
 
-    public abstract boolean isReachable(Vehicle vehicle, Point point);
+    public abstract boolean isReachable(Vehicle vehicle);
 }
