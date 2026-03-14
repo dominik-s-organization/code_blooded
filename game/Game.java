@@ -3,7 +3,7 @@ package game;
 import java.util.List;
 
 public class Game {
-    private City city;
+    private CityMap city;
     private List<Player> players;
 
     public void startGame() {}
