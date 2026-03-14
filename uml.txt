@@ -29,10 +29,10 @@ class Car {
   +calculateNextPoint(): Point
 }
 
-class City {
-  +points: List<Point>
-  +lanes: List<Lane>
-  +vehicles: List<Vehicle>
+class CityMap {
+  -points: List<Point>
+  -lanes: List<Lane>
+  -vehicles: List<Vehicle>
 }
 
 class CrossRoads {
@@ -45,7 +45,7 @@ class DragonHead {
 }
 
 class Game {
-  -city: City
+  -city: CityMap
   -players: List<Player>
   --
   +startGame(): void
@@ -134,7 +134,7 @@ class SnowPlower {
 }
 
 class Store {
-  ~inventory: Map<String, Integer>
+  -inventory: Map<String, Integer>
   --
   +buy(item: String, quantity: int, buyer: SnowCleaner): boolean
 }
@@ -162,41 +162,39 @@ abstract class Vehicle {
 }
 
 Bus --|> Vehicle
-Bus --> Point
+Bus -- Point
 BusDriver --|> Player
-BusDriver *-- Bus
+BusDriver -- Bus
 Car --|> Vehicle
-Car --> Point
-City o-- Point
-City o-- Lane
-City o-- Vehicle
+Car -- Point
+CityMap -- Point
+CityMap -- Lane
+CityMap -- Vehicle
 CrossRoads --|> Point
-CrossRoads --> Vehicle
+CrossRoads -- Vehicle
 DragonHead --|> Head
-Game-- City
-Game o-- Player
-Head --> Lane
+Game-- CityMap
+Game -- Player
+Head -- Lane
 IceBreakerHead --|> Head
 Junction --|> Point
-Junction --> Vehicle
-Lane --> Point
-Lane *-- Snow
-Lane --> Lane
-Player --> Point
-Point o-- Vehicle
-Point o-- Lane
+Junction -- Vehicle
+Lane -- Point
+Lane -- Snow
+Lane -- Lane
+Player -- Point
 SalterHead --|> Head
 SnowCleaner --|> Player
-SnowCleaner*-- SnowPlower
-SnowCleaner o-- Head
+SnowCleaner-- SnowPlower
+SnowCleaner -- Head
 SnowCleaner -- Store
 SnowPlower --|> Vehicle
-SnowPlower *-- Head
-SnowPlower --> Point
+SnowPlower -- Head
+SnowPlower -- Point
 SweepingHead --|> Head
 ThrowerHead --|> Head
 Tunnel --|> Point
-Tunnel --> Vehicle
-Vehicle --> Point
-Vehicle --> Lane
+Tunnel -- Vehicle
+Vehicle -- Point
+Vehicle -- Lane
 @enduml
