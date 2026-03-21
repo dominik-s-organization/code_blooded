@@ -171,14 +171,12 @@ CityMap -- Point
 CityMap -- Lane
 CityMap -- Vehicle
 CrossRoads --|> Point
-CrossRoads -- Vehicle
 DragonHead --|> Head
 Game-- CityMap
 Game -- Player
 Head -- Lane
 IceBreakerHead --|> Head
 Junction --|> Point
-Junction -- Vehicle
 Lane -- Point
 Lane -- Snow
 Lane -- Lane
@@ -194,7 +192,6 @@ SnowPlower -- Point
 SweepingHead --|> Head
 ThrowerHead --|> Head
 Tunnel --|> Point
-Tunnel -- Vehicle
 Vehicle -- Point
 Vehicle -- Lane
 @enduml
