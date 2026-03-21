@@ -10,6 +10,6 @@ public class SnowCleaner extends Player {
 
     public void getPaid(int amount) {}
 
-    public void consumeMaterial(String type) {}
+    public boolean consumeMaterial(String type) {}
 }
 
