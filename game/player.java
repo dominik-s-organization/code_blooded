@@ -1,20 +1,23 @@
 package game;
 
 /**
- * Absztrakt õsosztály a felhasználókat (játékosokat) reprezentáló entitások számára.
- * Közös felületet biztosít a játékosok döntéshozatalához a körök során.
+ * Absztrakt Å‘sosztÃ¡ly a felhasznÃ¡lÃ³kat (jÃ¡tÃ©kosokat) reprezentÃ¡lÃ³ entitÃ¡sok szÃ¡mÃ¡ra.
+ * KÃ¶zÃ¶s felÃ¼letet biztosÃ­t a jÃ¡tÃ©kosok dÃ¶ntÃ©shozatalÃ¡hoz a kÃ¶rÃ¶k sorÃ¡n.
  */
 public abstract class Player {
     /**
-     * A játékos azonosítója vagy neve.
+     * A jÃ¡tÃ©kos azonosÃ­tÃ³ja vagy neve.
      */
     private String name;
 
     /**
-     * A játékos ezen a metóduson keresztül választja ki a következõ célállomást
-     * (csomópontot) az általa irányított jármû számára.
+     * A jÃ¡tÃ©kos ezen a metÃ³duson keresztÃ¼l vÃ¡lasztja ki a kÃ¶vetkezÅ‘ cÃ©lÃ¡llomÃ¡st
+     * (csomÃ³pontot) az Ã¡ltala irÃ¡nyÃ­tott jÃ¡rmÅ± szÃ¡mÃ¡ra.
      *
-     * @return a kiválasztott célállomás (Point), ahova a jármû lépni fog
+     * @return a kivÃ¡lasztott cÃ©lÃ¡llomÃ¡s (Point), ahova a jÃ¡rmÅ± lÃ©pni fog
      */
-    public Point selectDestination() {}
+    public Point selectDestination() {
+        // ImplementÃ¡ciÃ³ majd itt
+        return null;
+    }
 }

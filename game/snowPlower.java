@@ -1,37 +1,37 @@
 package game;
 
 /**
- * A Takarító (SnowCleaner) játékos által irányított hókotró munkagépet reprezentáló osztály.
- * Felelõssége a felszerelt takarítófej mûködtetése az adott sávon történõ mozgás során.
+ * A Takarï¿½tï¿½ (SnowCleaner) jï¿½tï¿½kos ï¿½ltal irï¿½nyï¿½tott hï¿½kotrï¿½ munkagï¿½pet reprezentï¿½lï¿½ osztï¿½ly.
+ * Felelï¿½ssï¿½ge a felszerelt takarï¿½tï¿½fej mï¿½kï¿½dtetï¿½se az adott sï¿½von tï¿½rtï¿½nï¿½ mozgï¿½s sorï¿½n.
  */
 public class SnowPlower extends Vehicle {
     /**
-     * A hókotróra jelenleg felszerelt és aktív takarítófej.
+     * A hï¿½kotrï¿½ra jelenleg felszerelt ï¿½s aktï¿½v takarï¿½tï¿½fej.
      */
     private Head currentHead;
     /**
-     * A hókotrót irányító és birtokló játékos (takarító).
+     * A hï¿½kotrï¿½t irï¿½nyï¿½tï¿½ ï¿½s birtoklï¿½ jï¿½tï¿½kos (takarï¿½tï¿½).
      */
     private SnowCleaner owner;
 
     /**
-     * A hókotró elakadását (pl. ütközés vagy járhatatlan út miatt) kezelõ metódus.
+     * A hï¿½kotrï¿½ elakadï¿½sï¿½t (pl. ï¿½tkï¿½zï¿½s vagy jï¿½rhatatlan ï¿½t miatt) kezelï¿½ metï¿½dus.
      */
     @Override
     public void jam() {}
 
     /**
-     * Lépteti a hókotrót a paraméterként kapott célállomás (Point) felé.
+     * LÃ©pteti a hÃ³kotrÃ³t a paramÃ©terkÃ©nt kapott cÃ©lÃ¡llomÃ¡s (Point) felÃ©.
      *
-     * @param point a cél csomópont, amely felé a hókotró haladni próbál
+     * @param point a cÃ©l csomÃ³pont, amely felÃ© a hÃ³kotrÃ³ haladni prÃ³bÃ¡l
      */
     @Override
     public void move(Point point) {}
     
     /**
-     * Lecseréli a hókotróra jelenleg felszerelt takarítófejet egy újra.
+     * LecserÃ©li a hÃ³kotrÃ³ra jelenleg felszerelt takarÃ­tÃ³fejet egy Ãºjra.
      *
-     * @param head az új takarítófej (Head), amelyet a gépre szerelnek
+     * @param head az Ãºj takarÃ­tÃ³fej (Head), amelyet a gÃ©pre szerelnek
      */
     public void changeHead(Head head) {
         this.currentHead = head;

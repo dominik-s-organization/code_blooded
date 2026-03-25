@@ -2,44 +2,45 @@ package game;
 import java.util.List;
 
 /**
- * A h�eltakar�t�st v�gz� felhaszn�l�t (j�t�kost) reprezent�l� oszt�ly.
- * Nyilv�ntartja a j�t�kos vagyon�t, nyersanyagk�szleteit (s�, biokerozin), 
- * valamint az �ltala ir�ny�tott h�kotr�kat �s a rakt�ron l�v� takar�t�fejeket.
+ * A hóeltakarítást végző felhasználót (játékost) reprezentáló osztály.
+ * Nyilvántartja a játékos vagyonát, nyersanyagkészleteit (só, biokerozin), 
+ * valamint az általa irányított hókotrókat és a raktáron lévő takarítófejeket.
  */
 public class SnowCleaner extends Player {
     /**
-     * A j�t�kos �ltal birtokolt �s ir�ny�tott h�kotr�k (munkag�pek) list�ja.
+     * A játékos által birtokolt és irányított hókotrók (munkagépek) listája.
      */
     private List<SnowPlower> snowPlowers;
     /**
-     * A j�t�kos �ltal megv�s�rolt, de aktu�lisan egy g�pre sem felszerelt takar�t�fejek list�ja.
+     * A játékos által megvásárolt, takarítófejek listája.
      */
     private List<Head> inventory;
     /**
-     * A j�t�kos vagyona, amellyel a boltban (Store) gazd�lkodhat.
+     * A játékos vagyona, amellyel a boltban (Store) gazdálkodhat.
      */
     private int money;
     /**
-     * A rendelkez�sre �ll� s�k�szlet a s�z� fej (SalterHead) m�k�dtet�s�hez.
+     * A rendelkezésre álló sókészlet a sózó fej (SalterHead) működtetéséhez.
      */
     private int saltStock;
     /**
-     * A rendelkez�sre �ll� biokerozin k�szlet a s�rk�nyfej (DragonHead) m�k�dtet�s�hez.
+     * A rendelkezésre álló biokerozin készlet a sörényfej (DragonHead) működtetéséhez.
      */
     private int bioKeroseneStock;
 
     /**
-     * P�nz�sszeget �r j�v� a j�t�kos egyenleg�n (pl. sikeres takar�t�s ut�n).
+     * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
      *
-     * @param amount a j�v��rand� p�nz�sszeg
+     * @param amount a jóváíandó pénzösszeg
      */
     public void getPaid(int amount) {}
 
     /**
-     * Cs�kkenti a megadott t�pus� nyersanyag k�szlet�t a fogyaszt�s sor�n.
+     * Csökkenti a megadott típusú nyersanyag készletét a fogyasztás során.
      *
-     * @param type a felhaszn�lt nyersanyag t�pusa (pl. "salt" vagy "biokerosene")
+     * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene")
+     * @return true, ha van elegendő készlet a fogyasztáshoz, és sikeresen levonták, false ha nincs elég készlet
      */
-    public void consumeMaterial(String type) {}
+    public boolean consumeMaterial(String type) {}
 }
 

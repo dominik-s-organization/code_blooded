@@ -3,29 +3,29 @@ package game;
 import java.util.List;
 
 /**
- * Absztrakt �soszt�ly az �th�l�zat topol�giai pontjainak (pl. csom�pontok, keresztez�d�sek) reprezent�l�s�ra.
- * Felel�ss�ge a becsatlakoz� �s kimen� s�vok, valamint az adott ponton tart�zkod� j�rm�vek nyilv�ntart�sa.
+ * Absztrakt ősosztály azthlzat topolgiai pontjainak (pl. csompontok, kereszteződések) reprezentálására.
+ * Felelőssge a becsatlakoző és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvntartása.
  */
 public abstract class Point {
     /**
-     * A ponton (keresztez�d�sben) �ppen tart�zkod� j�rm�vek list�ja.
+     * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
     private List<Vehicle> vehicles;
     /**
-     * A pontba be�rkez� s�vok list�ja.
+     * A pontba beérkező sávok listája.
      */
     private List<Lane> incomingLanes;
     /**
-     * A pontb�l kiindul� s�vok list�ja.
+     * A pontból kiinduló sávok listája.
      */
     private List<Lane> outgoingLanes;
 
     /**
-     * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) erre a pontra.
-     * A lesz�rmazott oszt�lyok (pl. Tunnel, Junction) egyedi logik�t val�s�thatnak meg.
+     * Meghatározza, hogy az adott jármű ráléphet-e (behajthat-e) erre a pontra.
+     * A leszármazott osztályok (pl. Tunnel, Junction) egyedi logikát valósíthatnak meg.
      *
-     * @param vehicle a vizsg�lt j�rm�, amely r� szeretne l�pni a pontra
-     * @return true, ha a j�rm� r�l�phet a pontra, ellenkez� esetben false
+     * @param vehicle a vizsgált jármű, amely rálépni szeretne a pontra
+     * @return true, ha a jármű ráléphet a pontra, ellenkező esetben false
      */
     public abstract boolean isReachable(Vehicle vehicle);
 

@@ -6,8 +6,10 @@ package game;
 public class CrossRoads extends Point {
     /*
      * Adott jármű ráléphet-e a kereszteződést.
-     * @param vehicle
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a kereszteződésre.
      * @return true, ha a jármű ráléphet a kereszteződésre, false egyébként.
      */
-    public boolean isReachable(Vehicle vehicle) { return false;}
+    public boolean isReachable(Vehicle vehicle) {
+        return true;
+    }
 }

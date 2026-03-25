@@ -1,16 +1,16 @@
 package game;
 
 /**
- * A hó messzire történõ elszórására szolgáló hányó fejet reprezentáló osztály.
- * Felelõssége a hó eltávolítása az úttestrõl a szomszédos sávok érintése nélkül (kiveti a rendszerbõl).
- * Jég ellen nem hatékony.
+ * A hÃ³ messzire tÃ¶rtÃ©nÅ‘ elszÃ³rÃ¡sÃ¡ra szolgÃ¡lÃ³ hÃ¡nyÃ³ fejet reprezentÃ¡lÃ³ osztÃ¡ly.
+ * FelelÅ‘ssÃ©ge a hÃ³ eltÃ¡volÃ­tÃ¡sa az ÃºttestrÅ‘l a szomszÃ©dos sÃ¡vok Ã©rintÃ©se nÃ©lkÃ¼l (kiveti a rendszerbÅ‘l).
+ * JÃ©g ellen nem hatÃ©kony.
  */
 public class ThrowerHead extends Head {
 
     /**
-     * Megtisztítja az adott sávot, a havat messzire hajítva, csökkentve a hóréteget.
+     * MegtisztÃ­tja az adott sÃ¡vot, a havat messzire hajtva, lecsÃ¶kkentve a hÃ³rÃ©teget.
      *
-     * @param lane a sáv, amelyet a hóhányó fej letakarít
+     * @param lane a sÃ¡v, amelyet a hÃ¡nyÃ³ fej letakarÃ­t
      */    
     @Override
     public void clean(Lane lane) {}

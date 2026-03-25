@@ -1,35 +1,35 @@
 package game;
 
 /**
- * Absztrakt �soszt�ly a mozg� entit�sok (aut�k, buszok, h�kotr�k) sz�m�ra.
- * Felel�ss�ge az aktu�lis poz�ci� �s az elakad�si id� nyilv�ntart�sa, 
- * valamint a mozg�s �s elakad�s alapvet� m�veleteinek defini�l�sa.
+ * Absztrakt ősosztály a mozgó entitások (autók, buszok, hókotrók) számára.
+ * Felelőssége az aktuális pozíció és az elakadási idő nyilvántartása, 
+ * valamint a mozgás és elakadás alapvető műveleteinek definiálása.
  */
 public abstract class Vehicle { 
     /**
-     * A j�rm� aktu�lis helyzete (csom�pontja) az �th�l�zatban.
+     * A jármű aktuális helyzete (csomópontja) az úthálózatban.
      */
     private Point currentPoint;
     /**
-     * A legut�bbi s�v, amelyen a j�rm� tart�zkodott, miel�tt a jelenlegi pontra l�pett.
+     * A legutóbbi sáv, amelyen a jármű áthaladott, mielőtt a jelenlegi pontra lépett.
      */
     private Lane lastLane;
     /**
-     * A v�rakoz�si vagy elakad�si id� (k�r�kben m�rve). 
-     * Am�g ez az �rt�k nagyobb null�n�l, a j�rm� nem tud mozogni.
+     * A várakozási vagy elakadási idő (körökben mérve). 
+     * Amíg ez az érték nagyobb nullánál, a jármű nem tud mozogni.
      */
     private int jammedTime;
 
     /**
-     * A j�rm� elakad�s�t, baleset�t vagy b�ntet�si idej�t kezel� absztrakt met�dus.
-     * A lesz�rmazott oszt�lyok a saj�t logik�juk szerint val�s�tj�k meg.
+     * A jármű elakadását, balesetét vagy büntetési idejét kezelő absztrakt metódus.
+     * A leszármazott osztályok a saját logikájuk szerint valósítják meg.
      */
     public abstract void jam();
 
     /**
-     * A j�rm�vet a megadott c�l�llom�s (pont) fel� mozgatja.
+     * A járművet a megadott célállomás (pont) felé mozgatja.
      *
-     * @param point a c�l�llom�s (Point), ahova a j�rm� l�pni pr�b�l
+     * @param point a célállomás (Point), ahova a jármű lépni próbál
      */
     public abstract void move(Point point);
 }
