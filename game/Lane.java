@@ -1,14 +1,22 @@
 package game;
 
+/**
+ * A Lane osztály egy sávot reprezentál a játékban.
+ */
 public class Lane {
-    private Point startpoint;
-    private Point endpoint;
-    private Lane leftLane;
-    private Lane rightLane;
-    private boolean isJammed;
-    private boolean isUnderground;
+    private Point startpoint; // sáv kezdőpontja, ami lehet egy Junction vagy egy CrossRoads
+    private Point endpoint; // sáv végpontja, ami lehet egy Junction vagy egy CrossRoads
+    private Lane leftLane; // balra eső sáv
+    private Lane rightLane; // jobbra eső sáv
+    private boolean isJammed; // jelzi, hogy a sávon van-e dugó
+    private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
 
     private Snow snow;
 
-    public void change(Vehicle vehicle){}   // vehicle lehet majd null, akkor csak a hó változik
+    /*
+     * Változtat a sáv állapotán.
+     * @param vehicle
+     * A jármű, amely a sávon mozog, vagy null, ha csak a hó változik.
+     */
+    public void change(Vehicle vehicle){}   
 }
