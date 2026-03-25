@@ -10,15 +10,25 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
+    //Kostruktor
+    public Bus(BusDriver o, Point bPoint, Point ePoint){
+        owner = o;
+        beginningPoint = bPoint;
+        endPoint = ePoint;
+    }
+
     // Megcseréli a kezdőpontot és a végpontot, így a busz visszafordulhat a kiindulási helyére.
     public void switchRoute() {
         beginningPoint = endPoint;
         endPoint = beginningPoint;
+        System.out.print("-> switchRoute()");
     }
 
     // Ha ütközés történik, a busz megáll a forgalomban.
     @Override
-    public void jam() {}
+    public void jam() {
+        System.out.print("-> jam()");
+    }
 
     /*
     *  A busz mozog egy adott pont felé, amely lehet a kezdőpont vagy a végpont.
@@ -26,6 +36,8 @@ public class Bus extends Vehicle {
     *  A pont, amely felé a busz mozogni fog.
      */
     @Override
-    public void move(Point point) {}
+    public void move(Point point) {
+        System.out.print("-> move()");
+    }
     
 }
