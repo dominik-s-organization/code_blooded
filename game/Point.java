@@ -8,4 +8,6 @@ public abstract class Point {
     private List<Lane> outgoingLanes;
 
     public abstract boolean isReachable(Vehicle vehicle);
+
+    public abstract void lookForJams();
 }
