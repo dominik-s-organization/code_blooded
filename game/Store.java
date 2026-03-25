@@ -3,26 +3,22 @@ package game;
 import java.util.Map;
 
 /**
- * A gazdasági rendszert menedzselõ bolt osztály.
- * Felelõs a megvásárolható eszköz és nyersanyagok árainak nyilvántartásáért, 
- * valamint a vásárlási tranzakciók lebonyolításáért.
+ * A gazdasÃ¡gi rendszert menedzselÅ‘ bolt osztÃ¡ly.
+ * FelelÅ‘s a megvÃ¡sÃ¡rolhatÃ³ eszkÃ¶z Ã©s nyersanyagok Ã¡rainak nyilvÃ¡ntartÃ¡sÃ¡Ã©rt, 
+ * valamint a vÃ¡sÃ¡rlÃ¡si tranzakciÃ³k lebonyolÃ­tÃ¡sÃ¡Ã©rt.
  */
 public class Store {
-    /**
-     * A bolt kínálatát és az árakat tároló adatszerkezet.
-     * Kulcs: a tétel neve (pl. "SalterHead", "salt"), Érték: az ár.
-     */
-    Map<String, Integer> inventory;
+    private Map<String, Integer> inventory;
 
     /**
-     * Lebonyolít egy vásárlási tranzakciót.
-     * Ellenõrzi a vásárló pénzügyi fedezetét, majd jóváhagyás esetén levonja az összeget 
-     * és átadja a megvásárolt tételt.
+     * LebonyolÃ­t egy vÃ¡sÃ¡rlÃ¡si tranzakciÃ³t.
+     * EllenÅ‘rzi a vÃ¡sÃ¡rlÃ³ pÃ©nzÃ¼gyi fedezetÃ©t, majd jÃ³vÃ¡hagyÃ¡s esetÃ©n levonja az Ã¶sszeget 
+     * Ã©s Ã¡tadja a megvÃ¡sÃ¡rolt tÃ©telt.
      *
-     * @param item a megvásárolni kívánt tétel azonosítója
-     * @param quantity a vásárolni kívánt mennyiség
-     * @param buyer a vásárlást kezdeményezõ takarító (SnowCleaner)
-     * @return true, ha a vásárlás sikeres volt, false fedezethiány esetén
+     * @param item a megvÃ¡sÃ¡rolni kÃ­vÃ¡nt tÃ©tel azonosÃ­tÃ³ja
+     * @param quantity a vÃ¡sÃ¡rolni kÃ­vÃ¡nt mennyisÃ©g
+     * @param buyer a vÃ¡sÃ¡rlÃ¡st kezdemÃ©nyezÅ‘ takarÃ­tÃ³ (SnowCleaner)
+     * @return true, ha a vÃ¡sÃ¡rlÃ¡s sikeres volt, false fedezethiÃ¡ny esetÃ©n
      */
     public boolean buy(String item, int quantity, SnowCleaner buyer) {}
 }

@@ -11,8 +11,7 @@ public class Lane {
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
 
-    private int saltLevel; // min = ( nem sózott ) , minden lépés után csökken
-    private Snow snow; // a sávon lévő hó mennyisége, amely befolyásolja a járművek sebességét
+    private Snow snow;
 
     /*
      * Változtat a sáv állapotán.

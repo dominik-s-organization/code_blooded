@@ -28,4 +28,6 @@ public abstract class Point {
      * @return true, ha a j�rm� r�l�phet a pontra, ellenkez� esetben false
      */
     public abstract boolean isReachable(Vehicle vehicle);
+
+    public abstract void lookForJams();
 }
