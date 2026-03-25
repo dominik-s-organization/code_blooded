@@ -1,6 +1,17 @@
 package game;
 
+/**
+ * A sózó fejet reprezentáló osztály.
+ * Felelőssge, hogy az útra sót juttasson, ezáltal megakadályozza a hó lerakódását és
+ * elsegíti a meglévő jég/hó olvadását. Működéséhez só szükséges.
+ */
 public class SalterHead extends Head {
+    /**
+     * Végrehajtja a sózást a megadott sávon.
+     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos sókészletét.
+     *
+     * @param lane a sáv, amelyen a sózó fej kifejti a hatását
+     */
     @Override
     public void clean(Lane lane) {}
 }

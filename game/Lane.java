@@ -10,8 +10,13 @@ public class Lane {
     private Lane rightLane; // jobbra eső sáv
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
+<<<<<<< HEAD
     private int saltLevel; // min = ( nem sózott ) , minden lépés után csökken
     private Snow snow; // a sávon lévő hó mennyisége, amely befolyásolja a járművek sebességét
+=======
+
+    private Snow snow;
+>>>>>>> main
 
     //Konstruktor
     public Lane(Point s, Point e, Lane l, Lane r){
@@ -24,8 +29,7 @@ public class Lane {
 
     /*
      * Változtat a sáv állapotán.
-     * @param vehicle
-     * A jármű, amely a sávon mozog, vagy null, ha csak a hó változik.
+     * @param vehicle, a rajta átmenő jármű, vagy null, ha csak a hó változik.
      */
     public void change(Vehicle vehicle){}   
 }

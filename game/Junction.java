@@ -6,7 +6,7 @@ package game;
 public class Junction extends Point {
     /*
      * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
-     * @param vehicle
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
      * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
      */
     public boolean isReachable(Vehicle vehicle) { return false;}
