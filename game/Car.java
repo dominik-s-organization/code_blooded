@@ -15,9 +15,8 @@ public class Car extends Vehicle {
 
     @Override
     /*
-    * Az autó mozog egy adott pont felé, amely lehet az otthona vagy a munkahelye.
-    * @param point
-    * A pont, amely felé az autó mozogni fog.
+    * Az autó mozog egy adott pont felé.
+    * @param point A pont, amely felé az autó mozogni fog.
     */
     public void move(Point point){}
 

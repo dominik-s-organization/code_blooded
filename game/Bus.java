@@ -21,9 +21,8 @@ public class Bus extends Vehicle {
     public void jam() {}
 
     /*
-    *  A busz mozog egy adott pont felé, amely lehet a kezdőpont vagy a végpont.
-    *  @param point
-    *  A pont, amely felé a busz mozogni fog.
+    *  A busz mozog egy adott pont felé.
+    *  @param point A pont, amely felé a busz mozogni fog.
      */
     @Override
     public void move(Point point) {}

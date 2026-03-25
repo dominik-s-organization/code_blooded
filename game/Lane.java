@@ -15,8 +15,7 @@ public class Lane {
 
     /*
      * Változtat a sáv állapotán.
-     * @param vehicle
-     * A jármű, amely a sávon mozog, vagy null, ha csak a hó változik.
+     * @param vehicle, a rajta átmenő jármű, vagy null, ha csak a hó változik.
      */
     public void change(Vehicle vehicle){}   
 }
