@@ -1,16 +1,16 @@
 package game;
 
 /**
- * Speciális csomópontot (alagutat) reprezentáló osztály az úthálózatban.
- * Mivel fedett, a környezeti hatások (havazás) jellemzõen nem érintik, 
- * de biztosítja az áthaladást a jármûvek számára.
+ * Speciï¿½lis csomï¿½pontot (alagutat) reprezentï¿½lï¿½ osztï¿½ly az ï¿½thï¿½lï¿½zatban.
+ * Mivel fedett, a kï¿½rnyezeti hatï¿½sok (havazï¿½s) jellemzï¿½en nem ï¿½rintik, 
+ * de biztosï¿½tja az ï¿½thaladï¿½st a jï¿½rmï¿½vek szï¿½mï¿½ra.
  */
 public class Tunnel extends Point {
     /**
-     * Meghatározza, hogy az adott jármû ráléphet-e (behajthat-e) az alagútba.
+     * Meghatï¿½rozza, hogy az adott jï¿½rmï¿½ rï¿½lï¿½phet-e (behajthat-e) az alagï¿½tba.
      *
-     * @param vehicle a vizsgált jármû, amely be szeretne hajtani az alagútba
-     * @return true, ha a jármû ráléphet az alagútra, ellenkezõ esetben false
+     * @param vehicle a vizsgï¿½lt jï¿½rmï¿½, amely be szeretne hajtani az alagï¿½tba
+     * @return true, ha a jï¿½rmï¿½ rï¿½lï¿½phet az alagï¿½tra, ellenkezï¿½ esetben false
      */    
      public boolean isReachable(Vehicle vehicle) {}
 }

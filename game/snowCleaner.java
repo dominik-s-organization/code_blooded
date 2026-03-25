@@ -2,43 +2,43 @@ package game;
 import java.util.List;
 
 /**
- * A hóeltakarítást végzõ felhasználót (játékost) reprezentáló osztály.
- * Nyilvántartja a játékos vagyonát, nyersanyagkészleteit (só, biokerozin), 
- * valamint az általa irányított hókotrókat és a raktáron lévõ takarítófejeket.
+ * A hï¿½eltakarï¿½tï¿½st vï¿½gzï¿½ felhasznï¿½lï¿½t (jï¿½tï¿½kost) reprezentï¿½lï¿½ osztï¿½ly.
+ * Nyilvï¿½ntartja a jï¿½tï¿½kos vagyonï¿½t, nyersanyagkï¿½szleteit (sï¿½, biokerozin), 
+ * valamint az ï¿½ltala irï¿½nyï¿½tott hï¿½kotrï¿½kat ï¿½s a raktï¿½ron lï¿½vï¿½ takarï¿½tï¿½fejeket.
  */
 public class SnowCleaner extends Player {
     /**
-     * A játékos által birtokolt és irányított hókotrók (munkagépek) listája.
+     * A jï¿½tï¿½kos ï¿½ltal birtokolt ï¿½s irï¿½nyï¿½tott hï¿½kotrï¿½k (munkagï¿½pek) listï¿½ja.
      */
     private List<SnowPlower> snowPlowers;
     /**
-     * A játékos által megvásárolt, de aktuálisan egy gépre sem felszerelt takarítófejek listája.
+     * A jï¿½tï¿½kos ï¿½ltal megvï¿½sï¿½rolt, de aktuï¿½lisan egy gï¿½pre sem felszerelt takarï¿½tï¿½fejek listï¿½ja.
      */
     private List<Head> inventory;
     /**
-     * A játékos vagyona, amellyel a boltban (Store) gazdálkodhat.
+     * A jï¿½tï¿½kos vagyona, amellyel a boltban (Store) gazdï¿½lkodhat.
      */
     private int money;
     /**
-     * A rendelkezésre álló sókészlet a sózó fej (SalterHead) mûködtetéséhez.
+     * A rendelkezï¿½sre ï¿½llï¿½ sï¿½kï¿½szlet a sï¿½zï¿½ fej (SalterHead) mï¿½kï¿½dtetï¿½sï¿½hez.
      */
     private int saltStock;
     /**
-     * A rendelkezésre álló biokerozin készlet a sárkányfej (DragonHead) mûködtetéséhez.
+     * A rendelkezï¿½sre ï¿½llï¿½ biokerozin kï¿½szlet a sï¿½rkï¿½nyfej (DragonHead) mï¿½kï¿½dtetï¿½sï¿½hez.
      */
     private int bioKeroseneStock;
 
     /**
-     * Pénzösszeget ír jóvá a játékos egyenlegén (pl. sikeres takarítás után).
+     * Pï¿½nzï¿½sszeget ï¿½r jï¿½vï¿½ a jï¿½tï¿½kos egyenlegï¿½n (pl. sikeres takarï¿½tï¿½s utï¿½n).
      *
-     * @param amount a jóváírandó pénzösszeg
+     * @param amount a jï¿½vï¿½ï¿½randï¿½ pï¿½nzï¿½sszeg
      */
     public void getPaid(int amount) {}
 
     /**
-     * Csökkenti a megadott típusú nyersanyag készletét a fogyasztás során.
+     * Csï¿½kkenti a megadott tï¿½pusï¿½ nyersanyag kï¿½szletï¿½t a fogyasztï¿½s sorï¿½n.
      *
-     * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene")
+     * @param type a felhasznï¿½lt nyersanyag tï¿½pusa (pl. "salt" vagy "biokerosene")
      */
     public void consumeMaterial(String type) {}
 }

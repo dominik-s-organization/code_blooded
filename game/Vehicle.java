@@ -1,35 +1,35 @@
 package game;
 
 /**
- * Absztrakt õsosztály a mozgó entitások (autók, buszok, hókotrók) számára.
- * Felelõssége az aktuális pozíció és az elakadási idõ nyilvántartása, 
- * valamint a mozgás és elakadás alapvetõ mûveleteinek definiálása.
+ * Absztrakt ï¿½sosztï¿½ly a mozgï¿½ entitï¿½sok (autï¿½k, buszok, hï¿½kotrï¿½k) szï¿½mï¿½ra.
+ * Felelï¿½ssï¿½ge az aktuï¿½lis pozï¿½ciï¿½ ï¿½s az elakadï¿½si idï¿½ nyilvï¿½ntartï¿½sa, 
+ * valamint a mozgï¿½s ï¿½s elakadï¿½s alapvetï¿½ mï¿½veleteinek definiï¿½lï¿½sa.
  */
 public abstract class Vehicle { 
     /**
-     * A jármû aktuális helyzete (csomópontja) az úthálózatban.
+     * A jï¿½rmï¿½ aktuï¿½lis helyzete (csomï¿½pontja) az ï¿½thï¿½lï¿½zatban.
      */
     private Point currentPoint;
     /**
-     * A legutóbbi sáv, amelyen a jármû tartózkodott, mielõtt a jelenlegi pontra lépett.
+     * A legutï¿½bbi sï¿½v, amelyen a jï¿½rmï¿½ tartï¿½zkodott, mielï¿½tt a jelenlegi pontra lï¿½pett.
      */
     private Lane lastLane;
     /**
-     * A várakozási vagy elakadási idõ (körökben mérve). 
-     * Amíg ez az érték nagyobb nullánál, a jármû nem tud mozogni.
+     * A vï¿½rakozï¿½si vagy elakadï¿½si idï¿½ (kï¿½rï¿½kben mï¿½rve). 
+     * Amï¿½g ez az ï¿½rtï¿½k nagyobb nullï¿½nï¿½l, a jï¿½rmï¿½ nem tud mozogni.
      */
     private int jammedTime;
 
     /**
-     * A jármû elakadását, balesetét vagy büntetési idejét kezelõ absztrakt metódus.
-     * A leszármazott osztályok a saját logikájuk szerint valósítják meg.
+     * A jï¿½rmï¿½ elakadï¿½sï¿½t, balesetï¿½t vagy bï¿½ntetï¿½si idejï¿½t kezelï¿½ absztrakt metï¿½dus.
+     * A leszï¿½rmazott osztï¿½lyok a sajï¿½t logikï¿½juk szerint valï¿½sï¿½tjï¿½k meg.
      */
     public abstract void jam();
 
     /**
-     * A jármûvet a megadott célállomás (pont) felé mozgatja.
+     * A jï¿½rmï¿½vet a megadott cï¿½lï¿½llomï¿½s (pont) felï¿½ mozgatja.
      *
-     * @param point a célállomás (Point), ahova a jármû lépni próbál
+     * @param point a cï¿½lï¿½llomï¿½s (Point), ahova a jï¿½rmï¿½ lï¿½pni prï¿½bï¿½l
      */
     public abstract void move(Point point);
 }

@@ -3,29 +3,29 @@ package game;
 import java.util.List;
 
 /**
- * Absztrakt õsosztály az úthálózat topológiai pontjainak (pl. csomópontok, keresztezõdések) reprezentálására.
- * Felelõssége a becsatlakozó és kimenõ sávok, valamint az adott ponton tartózkodó jármûvek nyilvántartása.
+ * Absztrakt ï¿½sosztï¿½ly az ï¿½thï¿½lï¿½zat topolï¿½giai pontjainak (pl. csomï¿½pontok, keresztezï¿½dï¿½sek) reprezentï¿½lï¿½sï¿½ra.
+ * Felelï¿½ssï¿½ge a becsatlakozï¿½ ï¿½s kimenï¿½ sï¿½vok, valamint az adott ponton tartï¿½zkodï¿½ jï¿½rmï¿½vek nyilvï¿½ntartï¿½sa.
  */
 public abstract class Point {
     /**
-     * A ponton (keresztezõdésben) éppen tartózkodó jármûvek listája.
+     * A ponton (keresztezï¿½dï¿½sben) ï¿½ppen tartï¿½zkodï¿½ jï¿½rmï¿½vek listï¿½ja.
      */
     private List<Vehicle> vehicles;
     /**
-     * A pontba beérkezõ sávok listája.
+     * A pontba beï¿½rkezï¿½ sï¿½vok listï¿½ja.
      */
     private List<Lane> incomingLanes;
     /**
-     * A pontból kiinduló sávok listája.
+     * A pontbï¿½l kiindulï¿½ sï¿½vok listï¿½ja.
      */
     private List<Lane> outgoingLanes;
 
     /**
-     * Meghatározza, hogy az adott jármû ráléphet-e (behajthat-e) erre a pontra.
-     * A leszármazott osztályok (pl. Tunnel, Junction) egyedi logikát valósíthatnak meg.
+     * Meghatï¿½rozza, hogy az adott jï¿½rmï¿½ rï¿½lï¿½phet-e (behajthat-e) erre a pontra.
+     * A leszï¿½rmazott osztï¿½lyok (pl. Tunnel, Junction) egyedi logikï¿½t valï¿½sï¿½thatnak meg.
      *
-     * @param vehicle a vizsgált jármû, amely rá szeretne lépni a pontra
-     * @return true, ha a jármû ráléphet a pontra, ellenkezõ esetben false
+     * @param vehicle a vizsgï¿½lt jï¿½rmï¿½, amely rï¿½ szeretne lï¿½pni a pontra
+     * @return true, ha a jï¿½rmï¿½ rï¿½lï¿½phet a pontra, ellenkezï¿½ esetben false
      */
     public abstract boolean isReachable(Vehicle vehicle);
 }
