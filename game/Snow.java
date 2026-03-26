@@ -47,7 +47,7 @@ public class Snow {
     public void raiseBy(int amount) {
         level = Math.min(level + amount, 30);
     }
-    
+
     /**
      * Csökkenti a hó vastagságát (pl. olvadás vagy takarítás következtében).
      */
