@@ -28,50 +28,53 @@ public class Skeleton {
             Scanner scanner = new Scanner(System.in);
 
             do {
-                    System.out.print("Válassz egy tesztesetet (1-12): ");
-                    if (scanner.hasNextInt()) {
-                        choice = scanner.nextInt();
-                        switch (choice) {
-                            case 1:
-                                test1();
-                                break;
-                            case 2:
-                                test2();
-                                break;
-                            case 3:
-                                test3();
-                                break;
-                            case 4:
-                                test4();
-                                break;
-                            case 5:
-                                test5();
-                                break;
-                            case 6:
-                                test6();
-                                break;
-                            case 7:
-                                test7();
-                                break;
-                            case 8:
-                                test8();
-                                break;
-                            case 9:
-                                test9();
-                                break;
-                            case 10:
-                                test10();
-                                break;
-                            case 11:
-                                test11();
-                                break;
-                            case 12:
-                                test12();
-                                break;
-                            default:
-                                break;
+                System.out.print("\nVálassz egy tesztesetet (1-12): ");
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                    switch (choice) {
+                        case 1:
+                            test1();
+                            break;
+                        case 2:
+                            test2();
+                            break;
+                        case 3:
+                            test3();
+                            break;
+                        case 4:
+                            test4();
+                            break;
+                        case 5:
+                            test5();
+                            break;
+                        case 6:
+                            test6();
+                            break;
+                        case 7:
+                            test7();
+                            break;
+                        case 8:
+                            test8();
+                            break;
+                        case 9:
+                            test9();
+                            break;
+                        case 10:
+                            test10();
+                            break;
+                        case 11:
+                            test11();
+                            break;
+                        case 12:
+                            test12();
+                            break;
+                        case 0:
+                            System.out.println("Kilépés a programból...");
+                            break;
+                        default:
+                            System.out.println("Ez nem egy érvényes egész szám!");
+                            break;
                         }
-
                     } else {
                          System.out.println("Ez nem egy érvényes egész szám!");
                     }
