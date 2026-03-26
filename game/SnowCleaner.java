@@ -28,12 +28,75 @@ public class SnowCleaner extends Player {
      */
     private int bioKeroseneStock;
 
+    public SnowCleaner() {
+        System.out.println("-> snowCleaner.SnowCleaner()");
+        System.out.println("<- void");
+    }
+
+    public List<SnowPlower> getSnowPlowers() {
+        System.out.println("-> snowCleaner.getSnowPlowers()");
+        System.out.println("<- snowPlowers");
+        return snowPlowers;
+    }
+
+    public void setSnowPlowers(List<SnowPlower> snowPlowers) {
+        System.out.println("-> snowCleaner.setSnowPlowers(snowPlowers)");
+        this.snowPlowers = snowPlowers;
+    }
+
+    public List<Head> getInventory() {
+        System.out.println("-> snowCleaner.getInventory()");
+        System.out.println("<- inventory");
+        return inventory;
+    }
+
+    public void setInventory(List<Head> inventory) {
+        System.out.println("-> snowCleaner.setInventory(inventory)");
+        this.inventory = inventory;
+    }
+
+    public int getMoney() {
+        System.out.println("-> snowCleaner.getMoney()");
+        System.out.println("<- money");
+        return money;
+    }
+
+    public void setMoney(int money) {
+        System.out.println("-> snowCleaner.setMoney(money)");
+        this.money = money;
+    }
+
+    public int getSaltStock() {
+        System.out.println("-> snowCleaner.getSaltStock()");
+        System.out.println("<- saltStock");
+        return saltStock;
+    }
+
+    public void setSaltStock(int saltStock) {
+        System.out.println("-> snowCleaner.setSaltStock(saltStock)");
+        this.saltStock = saltStock;
+    }
+
+    public int getBioKeroseneStock() {
+        System.out.println("-> snowCleaner.getBioKeroseneStock()");
+        System.out.println("<- bioKeroseneStock");
+        return bioKeroseneStock;
+    }
+
+    public void setBioKeroseneStock(int bioKeroseneStock) {
+        System.out.println("-> snowCleaner.setBioKeroseneStock(bioKeroseneStock)");
+        this.bioKeroseneStock = bioKeroseneStock;
+    }
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
      *
      * @param amount a jóváíandó pénzösszeg
      */
-    public void getPaid(int amount) {}
+    public void getPaid(int amount) {
+        System.out.println("-> snowCleaner.getPaid(amount)");
+        this.money += amount;
+        System.out.println("<- void");
+    }
 
     /**
      * Csökkenti a megadott típusú nyersanyag készletét a fogyasztás során.
@@ -41,6 +104,21 @@ public class SnowCleaner extends Player {
      * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene")
      * @return true, ha van elegendő készlet a fogyasztáshoz, és sikeresen levonták, false ha nincs elég készlet
      */
-    public boolean consumeMaterial(String type) {}
+    public boolean consumeMaterial(String type) {
+        System.out.println("-> snowCleaner.consumeMaterial(type)");
+        boolean hasEnough = true; 
+        System.out.println("<- hasEnough");
+        return hasEnough;
+    }
+
+    /**
+     * A boltban megvásárolt takarítófejet a játékos raktárába helyezi.
+     * * @param head a megvásárolt takarítófej
+     */
+    public void addToInventory(Head head) {
+        System.out.println("-> snowCleaner.addToInventory(head)");
+        inventory.add(head);
+        System.out.println("<- void");
+    }
 }
 

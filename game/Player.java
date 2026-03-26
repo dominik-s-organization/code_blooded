@@ -10,6 +10,22 @@ public abstract class Player {
      */
     private String name;
 
+    public Player() {
+        System.out.println("-> player.Player()");
+        System.out.println("<- void");
+    }
+
+    public String getName() {
+         System.out.println("-> player.getName()");
+         System.out.println("<- name");
+         return name;
+     }
+ 
+     public void setName(String name) {
+         System.out.println("-> player.setName(name)");
+         this.name = name;
+         System.out.println("<- void");
+     }
     /**
      * A játékos ezen a metóduson keresztül választja ki a következő célállomást
      * (csomópontot) az általa irányított jármű számára.
@@ -17,7 +33,8 @@ public abstract class Player {
      * @return a kiválasztott célállomás (Point), ahova a jármű lépni fog
      */
     public Point selectDestination() {
-        // Implementáció majd itt
+        System.out.println("-> player.selectDestination()");
+        System.out.println("<- null");
         return null;
     }
 }
