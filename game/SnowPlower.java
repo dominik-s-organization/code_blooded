@@ -15,8 +15,6 @@ public class SnowPlower extends Vehicle {
     private SnowCleaner owner;
 
     public SnowPlower() {
-        System.out.println("-> snowPlower.SnowPlower()");
-        System.out.println("<- void");
     }
 
     public Head getCurrentHead() {
@@ -47,7 +45,6 @@ public class SnowPlower extends Vehicle {
         System.out.println("-> snowPlower.jam()");
         setJammedTime(3);
         System.out.println("-> snowPlower.setJammedTime(3)");
-        System.out.println("<- void");
     }
 
     /**
@@ -61,18 +58,13 @@ public class SnowPlower extends Vehicle {
         
         if (getCurrentPoint() != null) {
             System.out.println("-> point.removeVehicle(snowPlower)");
-            System.out.println("<- void");
         }
         if (point != null) {
             System.out.println("-> point.addVehicle(snowPlower)");
-            System.out.println("<- void");
         }
         setCurrentPoint(point);
         
         System.out.println("-> lane.change(snowPlower)");
-        System.out.println("<- void");
-        
-        System.out.println("<- void");
     }
     
     /**
@@ -83,6 +75,5 @@ public class SnowPlower extends Vehicle {
     public void changeHead(Head head) {
         System.out.println("-> snowPlower.changeHead(head)");
         this.currentHead = head;
-        System.out.println("<- void");
     }
 }

@@ -11,8 +11,10 @@ public abstract class Player {
     private String name;
 
     public Player() {
-        System.out.println("-> player.Player()");
-        System.out.println("<- void");
+    }
+
+    public Player(String name) {
+        this.name = name;
     }
 
     public String getName() {
@@ -24,7 +26,6 @@ public abstract class Player {
      public void setName(String name) {
          System.out.println("-> player.setName(name)");
          this.name = name;
-         System.out.println("<- void");
      }
     /**
      * A játékos ezen a metóduson keresztül választja ki a következő célállomást

@@ -15,9 +15,7 @@ public class Store {
     Map<String, Integer> inventory;
 
     public Store(Map<String, Integer> inventory) {
-        System.out.println("-> store.Store(inventory)");
         this.inventory = inventory;
-        System.out.println("<- void");
     }
     /**
      * Lebonyolít egy vásárlási tranzakciót.

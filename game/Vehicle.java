@@ -21,8 +21,6 @@ public abstract class Vehicle {
     private int jammedTime;
 
     public Vehicle() {
-        System.out.println("-> vehicle.Vehicle()");
-        System.out.println("<- void");
     }
 
     public Point getCurrentPoint() {

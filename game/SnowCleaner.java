@@ -10,11 +10,11 @@ public class SnowCleaner extends Player {
     /**
      * A játékos által birtokolt és irányított hókotrók (munkagépek) listája.
      */
-    private List<SnowPlower> snowPlowers;
+    private List<SnowPlower> snowPlowers = new ArrayList<>();
     /**
      * A játékos által megvásárolt, takarítófejek listája.
      */
-    private List<Head> inventory;
+    private List<Head> inventory = new ArrayList<>();
     /**
      * A játékos vagyona, amellyel a boltban (Store) gazdálkodhat.
      */
@@ -29,8 +29,6 @@ public class SnowCleaner extends Player {
     private int bioKeroseneStock;
 
     public SnowCleaner() {
-        System.out.println("-> snowCleaner.SnowCleaner()");
-        System.out.println("<- void");
     }
 
     public List<SnowPlower> getSnowPlowers() {
@@ -95,7 +93,6 @@ public class SnowCleaner extends Player {
     public void getPaid(int amount) {
         System.out.println("-> snowCleaner.getPaid(amount)");
         this.money += amount;
-        System.out.println("<- void");
     }
 
     /**
@@ -118,7 +115,6 @@ public class SnowCleaner extends Player {
     public void addToInventory(Head head) {
         System.out.println("-> snowCleaner.addToInventory(head)");
         inventory.add(head);
-        System.out.println("<- void");
     }
 }
 

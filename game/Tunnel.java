@@ -8,8 +8,6 @@ package game;
 public class Tunnel extends Point {
     
     public Tunnel() {
-        System.out.println("-> tunnel.Tunnel()");
-        System.out.println("<- void");
     }
     /**
      * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) az alag�tba.

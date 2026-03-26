@@ -8,8 +8,6 @@ package game;
 public class SalterHead extends Head {
     
     public SalterHead() {
-        System.out.println("-> salterHead.SalterHead()");
-        System.out.println("<- void");
     }
     /**
      * Végrehajtja a sózást a megadott sávon.
@@ -28,9 +26,7 @@ public class SalterHead extends Head {
             lane.getSnow().setSaltLevel(30);
         } else {
             System.out.println("-> snow.setSaltLevel(30)");
-            System.out.println("<- void");
         }
         
-        System.out.println("<- void");
     }
 }
