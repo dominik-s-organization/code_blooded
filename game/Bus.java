@@ -10,36 +10,42 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
+    public BusDriver() {
+        owner = null;
+        beginningPoint = null;
+        endPoint = null;
+    }
+
     public BusDriver getOwner() {
         System.out.println("-> bus.getOwner()");
-        System.out.println("<- busDriver");
+        System.out.println("<- owner");
         return owner;
     }
 
     public void setOwner(BusDriver owner) {
-        System.out.println("-> bus.setOwner(busDriver)");
+        System.out.println("-> bus.setOwner(owner)");
         this.owner = owner;
     }
 
     public Point getBeginningPoint() {
         System.out.println("-> bus.getBeginningPoint()");
-        System.out.println("<- p1");
+        System.out.println("<- beginningPoint");
         return beginningPoint;
     }
 
     public void setBeginningPoint(Point beginningPoint) {
-        System.out.println("-> bus.setBeginningPoint(p1)");
+        System.out.println("-> bus.setBeginningPoint(point)");
         this.beginningPoint = beginningPoint;
     }
 
     public Point getEndPoint() {
         System.out.println("-> bus.getEndPoint()");
-        System.out.println("<- p2");
+        System.out.println("<- endPoint");
         return endPoint;
     }
 
     public void setEndPoint(Point endPoint) {
-        System.out.println("-> bus.setEndPoint(p2)");
+        System.out.println("-> bus.setEndPoint(point)");
         this.endPoint = endPoint;
     }
 
@@ -54,6 +60,7 @@ public class Bus extends Vehicle {
     @Override
     public void jam() {
         System.out.println("-> bus.jam()");
+        super.setJammedTime(5);
     }
 
     /*
@@ -62,6 +69,10 @@ public class Bus extends Vehicle {
      */
     @Override
     public void move(Point point) {
-        System.out.println("-> bus.move(p2)");
+        System.out.println("-> bus.move(point)");
+        super.getCurrentPoint().removeVehicle(this);
+        super.setCurrentPoint(point);
+        super.getCurrentPoint().addVehicle(this);
+        super.setLastLane(point.getIncomingLane(0));
     }
 }
