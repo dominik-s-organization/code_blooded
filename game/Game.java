@@ -1,18 +1,53 @@
 package game;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.
+ */
 public class Game {
-    private City city;
-    private List<Player> players;
+    private CityMap city; // A város térképe, amely tartalmazza a pontokat, útvonalakat és járműveket.
+    private List<Player> players = new ArrayList<>() // A játékosok listája.
 
-    public void startGame() {}
+    public Game(CityMap city, List<Player> players) {
+        this.city = city;
+        this.players = players;
+    }
 
-    public void endGame() {}
+    public void setCity(CityMap city) {
+        System.out.println("-> game.setCity(cm)");
+        this.city = city;
+    }
 
-    public void saveGame() {}
+    public void addPlayer(Player player) {
+        System.out.println("-> game.addPlayer(player)");
+        this.players.add(player);
+    }
 
-    public void loadGame() {}
+    // A játék elindítása, amely inicializálja a várost és a játékosokat.
+    public void startGame() {
+        System.out.println("-> game.startGame()");
+    }
 
-    public void simulateStep() {}
+    // A játék befejezése, amely lezárja a játékot és megjeleníti az eredményeket.
+    public void endGame() {
+        System.out.println("-> game.endGame()");
+    }
+
+    // A játék mentése, amely elmenti a jelenlegi állapotot egy fájlba.
+    public void saveGame() {
+        System.out.println("-> game.saveGame()");
+    }
+
+    // A játék betöltése, amely visszaállítja a játék állapotát egy fájlból.
+    public void loadGame() {
+        System.out.println("-> game.loadGame()");
+    }
+
+    // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
+    public void simulateStep() {
+         System.out.println("-> game.simulateStep()");
+    }
 }
