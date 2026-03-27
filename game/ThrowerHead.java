@@ -8,8 +8,6 @@ package game;
 public class ThrowerHead extends Head {
 
     public ThrowerHead() {
-        System.out.println("-> throwerHead.ThrowerHead()");
-        System.out.println("<- void");
     }
     /**
      * Megtisztítja az adott sávot, a havat messzire hajítva, csökkentve a hóréteget.
@@ -24,8 +22,5 @@ public class ThrowerHead extends Head {
         System.out.println("<- snow");
         
         System.out.println("-> snow.clean()");
-        System.out.println("<- void");
-        
-        System.out.println("<- void");
     }
 }

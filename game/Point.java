@@ -10,19 +10,20 @@ public abstract class Point {
     /**
      * A ponton (keresztez�d�sben) �ppen tart�zkod� j�rm�vek list�ja.
      */
-    private List<Vehicle> vehicles;
+    private List<Vehicle> vehicles = new ArrayList<>();
     /**
      * A pontba be�rkez� s�vok list�ja.
      */
-    private List<Lane> incomingLanes;
+    private List<Lane> incomingLanes = new ArrayList<>();
     /**
      * A pontb�l kiindul� s�vok list�ja.
      */
-    private List<Lane> outgoingLanes;
+    private List<Lane> outgoingLanes = new ArrayList<>();
 
-    public Point() {
-        System.out.println("-> point.Point()");
-        System.out.println("<- void");
+    public Point(List<Vehicle> vehicles , List<Lane> incomingLanes , List<Lane> outgoingLanes ){
+        this.vehicles = vehicles;
+        this.incomingLanes = incomingLanes;
+        this.outgoingLanes = outgoingLanes;
     }
     /**
      * Hozzáad egy járművet a ponthoz (amikor a jármű rálép).
@@ -32,7 +33,6 @@ public abstract class Point {
     public void addVehicle(Vehicle vehicle) {
         System.out.println("-> point.addVehicle(vehicle)");
         vehicles.add(vehicle);
-        System.out.println("<- void");
     }
 
     /**
@@ -43,7 +43,6 @@ public abstract class Point {
     public void removeVehicle(Vehicle vehicle) {
         System.out.println("-> point.removeVehicle(vehicle)");
         vehicles.remove(vehicle);
-        System.out.println("<- void");
     }
 
     /**
@@ -54,7 +53,6 @@ public abstract class Point {
     public void addIncomingLane(Lane lane) {
         System.out.println("-> point.addIncomingLane(lane)");
         incomingLanes.add(lane);
-        System.out.println("<- void");
     }
 
     /**
@@ -65,7 +63,6 @@ public abstract class Point {
     public void addOutgoingLane(Lane lane) {
         System.out.println("-> point.addOutgoingLane(lane)");
         outgoingLanes.add(lane);
-        System.out.println("<- void");
     }
     /**
      * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) erre a pontra.
@@ -75,12 +72,10 @@ public abstract class Point {
      * @return true, ha a j�rm� r�l�phet a pontra, ellenkez� esetben false
      */
     public abstract boolean isReachable(Vehicle vehicle);
-<<<<<<< Updated upstream
-=======
 
     /**
      * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
      */
     public abstract void lookForJams();
->>>>>>> Stashed changes
+
 }

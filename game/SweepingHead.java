@@ -8,8 +8,6 @@ package game;
 public class SweepingHead extends Head {
     
     public SweepingHead() {
-        System.out.println("-> sweepingHead.SweepingHead()");
-        System.out.println("<- void");
     }
     /**
      * Megtisztítja az adott sávot, a havat a szomszédos sávra áthelyezve.
@@ -33,11 +31,7 @@ public class SweepingHead extends Head {
         System.out.println("<- rs");
         
         System.out.println("-> rs.raiseBy(level)");
-        System.out.println("<- void");
         
         System.out.println("-> snow.clean()");
-        System.out.println("<- void");
-        
-        System.out.println("<- void");
     }
 }
