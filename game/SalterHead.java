@@ -24,7 +24,6 @@ public class SalterHead extends Head {
 
         if (lane != null && lane.getSnow() != null) {
             lane.getSnow().setSaltLevel(30);
-        } else {
             System.out.println("-> snow.setSaltLevel(30)");
         }
         

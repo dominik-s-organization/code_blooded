@@ -1,6 +1,8 @@
 package game;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.
@@ -9,6 +11,10 @@ public class Game {
     private CityMap city; // A város térképe, amely tartalmazza a pontokat, útvonalakat és járműveket.
     private List<Player> players = new ArrayList<>() // A játékosok listája.
 
+    public Game(CityMap city, List<Player> players) {
+        this.city = city;
+        this.players = players;
+    }
 
     public void setCity(CityMap city) {
         System.out.println("-> game.setCity(cm)");

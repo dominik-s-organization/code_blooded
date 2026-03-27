@@ -43,7 +43,7 @@ public class SnowPlower extends Vehicle {
     @Override
     public void jam() {
         System.out.println("-> snowPlower.jam()");
-        setJammedTime(3);
+        SnowPlower.setJammedTime(3);
         System.out.println("-> snowPlower.setJammedTime(3)");
     }
 
@@ -58,13 +58,15 @@ public class SnowPlower extends Vehicle {
         
         if (getCurrentPoint() != null) {
             System.out.println("-> point.removeVehicle(snowPlower)");
+            point.removeVehicle(this);
         }
         if (point != null) {
             System.out.println("-> point.addVehicle(snowPlower)");
+            point.addVehicle(this);
         }
         setCurrentPoint(point);
-        
-        System.out.println("-> lane.change(snowPlower)");
+
+        lane.change(this);
     }
     
     /**
@@ -75,5 +77,6 @@ public class SnowPlower extends Vehicle {
     public void changeHead(Head head) {
         System.out.println("-> snowPlower.changeHead(head)");
         this.currentHead = head;
+
     }
 }

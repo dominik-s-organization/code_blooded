@@ -20,8 +20,10 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes = new ArrayList<>();
 
-    public Point() {
-        System.out.println("-> point.Point()");
+    public Point(List<Vehicle> vehicles , List<Lane> incomingLanes , List<Lane> outgoingLanes ){
+        this.vehicles = vehicles;
+        this.incomingLanes = incomingLanes;
+        this.outgoingLanes = outgoingLanes;
     }
     /**
      * Hozzáad egy járművet a ponthoz (amikor a jármű rálép).

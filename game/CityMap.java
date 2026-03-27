@@ -17,13 +17,40 @@ public class CityMap {
     public CityMap() {
     }
 
-    public List<Point> getPoints() { return points; }
-    public void setPoints(List<Point> points) { this.points = points; }
+    public CityMap(List<Point> points, List<Lane> lanes, List<Vehicle> vehicles) {
+        this.points = points;
+        this.lanes = lanes;
+        this.vehicles = vehicles;
+    }
 
-    public List<Lane> getLanes() { return lanes; }
-    public void setLanes(List<Lane> lanes) { this.lanes = lanes; }
+    public List<Point> getPoints() { 
+        System.out.println("-> cityMap.getPoints()");
+        System.out.println("<- points");
+        return points; 
+    }
+    public void setPoints(List<Point> points) { 
+        System.out.println("-> cityMap.setPoints(points)");
+        this.points = points; 
+    }
 
-    public List<Vehicle> getVehicles() { return vehicles; }
-    public void setVehicles(List<Vehicle> vehicles) { this.vehicles = vehicles; }
+    public List<Lane> getLanes() {
+        System.out.println("-> cityMap.getLanes()");
+        System.out.println("<- lanes");
+        return lanes; 
+    }
+    public void setLanes(List<Lane> lanes) { 
+        System.out.println("-> cityMap.setLanes(lanes)");
+        this.lanes = lanes; 
+    }
+
+    public List<Vehicle> getVehicles() { 
+        System.out.println("-> cityMap.getVehicles()");   
+        System.out.println("<- vehicles");
+        return vehicles;
+    }
+    public void setVehicles(List<Vehicle> vehicles) { 
+        System.out.println("-> cityMap.setVehicles(vehicles)");
+        this.vehicles = vehicles;
+    }
 }
 }

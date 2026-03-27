@@ -28,7 +28,12 @@ public class SnowCleaner extends Player {
      */
     private int bioKeroseneStock;
 
-    public SnowCleaner() {
+    public SnowCleaner( List<SnowPlower> snowPlowers, List<Head> inventory, int money, int saltStock, int bioKeroseneStock) {
+        this.snowPlowers = snowPlowers;
+        this.inventory = inventory;
+        this.money = money;
+        this.saltStock = saltStock;
+        this.bioKeroseneStock = bioKeroseneStock;
     }
 
     public List<SnowPlower> getSnowPlowers() {

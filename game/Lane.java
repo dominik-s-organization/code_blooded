@@ -13,6 +13,15 @@ public class Lane {
 
     private Snow snow = new Snow(); // a sávon lévő hóviszonyokat reprezentáló objektum
 
+    public Lane( Point startpoint, Point endpoint, Lane leftLane, Lane rightLane, boolean isJammed ,boolean isUnderground) {
+        this.startpoint = startpoint;
+        this.endpoint = endpoint;
+        this.leftLane = leftLane;
+        this.rightLane = rightLane;
+        this.isJammed = false;
+        this.isUnderground = isUnderground;
+    }
+
     public void setStartPoint(Point startpoint) {
         System.out.println("-> lane.setStartPoint(point)");
         this.startpoint = startpoint;

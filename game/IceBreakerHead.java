@@ -19,9 +19,6 @@ public class IceBreakerHead extends Head {
         if (lane != null && lane.getSnow() != null) {
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(true);
-        } else {
-            System.out.println("-> snow.setIce(false)");
-            System.out.println("-> snow.setBrokenIce(true)");
         }
     }
 }

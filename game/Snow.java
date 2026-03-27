@@ -38,6 +38,14 @@ public class Snow {
         this.saltLevel = 0;
     }
 
+    public Snow(int level, int vehiclesPassed, boolean ice, boolean brokenIce, int saltLevel) {
+        this.level = level;
+        this.vehiclesPassed = vehiclesPassed;
+        this.ice = ice;
+        this.brokenIce = brokenIce;
+        this.saltLevel = saltLevel;
+    }
+
     public int getLevel() {
         System.out.println("-> snow.getLevel()");
         System.out.println("<- level");
