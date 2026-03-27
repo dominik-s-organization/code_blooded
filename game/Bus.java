@@ -10,7 +10,7 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
-    public BusDriver() {
+    public Bus() {
         owner = null;
         beginningPoint = null;
         endPoint = null;
