@@ -1,18 +1,19 @@
 package game;
 
 /**
- * A hó eltakarítására szolgáló seprûfejet reprezentáló osztály.
- * Felelõssége a hó letakarítása az aktuális sávról oly módon, hogy 
- * a havat áttolja az egyik szomszédos sávba. A jégpáncélt nem képes feltörni.
+ * A hï¿½ eltakarï¿½tï¿½sï¿½ra szolgï¿½lï¿½ seprï¿½fejet reprezentï¿½lï¿½ osztï¿½ly.
+ * Felelï¿½ssï¿½ge a hï¿½ letakarï¿½tï¿½sa az aktuï¿½lis sï¿½vrï¿½l oly mï¿½don, hogy 
+ * a havat ï¿½ttolja az egyik szomszï¿½dos sï¿½vba. A jï¿½gpï¿½ncï¿½lt nem kï¿½pes feltï¿½rni.
  */
 public class SweepingHead extends Head {
     
     public SweepingHead() {
+        super();
     }
     /**
-     * Megtisztítja az adott sávot, a havat a szomszédos sávra áthelyezve.
+     * Megtisztï¿½tja az adott sï¿½vot, a havat a szomszï¿½dos sï¿½vra ï¿½thelyezve.
      *
-     * @param lane a sáv, amelyet a seprûfej letakarít
+     * @param lane a sï¿½v, amelyet a seprï¿½fej letakarï¿½t
      */
     @Override
     public void clean(Lane lane) {

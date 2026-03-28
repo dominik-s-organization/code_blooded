@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,13 +9,16 @@ import java.util.List;
  */
 public class CityMap {
     // A város térképén található pontok listája.
-    private List<Point> points = new ArrayList<>();
+    private List<Point> points;
     // A város térképén található sávok listája, amelyek az útvonalakat reprezentálják.
-    private List<Lane> lanes = new ArrayList<>();
+    private List<Lane> lanes;
     // A város térképén található járművek listája, amelyek a forgalmat reprezentálják.
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<Vehicle> vehicles;
 
     public CityMap() {
+        points = new ArrayList<>();
+        lanes = new ArrayList<>();
+        vehicles = new ArrayList<>();
     }
 
     public CityMap(List<Point> points, List<Lane> lanes, List<Vehicle> vehicles) {
@@ -33,6 +37,11 @@ public class CityMap {
         this.points = points; 
     }
 
+    public void addPoint(Point point) {
+        System.out.println("-> cityMap.addPoint(point)");
+        points.add(point);
+    }
+
     public List<Lane> getLanes() {
         System.out.println("-> cityMap.getLanes()");
         System.out.println("<- lanes");
@@ -41,6 +50,11 @@ public class CityMap {
     public void setLanes(List<Lane> lanes) { 
         System.out.println("-> cityMap.setLanes(lanes)");
         this.lanes = lanes; 
+    }
+
+    public void addLane(Lane lane) {
+        System.out.println("-> cityMap.addLane(lane)");
+        lanes.add(lane);
     }
 
     public List<Vehicle> getVehicles() { 
@@ -52,5 +66,4 @@ public class CityMap {
         System.out.println("-> cityMap.setVehicles(vehicles)");
         this.vehicles = vehicles;
     }
-}
 }

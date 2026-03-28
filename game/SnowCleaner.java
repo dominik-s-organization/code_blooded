@@ -1,4 +1,5 @@
 package game;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,11 +11,11 @@ public class SnowCleaner extends Player {
     /**
      * A játékos által birtokolt és irányított hókotrók (munkagépek) listája.
      */
-    private List<SnowPlower> snowPlowers = new ArrayList<>();
+    private List<SnowPlower> snowPlowers;
     /**
      * A játékos által megvásárolt, takarítófejek listája.
      */
-    private List<Head> inventory = new ArrayList<>();
+    private List<Head> inventory;
     /**
      * A játékos vagyona, amellyel a boltban (Store) gazdálkodhat.
      */
@@ -28,12 +29,18 @@ public class SnowCleaner extends Player {
      */
     private int bioKeroseneStock;
 
-    public SnowCleaner( List<SnowPlower> snowPlowers, List<Head> inventory, int money, int saltStock, int bioKeroseneStock) {
-        this.snowPlowers = snowPlowers;
-        this.inventory = inventory;
-        this.money = money;
-        this.saltStock = saltStock;
-        this.bioKeroseneStock = bioKeroseneStock;
+    public SnowCleaner() {
+        super();
+        snowPlowers = new ArrayList<>();
+        inventory = new ArrayList<>();
+        money = 0;
+        saltStock = 0;
+        bioKeroseneStock = 0;
+
+        SnowPlower sp = new SnowPlower();
+        snowPlowers.add(sp);
+        sp.setOwner(this);
+        inventory.add(sp.getCurrentHead());
     }
 
     public List<SnowPlower> getSnowPlowers() {
@@ -56,6 +63,11 @@ public class SnowCleaner extends Player {
     public void setInventory(List<Head> inventory) {
         System.out.println("-> snowCleaner.setInventory(inventory)");
         this.inventory = inventory;
+    }
+
+    public void addHead(Head head) {
+        System.out.println("-> snowCleaner.addHead(head)");
+        inventory.add(head);
     }
 
     public int getMoney() {
