@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,21 +11,40 @@ public abstract class Point {
     /**
      * A ponton (keresztez�d�sben) �ppen tart�zkod� j�rm�vek list�ja.
      */
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private List<Vehicle> vehicles;
     /**
      * A pontba be�rkez� s�vok list�ja.
      */
-    private List<Lane> incomingLanes = new ArrayList<>();
+    private List<Lane> incomingLanes;
     /**
      * A pontb�l kiindul� s�vok list�ja.
      */
-    private List<Lane> outgoingLanes = new ArrayList<>();
+    private List<Lane> outgoingLanes;
 
-    public Point(List<Vehicle> vehicles , List<Lane> incomingLanes , List<Lane> outgoingLanes ){
-        this.vehicles = vehicles;
-        this.incomingLanes = incomingLanes;
-        this.outgoingLanes = outgoingLanes;
+    public Point() {
+        vehicles = new ArrayList<>();
+        incomingLanes = new ArrayList<>();
+        outgoingLanes = new ArrayList<>();
     }
+
+    public List<Lane> getIncomingLanes() {
+        System.out.println("-> point.getIncomingLanes()");
+        System.out.println("<- incomingLanes");
+        return incomingLanes;
+    }
+
+    public List<Lane> getOutgoingLanes() {
+        System.out.println("-> point.getOutgoingLanes()");
+        System.out.println("<- outgoingLanes");
+        return outgoingLanes;
+    }
+
+     public List<Vehicle> getVehicles() {
+        System.out.println("-> point.getVehicles()");
+        System.out.println("<- vehicles");
+        return vehicles;
+     }
+
     /**
      * Hozzáad egy járművet a ponthoz (amikor a jármű rálép).
      *

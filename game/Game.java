@@ -9,11 +9,11 @@ import java.util.Objects;
  */
 public class Game {
     private CityMap city; // A város térképe, amely tartalmazza a pontokat, útvonalakat és járműveket.
-    private List<Player> players = new ArrayList<>() // A játékosok listája.
+    private List<Player> players; // A játékosok listája.
 
-    public Game(CityMap city, List<Player> players) {
-        this.city = city;
-        this.players = players;
+    public Game() {
+        city = null;
+        players = new ArrayList<>();
     }
 
     public void setCity(CityMap city) {

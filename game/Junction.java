@@ -6,6 +6,7 @@ package game;
 public class Junction extends Point {
     
     public Junction() {
+        super();
     }
     /*
      * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.

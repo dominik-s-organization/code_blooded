@@ -10,13 +10,6 @@ public abstract class Player {
      */
     private String name;
 
-    public Player() {
-    }
-
-    public Player(String name) {
-        this.name = name;
-    }
-
     public String getName() {
          System.out.println("-> player.getName()");
          System.out.println("<- name");

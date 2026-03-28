@@ -3,29 +3,29 @@ package game;
 import java.util.Map;
 
 /**
- * A gazdasági rendszert menedzselõ bolt osztály.
- * Felelõs a megvásárolható eszköz és nyersanyagok árainak nyilvántartásáért, 
- * valamint a vásárlási tranzakciók lebonyolításáért.
+ * A gazdasï¿½gi rendszert menedzselï¿½ bolt osztï¿½ly.
+ * Felelï¿½s a megvï¿½sï¿½rolhatï¿½ eszkï¿½z ï¿½s nyersanyagok ï¿½rainak nyilvï¿½ntartï¿½sï¿½ï¿½rt, 
+ * valamint a vï¿½sï¿½rlï¿½si tranzakciï¿½k lebonyolï¿½tï¿½sï¿½ï¿½rt.
  */
 public class Store {
     /**
-     * A bolt kínálatát és az árakat tároló adatszerkezet.
-     * Kulcs: a tétel neve (pl. "SalterHead", "salt"), Érték: az ár.
+     * A bolt kï¿½nï¿½latï¿½t ï¿½s az ï¿½rakat tï¿½rolï¿½ adatszerkezet.
+     * Kulcs: a tï¿½tel neve (pl. "SalterHead", "salt"), ï¿½rtï¿½k: az ï¿½r.
      */
     Map<String, Integer> inventory;
 
-    public Store(Map<String, Integer> inventory) {
-        this.inventory = inventory;
+    public Store() {
+        inventory = null;
     }
     /**
-     * Lebonyolít egy vásárlási tranzakciót.
-     * Ellenõrzi a vásárló pénzügyi fedezetét, majd jóváhagyás esetén levonja az összeget 
-     * és átadja a megvásárolt tételt.
+     * Lebonyolï¿½t egy vï¿½sï¿½rlï¿½si tranzakciï¿½t.
+     * Ellenï¿½rzi a vï¿½sï¿½rlï¿½ pï¿½nzï¿½gyi fedezetï¿½t, majd jï¿½vï¿½hagyï¿½s esetï¿½n levonja az ï¿½sszeget 
+     * ï¿½s ï¿½tadja a megvï¿½sï¿½rolt tï¿½telt.
      *
-     * @param item a megvásárolni kívánt tétel azonosítója
-     * @param quantity a vásárolni kívánt mennyiség
-     * @param buyer a vásárlást kezdeményezõ takarító (SnowCleaner)
-     * @return true, ha a vásárlás sikeres volt, false fedezethiány esetén
+     * @param item a megvï¿½sï¿½rolni kï¿½vï¿½nt tï¿½tel azonosï¿½tï¿½ja
+     * @param quantity a vï¿½sï¿½rolni kï¿½vï¿½nt mennyisï¿½g
+     * @param buyer a vï¿½sï¿½rlï¿½st kezdemï¿½nyezï¿½ takarï¿½tï¿½ (SnowCleaner)
+     * @return true, ha a vï¿½sï¿½rlï¿½s sikeres volt, false fedezethiï¿½ny esetï¿½n
      */
     public boolean buy(String item, int quantity, SnowCleaner buyer) {
         System.out.println("-> store.buy(item, quantity, snowCleaner)");

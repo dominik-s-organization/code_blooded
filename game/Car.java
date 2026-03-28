@@ -8,6 +8,7 @@ public class Car extends Vehicle {
     private Point work; // Az autó munkahelye, ahová el kell jutni.
 
     public Car() {
+        super();
         home = null;
         work = null;
     }
@@ -51,7 +52,7 @@ public class Car extends Vehicle {
         super.getCurrentPoint().removeVehicle(this);
         super.setCurrentPoint(point);
         super.getCurrentPoint().addVehicle(this);
-        super.setLastLane(point.getIncomingLane(0));
+        super.setLastLane(point.getIncomingLanes().get(0));
     }
 
     // Kiszámítja a következő pontot, amely felé az autónak mozognia kell, hogy elérje a célját (otthon vagy munkahely).

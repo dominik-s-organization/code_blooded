@@ -30,20 +30,11 @@ public class Snow {
     private int saltLevel; 
 
     public Snow() {
-        System.out.println("-> snow.Snow()");
         this.level = 0;
         this.vehiclesPassed = 0;
         this.ice = false;
         this.brokenIce = false;
         this.saltLevel = 0;
-    }
-
-    public Snow(int level, int vehiclesPassed, boolean ice, boolean brokenIce, int saltLevel) {
-        this.level = level;
-        this.vehiclesPassed = vehiclesPassed;
-        this.ice = ice;
-        this.brokenIce = brokenIce;
-        this.saltLevel = saltLevel;
     }
 
     public int getLevel() {
@@ -52,7 +43,7 @@ public class Snow {
         return level;
     }
 
-    public int setLevel(int level) {
+    public void setLevel(int level) {
         System.out.println("-> snow.setLevel(level)");
         this.level = level;
     }

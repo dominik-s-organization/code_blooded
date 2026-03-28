@@ -21,6 +21,9 @@ public abstract class Vehicle {
     private int jammedTime;
 
     public Vehicle() {
+        currentPoint = null;
+        lastLane = null;
+        jammedTime = 0;
     }
 
     public Point getCurrentPoint() {

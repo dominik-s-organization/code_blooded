@@ -15,6 +15,9 @@ public class SnowPlower extends Vehicle {
     private SnowCleaner owner;
 
     public SnowPlower() {
+        super();
+        currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
+        owner = null;
     }
 
     public Head getCurrentHead() {
@@ -43,7 +46,7 @@ public class SnowPlower extends Vehicle {
     @Override
     public void jam() {
         System.out.println("-> snowPlower.jam()");
-        SnowPlower.setJammedTime(3);
+        setJammedTime(3);
         System.out.println("-> snowPlower.setJammedTime(3)");
     }
 
@@ -55,18 +58,7 @@ public class SnowPlower extends Vehicle {
     @Override
     public void move(Point point) {
     System.out.println("-> snowPlower.move(point)");
-        
-        if (getCurrentPoint() != null) {
-            System.out.println("-> point.removeVehicle(snowPlower)");
-            point.removeVehicle(this);
-        }
-        if (point != null) {
-            System.out.println("-> point.addVehicle(snowPlower)");
-            point.addVehicle(this);
-        }
-        setCurrentPoint(point);
-
-        lane.change(this);
+        // EZT MEG KELL CSINÁLNI
     }
     
     /**

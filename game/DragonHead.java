@@ -6,6 +6,7 @@ package game;
 public class DragonHead extends Head {
     
     public DragonHead() {
+        super();
     }
     /*
     * A sárkányfej tisztít egy adott sávot.
