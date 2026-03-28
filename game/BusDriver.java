@@ -10,8 +10,10 @@ public class BusDriver extends Player {
     private Bus bus;
 
     public BusDriver() {
+        super();
         completedRoutes = 0;
         bus = new Bus();
+        bus.setOwner(this);
     }
 
     public int getCompletedRoutes() {

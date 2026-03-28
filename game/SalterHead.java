@@ -1,19 +1,20 @@
 package game;
 
 /**
- * A sózó fejet reprezentáló osztály.
- * Felelõssége, hogy az útra sót juttasson, ezáltal megakadályozza a hó lerakódását és
- * elõsegítse a meglévõ jég/hó olvadását. Mûködéséhez só szükséges.
+ * A sï¿½zï¿½ fejet reprezentï¿½lï¿½ osztï¿½ly.
+ * Felelï¿½ssï¿½ge, hogy az ï¿½tra sï¿½t juttasson, ezï¿½ltal megakadï¿½lyozza a hï¿½ lerakï¿½dï¿½sï¿½t ï¿½s
+ * elï¿½segï¿½tse a meglï¿½vï¿½ jï¿½g/hï¿½ olvadï¿½sï¿½t. Mï¿½kï¿½dï¿½sï¿½hez sï¿½ szï¿½ksï¿½ges.
  */
 public class SalterHead extends Head {
     
     public SalterHead() {
+        super();
     }
     /**
-     * Végrehajtja a sózást a megadott sávon.
-     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos sókészletét.
+     * Vï¿½grehajtja a sï¿½zï¿½st a megadott sï¿½von.
+     * Nï¿½veli a sï¿½v sï¿½-szintjï¿½t, mikï¿½zben csï¿½kkenti a tulajdonos sï¿½kï¿½szletï¿½t.
      *
-     * @param lane a sáv, amelyen a sózó fej kifejti a hatását
+     * @param lane a sï¿½v, amelyen a sï¿½zï¿½ fej kifejti a hatï¿½sï¿½t
      */
     @Override
     public void clean(Lane lane) {

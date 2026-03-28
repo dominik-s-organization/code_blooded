@@ -10,7 +10,8 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
-    public BusDriver() {
+    public Bus() {
+        super();
         owner = null;
         beginningPoint = null;
         endPoint = null;
@@ -73,6 +74,6 @@ public class Bus extends Vehicle {
         super.getCurrentPoint().removeVehicle(this);
         super.setCurrentPoint(point);
         super.getCurrentPoint().addVehicle(this);
-        super.setLastLane(point.getIncomingLane(0));
+        super.setLastLane(point.getIncomingLanes().get(0));
     }
 }

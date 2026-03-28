@@ -10,16 +10,16 @@ public class Lane {
     private Lane rightLane; // jobbra eső sáv
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
+    private Snow snow; // a sávon lévő hóviszonyokat reprezentáló objektum
 
-    private Snow snow = new Snow(); // a sávon lévő hóviszonyokat reprezentáló objektum
-
-    public Lane( Point startpoint, Point endpoint, Lane leftLane, Lane rightLane, boolean isJammed ,boolean isUnderground) {
-        this.startpoint = startpoint;
-        this.endpoint = endpoint;
-        this.leftLane = leftLane;
-        this.rightLane = rightLane;
-        this.isJammed = false;
-        this.isUnderground = isUnderground;
+    public Lane() {
+        startpoint = null;
+        endpoint = null;
+        leftLane = null;
+        rightLane = null;
+        isJammed = false;
+        isUnderground = false;
+        snow = null;
     }
 
     public void setStartPoint(Point startpoint) {

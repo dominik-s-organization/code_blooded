@@ -6,6 +6,7 @@ package game;
 public class IceBreakerHead extends Head {
     
      public IceBreakerHead() {
+        super();
      }
 
     /*

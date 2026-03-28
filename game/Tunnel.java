@@ -8,6 +8,7 @@ package game;
 public class Tunnel extends Point {
     
     public Tunnel() {
+         super();
     }
     /**
      * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) az alag�tba.
@@ -19,5 +20,9 @@ public class Tunnel extends Point {
         System.out.println("-> tunnel.isReachable(vehicle)");
         System.out.println("<- true");
         return true;
+     }
+
+     public void lookForJams() {
+        System.out.println("-> tunnel.lookForJams()");
      }
 }
