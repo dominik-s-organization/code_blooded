@@ -76,19 +76,23 @@ public class Lane {
         return snow;
     }
 
-    public void setSnow(Snow snow) { this.snow = snow; }
+    public void setSnow(Snow snow) { 
+        System.out.println("-> lane.setSnow(snow)");    
+        this.snow = snow; 
+    }
 
     /*
      * Változtat a sáv állapotán.
      * @param vehicle, a rajta átmenő jármű, vagy null, ha csak a hó változik.
      */
-    public void change(Vehicle vehicle){
+    public void change(Vehicle vehicle) {
+        //Szimulált logika a szekvenciadiagramok alapján
         System.out.println("-> lane.change(vehicle)");
-        
-        if (vehicle != null) {
-            if (snow != null) {
-                snow.passVehicle();
-            }
+
+        if (vehicle == null) {
+            snow.raise();
+        } else {
+            snow.passVehicle();
         }
-    }   
+    }  
 }

@@ -1,9 +1,11 @@
 package game;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Skeleton {
     
+    public static int currentTest = 0; // Ez a változó tárolja, hogy melyik tesztesetet választotta a felhasználó a menüből, segíti a simulateStep() metódusban a megfelelő teszteset szimulációját.
     /**
     * Megvalósítja a tesztesetek menüjét, ahol a felhasználó kiválaszthatja, melyik tesztesetet szeretné futtatni.
     */
@@ -31,6 +33,7 @@ public class Skeleton {
                 System.out.print("\nVálassz egy tesztesetet (1-12): ");
                 if (scanner.hasNextInt()) {
                     choice = scanner.nextInt();
+                    currentTest = choice;
                     switch (choice) {
                         case 1:
                             test1();
@@ -87,16 +90,21 @@ public class Skeleton {
         Junction j1 = new Junction();
         Junction j2 = new Junction();
         Lane lane = new Lane();
+        Snow snow = new Snow();
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
+        lane.setSnow(snow);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         g.setCity(cm);
 
+        System.out.println("\nAz inicializálásnak itt van vége, most jön a szimuláció:\n");
+
         g.simulateStep();
+
     }
 
     private void test2() {

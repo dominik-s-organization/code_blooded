@@ -48,6 +48,19 @@ public class Game {
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
-         System.out.println("-> game.simulateStep()");
+        System.out.println("-> game.simulateStep()");
+
+        switch (Skeleton.currentTest) {
+            case 1: // 5.3.1 Havazás egy sávon
+                for (Lane l : this.city.getLanes()) {
+                    l.change(null);
+                }
+                break;
+            case 2: // 5.3.2  Autó megcsúszása és balesete jeges úton
+                
+                break;
+            }
     }
+
+
 }
