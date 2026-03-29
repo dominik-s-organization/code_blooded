@@ -10,26 +10,9 @@ public class Lane {
     private Lane rightLane; // jobbra eső sáv
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private int saltLevel; // min = ( nem sózott ) , minden lépés után csökken
-    private Snow snow; // a sávon lévő hó mennyisége, amely befolyásolja a járművek sebességét
-=======
-
     private Snow snow;
->>>>>>> main
 
-    //Konstruktor
-    public Lane(Point s, Point e, Lane l, Lane r){
-        startpoint = s;
-        endpoint = e;
-        leftLane = l;
-        rightLane = r;
-        isJammed = false;
-    }
-=======
-    private Snow snow; // a sávon lévő hóviszonyokat reprezentáló objektum
-
+    // Konstruktor
     public Lane() {
         startpoint = null;
         endpoint = null;
@@ -40,6 +23,7 @@ public class Lane {
         snow = new Snow();
     }
 
+    // Getterek, setterek
     public void setStartPoint(Point startpoint) {
         System.out.println("-> lane.setStartPoint(point)");
         this.startpoint = startpoint;
@@ -96,7 +80,6 @@ public class Lane {
     }
 
     public void setSnow(Snow snow) { this.snow = snow; }
->>>>>>> origin/main
 
     /*
      * Változtat a sáv állapotán.
@@ -123,5 +106,5 @@ public class Lane {
             SnowPlower sp = (SnowPlower) vehicle;
             sp.getCurrentHead().clean(this, sp);
         }
-    }   
+    }    
 }

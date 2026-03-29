@@ -9,6 +9,7 @@ public class BusDriver extends Player {
     // A busz, amelyet a buszvezető vezet.
     private Bus bus;
 
+    // Konstruktor
     public BusDriver() {
         super();
         completedRoutes = 0;
@@ -16,6 +17,7 @@ public class BusDriver extends Player {
         bus.setOwner(this);
     }
 
+    // Getterek, setterek
     public int getCompletedRoutes() {
         System.out.println("-> busDriver.getCompletedRoutes()");
         System.out.println("<- completedRoutes");

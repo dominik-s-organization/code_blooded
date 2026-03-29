@@ -10,6 +10,7 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
+    // Konstruktor
     public Bus() {
         super();
         owner = null;
@@ -17,6 +18,7 @@ public class Bus extends Vehicle {
         endPoint = null;
     }
 
+    // Getterek, setterek
     public Point getNextPoint() {
         System.out.println("-> bus.getNextPoint()");
         System.out.println("<- nextPoint");

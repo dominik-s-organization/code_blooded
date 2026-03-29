@@ -15,6 +15,7 @@ public class CityMap {
     // A város térképén található járművek listája, amelyek a forgalmat reprezentálják.
     private List<Vehicle> vehicles;
 
+    //Konstruktorok
     public CityMap() {
         points = new ArrayList<>();
         lanes = new ArrayList<>();
@@ -27,6 +28,7 @@ public class CityMap {
         this.vehicles = vehicles;
     }
 
+    // Getterek, setterek
     public List<Point> getPoints() { 
         System.out.println("-> cityMap.getPoints()");
         System.out.println("<- points");

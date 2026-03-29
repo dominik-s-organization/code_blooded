@@ -7,12 +7,14 @@ public class Car extends Vehicle {
     private Point home; // Az autó otthona, ahová vissza akar jutni.
     private Point work; // Az autó munkahelye, ahová el kell jutni.
 
+    // Konstruktor
     public Car() {
         super();
         home = null;
         work = null;
     }
 
+    // Getterek, setterek
     public Point getHome() {
         System.out.println("-> car.getHome()");
         System.out.println("<- home");

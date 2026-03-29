@@ -79,6 +79,7 @@ public class Skeleton {
                          System.out.println("Ez nem egy érvényes egész szám!");
                     }
             } while (choice != 0);
+            scanner.close();
     }
 
     private void test1() {

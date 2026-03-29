@@ -1,8 +1,5 @@
 package game;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
->>>>>>> origin/main
 import java.util.List;
 
 /**
@@ -32,8 +29,7 @@ public class SnowCleaner extends Player {
      */
     private int bioKeroseneStock;
 
-<<<<<<< HEAD
-=======
+    //Konstruktor
     public SnowCleaner() {
         super();
         snowPlowers = new ArrayList<>();
@@ -48,6 +44,7 @@ public class SnowCleaner extends Player {
         inventory.add(sp.getCurrentHead());
     }
 
+    // Getterek, setterek
     public List<SnowPlower> getSnowPlowers() {
         System.out.println("-> snowCleaner.getSnowPlowers()");
         System.out.println("<- snowPlowers");
@@ -107,20 +104,15 @@ public class SnowCleaner extends Player {
         System.out.println("-> snowCleaner.setBioKeroseneStock(bioKeroseneStock)");
         this.bioKeroseneStock = bioKeroseneStock;
     }
->>>>>>> origin/main
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
      *
      * @param amount a jóváíandó pénzösszeg
      */
-<<<<<<< HEAD
-    public void getPaid(int amount) {}
-=======
     public void getPaid(int amount) {
         System.out.println("-> snowCleaner.getPaid(amount)");
         this.money += amount;
     }
->>>>>>> origin/main
 
     /**
      * Csökkenti a megadott típusú nyersanyag készletét a fogyasztás során.
@@ -128,9 +120,6 @@ public class SnowCleaner extends Player {
      * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene")
      * @return true, ha van elegendő készlet a fogyasztáshoz, és sikeresen levonták, false ha nincs elég készlet
      */
-<<<<<<< HEAD
-    public boolean consumeMaterial(String type) {}
-=======
     public boolean consumeMaterial(String type) {
         System.out.println("-> snowCleaner.consumeMaterial(type)");
         
@@ -159,6 +148,4 @@ public class SnowCleaner extends Player {
         System.out.println("-> snowCleaner.addToInventory(head)");
         inventory.add(head);
     }
->>>>>>> origin/main
 }
-

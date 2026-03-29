@@ -29,8 +29,7 @@ public class Snow {
      */
     private int saltLevel; 
 
-<<<<<<< HEAD
-=======
+    //Konstruktor
     public Snow() {
         this.level = 0;
         this.vehiclesPassed = 0;
@@ -39,6 +38,7 @@ public class Snow {
         this.saltLevel = 0;
     }
 
+    // Getterek, setterek
     public int getLevel() {
         System.out.println("-> snow.getLevel()");
         System.out.println("<- level");
@@ -94,7 +94,6 @@ public class Snow {
         this.saltLevel = saltLevel;
     }
 
->>>>>>> origin/main
     /**
      * Megnöveli a hó vastagságát 1 egységgel, amennyiben az még nem érte el a maximumot (30)
      * és a sáv nincs sózva.
@@ -119,20 +118,7 @@ public class Snow {
     /**
      * Csökkenti a hó vastagságát (pl. olvadás vagy takarítás következtében).
      */
-<<<<<<< HEAD
-    public void lower() {}
 
-    /**
-     * Megtisztítja a sávot a hótól és a jégtől a takarítófejek hatására.
-     */
-    public void clean() {}
-
-    /**
-     * Egy jármű áthaladásakor hívódik meg. Növeli a letaposottság (vehiclesPassed) mértékét, 
-     * ami később jégképződéshez vezethet.
-     */
-    public void passVehicle() {}
-=======
     public void lower() {
         System.out.println("-> snow.lower()");
         if (level > 0){
@@ -159,5 +145,5 @@ public class Snow {
             setIce(true);
         }
     }
->>>>>>> origin/main
+    
 }

@@ -2,7 +2,6 @@ package game;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.

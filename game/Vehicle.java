@@ -26,12 +26,14 @@ public abstract class Vehicle {
      */
     private int jammedTime;
 
+    //Konstruktor
     public Vehicle() {
         currentPoint = null;
         lastLane = null;
         jammedTime = 0;
     }
 
+    // Getterek, setterek
     public Point getCurrentPoint() {
         System.out.println("-> vehicle.getCurrentPoint()");
         System.out.println("<- currentPoint");
