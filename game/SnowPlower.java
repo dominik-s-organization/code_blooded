@@ -20,6 +20,12 @@ public class SnowPlower extends Vehicle {
         owner = null;
     }
 
+    public Point getNextPoint() {
+        System.out.println("-> snowPlower.getNextPoint()");
+        System.out.println("<- nextPoint");
+        return nextPoint;
+    }
+
     public Head getCurrentHead() {
         System.out.println("-> snowPlower.getCurrentHead()");
         System.out.println("<- currentHead");
@@ -46,8 +52,8 @@ public class SnowPlower extends Vehicle {
     @Override
     public void jam() {
         System.out.println("-> snowPlower.jam()");
-        setJammedTime(3);
-        System.out.println("-> snowPlower.setJammedTime(3)");
+        setJammedTime(1);
+        System.out.println("-> snowPlower.setJammedTime(1)");
     }
 
     /**
@@ -57,8 +63,19 @@ public class SnowPlower extends Vehicle {
      */
     @Override
     public void move(Point point) {
-    System.out.println("-> snowPlower.move(point)");
-        // EZT MEG KELL CSINÁLNI
+        System.out.println("-> snowPlower.move(point)");
+        
+        if (super.getJammedTime() > 0) {
+            return; // Ha a hókotró elakadt, nem mozoghat.
+        }
+
+        if (point.isReachable(this)) {
+            super.getCurrentPoint().removeVehicle(this);
+            super.setCurrentPoint(point);
+            super.getCurrentPoint().addVehicle(this);
+            super.setLastLane(point.getIncomingLanes().get(0));
+            currentHead.clean(super.getLastLane(), this);
+        }
     }
     
     /**
@@ -69,6 +86,5 @@ public class SnowPlower extends Vehicle {
     public void changeHead(Head head) {
         System.out.println("-> snowPlower.changeHead(head)");
         this.currentHead = head;
-
     }
 }

@@ -16,23 +16,17 @@ public class SweepingHead extends Head {
      * @param lane a s�v, amelyet a sepr�fej letakar�t
      */
     @Override
-    public void clean(Lane lane) {
-        System.out.println("-> sweepingHead.clean(lane)");
+    public void clean(Lane lane, SnowPlower snowPlower) {
+        System.out.println("-> sweepingHead.clean(lane, snowPlower)");
         
-        System.out.println("-> lane.getSnow()");
-        System.out.println("<- snow");
-        
-        System.out.println("-> snow.getLevel()");
-        System.out.println("<- level");
-        
-        System.out.println("-> lane.getRightLane()");
-        System.out.println("<- rightLane");
-        
-        System.out.println("-> rightLane.getSnow()");
-        System.out.println("<- rs");
-        
-        System.out.println("-> rs.raiseBy(level)");
-        
-        System.out.println("-> snow.clean()");
+        if (lane.getRightLane() != null) {
+            int amount = lane.getSnow().getLevel();
+            lane.getSnow().clean();
+            lane.getRightLane().getSnow().raiseBy(amount);
+        }
+        else {
+            lane.getSnow().clean();
+        }
+        snowPlower.getOwner().getPaid(10);
     }
 }

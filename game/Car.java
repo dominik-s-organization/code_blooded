@@ -37,7 +37,7 @@ public class Car extends Vehicle {
 
     @Override
     // Ha ütközés történik, az autó megáll a forgalomban.
-    public void jam(){
+    public void jam() {
         System.out.println("-> car.jam()");
         super.setJammedTime(5);
     }
@@ -49,16 +49,26 @@ public class Car extends Vehicle {
     */
     public void move(Point point) {
         System.out.println("-> car.move(point)");
-        super.getCurrentPoint().removeVehicle(this);
-        super.setCurrentPoint(point);
-        super.getCurrentPoint().addVehicle(this);
-        super.setLastLane(point.getIncomingLanes().get(0));
+
+        if (super.getJammedTime() > 0) {
+            return; // Ha a busz elakadt, nem mozoghat.
+        }
+
+        if (point.isReachable(this)) {
+            super.getCurrentPoint().removeVehicle(this);
+            super.setCurrentPoint(point);
+            super.getCurrentPoint().addVehicle(this);
+            super.setLastLane(point.getIncomingLanes().get(0));
+        }
     }
 
-    // Kiszámítja a következő pontot, amely felé az autónak mozognia kell, hogy elérje a célját (otthon vagy munkahely).
-    public Point calculateNextPoint() {
-        System.out.println("-> car.calculateNextPoint()");
-        System.out.println("<- point");
-        return null;
+    /*
+    * Kiszámolja és visszaadja a következő pontot, amely felé az autó haladni próbál.
+    * @return A következő pont (Point), amely felé az autó haladni próbál.
+    */
+    public Point getNextPoint() {
+        System.out.println("-> car.getNextPoint()");
+        System.out.println("<- nextPoint");
+        return nextPoint;
     }
 }

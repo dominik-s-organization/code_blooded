@@ -129,8 +129,6 @@ public class Snow {
     public void clean() {
         System.out.println("-> snow.clean()");
         this.level = 0;
-        this.ice = false;
-        this.brokenIce = false;
     }
 
     /**
@@ -140,7 +138,7 @@ public class Snow {
     public void passVehicle() {
         System.out.println("-> snow.passVehicle()");
         vehiclesPassed++;
-        if (vehiclesPassed > 3) {
+        if (vehiclesPassed > 4 && level < 15) {
             setIce(true);
         }
     }

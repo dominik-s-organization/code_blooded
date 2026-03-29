@@ -3,14 +3,14 @@ package game;
 import java.util.Map;
 
 /**
- * A gazdas�gi rendszert menedzsel� bolt oszt�ly.
- * Felel�s a megv�s�rolhat� eszk�z �s nyersanyagok �rainak nyilv�ntart�s��rt, 
- * valamint a v�s�rl�si tranzakci�k lebonyol�t�s��rt.
+ * A gazdasági rendszert menedzselő bolt osztály.
+ * Felelős a megvásárolható eszköz és nyersanyagok árainak nyilvántartásáért,
+ * valamint a vásárlási tranzakciók lebonyolításáért.
  */
 public class Store {
     /**
-     * A bolt k�n�lat�t �s az �rakat t�rol� adatszerkezet.
-     * Kulcs: a t�tel neve (pl. "SalterHead", "salt"), �rt�k: az �r.
+     * A bolt kínálatát és az árakat tároló adatszerkezet.
+     * Kulcs: a tétel neve (pl. "SalterHead", "salt"), érték: az ár.
      */
     Map<String, Integer> inventory;
 
@@ -18,21 +18,22 @@ public class Store {
         inventory = null;
     }
     /**
-     * Lebonyol�t egy v�s�rl�si tranzakci�t.
-     * Ellen�rzi a v�s�rl� p�nz�gyi fedezet�t, majd j�v�hagy�s eset�n levonja az �sszeget 
-     * �s �tadja a megv�s�rolt t�telt.
+     * Lebonyolít egy vásárlási tranzakciót.
+     * Ellenőrzi a vásárló pénzügyi fedezetét, majd jóváhagyás esetén levonja az összeget
+     * és átadja a megvásárolt tételt.
      *
-     * @param item a megv�s�rolni k�v�nt t�tel azonos�t�ja
-     * @param quantity a v�s�rolni k�v�nt mennyis�g
-     * @param buyer a v�s�rl�st kezdem�nyez� takar�t� (SnowCleaner)
-     * @return true, ha a v�s�rl�s sikeres volt, false fedezethi�ny eset�n
+     * @param item a megvásárolni kívánt tétel azonosítója
+     * @param quantity a vásárolni kívánt mennyiség
+     * @param buyer a vásárlást kezdeményező takarító (SnowCleaner)
+     * @return true, ha a vásárlás sikeres volt, false fedezethiány esetén
      */
     public boolean buy(String item, int quantity, SnowCleaner buyer) {
         System.out.println("-> store.buy(item, quantity, snowCleaner)");
         
-        System.out.println("  <<create>> item");
-        
-        buyer.addToInventory(null);
+        // Itt nyilvan majd durvaább logika
+
+        Head newHead = new DragonHead();
+        buyer.addToInventory(newHead);
         
         System.out.println("<- true");
         return true;

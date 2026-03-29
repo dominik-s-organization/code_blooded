@@ -120,9 +120,22 @@ public class SnowCleaner extends Player {
      */
     public boolean consumeMaterial(String type) {
         System.out.println("-> snowCleaner.consumeMaterial(type)");
-        boolean hasEnough = true; 
-        System.out.println("<- hasEnough");
-        return hasEnough;
+        
+        if (type.equals("salt")) {
+            if (saltStock >= 10) {
+                saltStock -= 10;
+                System.out.println("<- true");
+                return true;
+            }
+        } else if (type.equals("biokerosene")) {
+            if (bioKeroseneStock >= 10) {
+                bioKeroseneStock -= 10;
+                System.out.println("<- true");
+                return true;
+            }
+        }
+        System.out.println("<- false");
+        return false;
     }
 
     /**

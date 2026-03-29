@@ -19,7 +19,7 @@ public class Lane {
         rightLane = null;
         isJammed = false;
         isUnderground = false;
-        snow = null;
+        snow = new Snow();
     }
 
     public void setStartPoint(Point startpoint) {
@@ -68,6 +68,7 @@ public class Lane {
     }
 
     public boolean isUnderground() { return isUnderground; }
+
     public void setUnderground(boolean isUnderground) { this.isUnderground = isUnderground; }
 
     public Snow getSnow() {
@@ -85,10 +86,23 @@ public class Lane {
     public void change(Vehicle vehicle){
         System.out.println("-> lane.change(vehicle)");
         
-        if (vehicle != null) {
-            if (snow != null) {
-                snow.passVehicle();
+        if (vehicle == null) {
+            if (snow.getSaltLevel() > 0) {
+                snow.setSaltLevel(snow.getSaltLevel() - 1);
+                snow.lower();
+                snow.setIce(false);
+                snow.setBrokenIce(false);
             }
+            else {
+                snow.raise();
+            }
+        }
+        else if (vehicle instanceof Bus || vehicle instanceof Car) {
+            snow.passVehicle();
+        }
+        else if (vehicle instanceof SnowPlower) {
+            SnowPlower sp = (SnowPlower) vehicle;
+            sp.getCurrentHead().clean(this, sp);
         }
     }   
 }
