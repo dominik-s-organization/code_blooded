@@ -117,6 +117,8 @@ public class Skeleton {
         cm.addPoint(j1);
         cm.addPoint(j2);
         cm.addPoint(j3);
+        cm.addVehicle(c1);
+        cm.addVehicle(c2);
         l12.setStartPoint(j1);
         l12.setEndPoint(j2);
         l23.setStartPoint(j2);
@@ -149,6 +151,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(c);
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -175,6 +178,7 @@ public class Skeleton {
         cm.addLane(rightLane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         rightLane.setStartPoint(j1);
@@ -205,6 +209,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -234,6 +239,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -271,6 +277,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(bd.getBus());
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -299,6 +306,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -328,6 +336,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -356,6 +365,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(c);
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
@@ -383,6 +393,7 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
