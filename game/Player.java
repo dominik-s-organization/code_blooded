@@ -28,7 +28,7 @@ public abstract class Player {
      */
     public Point selectDestination() {
         System.out.println("-> player.selectDestination()");
-        System.out.println("<- null");
+        System.out.println("<- nextPoint");     // Skeleton kedvéért, ez majd kicsit máshogy lesz
         return null;
     }
 }

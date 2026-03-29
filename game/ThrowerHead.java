@@ -16,12 +16,11 @@ public class ThrowerHead extends Head {
      * @param lane a s�v, amelyet a h�h�ny� fej letakar�t
      */    
     @Override
-    public void clean(Lane lane) {
-        System.out.println("-> throwerHead.clean(lane)");
+    public void clean(Lane lane, SnowPlower snowPlower) {
+        System.out.println("-> throwerHead.clean(lane, snowPlower)");
     
-        System.out.println("-> lane.getSnow()");
-        System.out.println("<- snow");
-        
-        System.out.println("-> snow.clean()");
+        lane.getSnow().clean();
+
+        snowPlower.getOwner().getPaid(20);
     }
 }

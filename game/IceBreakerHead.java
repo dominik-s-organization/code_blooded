@@ -14,12 +14,14 @@ public class IceBreakerHead extends Head {
     * @param lane A sáv, amelyet a jégtörőfej tisztítani fog.
     */
     @Override
-    public void clean(Lane lane) {
-        System.out.println("-> iceBreakerHead.clean(lane)");
-        
-        if (lane != null && lane.getSnow() != null) {
+    public void clean(Lane lane, SnowPlower snowPlower) {
+        System.out.println("-> iceBreakerHead.clean(lane, snowPlower)");
+
+        if (lane.getSnow().isIce()) {
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(true);
+
+            snowPlower.getOwner().getPaid(25);
         }
     }
 }

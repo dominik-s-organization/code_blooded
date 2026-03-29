@@ -17,16 +17,13 @@ public class SalterHead extends Head {
      * @param lane a s�v, amelyen a s�z� fej kifejti a hat�s�t
      */
     @Override
-    public void clean(Lane lane) {
-        System.out.println("-> salterHead.clean(lane)");
-        
-        System.out.println("-> snowCleaner.consumeMaterial(salt)");
-        System.out.println("<- true");
+    public void clean(Lane lane, SnowPlower snowPlower) {
+        System.out.println("-> salterHead.clean(lane, snowPlower)");
 
-        if (lane != null && lane.getSnow() != null) {
+        if (snowPlower.getOwner().consumeMaterial("salt")) {
             lane.getSnow().setSaltLevel(30);
-            System.out.println("-> snow.setSaltLevel(30)");
+
+            snowPlower.getOwner().getPaid(25);
         }
-        
     }
 }
