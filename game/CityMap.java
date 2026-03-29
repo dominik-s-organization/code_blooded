@@ -28,8 +28,10 @@ public class CityMap {
     }
 
     public List<Point> getPoints() { 
-        System.out.println("-> cityMap.getPoints()");
-        System.out.println("<- points");
+        if (points.size() > 0) {
+            System.out.println("-> cityMap.getPoints()");
+            System.out.println("<- points");
+        }
         return points; 
     }
     public void setPoints(List<Point> points) { 
@@ -43,8 +45,10 @@ public class CityMap {
     }
 
     public List<Lane> getLanes() {
-        System.out.println("-> cityMap.getLanes()");
-        System.out.println("<- lanes");
+        if (lanes.size() > 0) {
+            System.out.println("-> cityMap.getLanes()");
+            System.out.println("<- lanes");
+        }
         return lanes; 
     }
     public void setLanes(List<Lane> lanes) { 
@@ -58,8 +62,10 @@ public class CityMap {
     }
 
     public List<Vehicle> getVehicles() { 
-        System.out.println("-> cityMap.getVehicles()");   
-        System.out.println("<- vehicles");
+        if (vehicles.size() > 0) {
+            System.out.println("-> cityMap.getVehicles()");
+            System.out.println("<- vehicles");
+        }
         return vehicles;
     }
     public void setVehicles(List<Vehicle> vehicles) { 
