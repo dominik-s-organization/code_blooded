@@ -50,10 +50,12 @@ public class Game {
     public void simulateStep() {
          System.out.println("-> game.simulateStep()");
 
+         /*
          // Elakadt járművek kezelése
          for (Vehicle v : city.getVehicles()) {
              v.decreaseJammedTime();
          }
+        */  // Most még ez nem kell
 
          // Kocsik mozgatása
          List<Car> cars = new ArrayList<>();
