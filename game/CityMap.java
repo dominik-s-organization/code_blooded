@@ -66,4 +66,9 @@ public class CityMap {
         System.out.println("-> cityMap.setVehicles(vehicles)");
         this.vehicles = vehicles;
     }
+
+    public void addVehicle(Vehicle vehicle) {
+        System.out.println("-> cityMap.addVehicle(vehicle)");
+        vehicles.add(vehicle);
+    }
 }
