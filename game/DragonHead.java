@@ -13,16 +13,15 @@ public class DragonHead extends Head {
     * @param lane A sáv, amelyet a sárkányfej tisztítani fog.
     */
     @Override
-    public void clean(Lane lane) {
-        System.out.println("-> dragonHead.clean(lane)");
+    public void clean(Lane lane, SnowPlower snowPlower) {
+        System.out.println("-> dragonHead.clean(lane, snowPlower)");
         
-        System.out.println("-> snowCleaner.consumeMaterial(biokerosene)");
-        System.out.println("<- true"); 
-        
-        if (lane != null && lane.getSnow() != null) {
+        if (snowPlower.getOwner().consumeMaterial("bioKerosene")) {
             lane.getSnow().clean();
-        } else {
-            System.out.println("-> snow.clean()");
+            lane.getSnow().setIce(false);
+            lane.getSnow().setBrokenIce(false);
+
+            snowPlower.getOwner().getPaid(35);
         }
     }
 }

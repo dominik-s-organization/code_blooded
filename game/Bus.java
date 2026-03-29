@@ -17,6 +17,12 @@ public class Bus extends Vehicle {
         endPoint = null;
     }
 
+    public Point getNextPoint() {
+        System.out.println("-> bus.getNextPoint()");
+        System.out.println("<- nextPoint");
+        return nextPoint;
+    }
+
     public BusDriver getOwner() {
         System.out.println("-> bus.getOwner()");
         System.out.println("<- owner");
@@ -71,9 +77,20 @@ public class Bus extends Vehicle {
     @Override
     public void move(Point point) {
         System.out.println("-> bus.move(point)");
-        super.getCurrentPoint().removeVehicle(this);
-        super.setCurrentPoint(point);
-        super.getCurrentPoint().addVehicle(this);
-        super.setLastLane(point.getIncomingLanes().get(0));
+        
+        if (super.getJammedTime() > 0) {
+            return; // Ha a busz elakadt, nem mozoghat.
+        }
+
+        if (point.isReachable(this)) {
+            super.getCurrentPoint().removeVehicle(this);
+            super.setCurrentPoint(point);
+            super.getCurrentPoint().addVehicle(this);
+            super.setLastLane(point.getIncomingLanes().get(0));
+
+            if (point.equals(endPoint)) {
+                switchRoute();
+            }
+        }
     }
 }

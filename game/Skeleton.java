@@ -85,6 +85,7 @@ public class Skeleton {
     }
 
     private void test1() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         Junction j1 = new Junction();
@@ -101,13 +102,13 @@ public class Skeleton {
         j2.addIncomingLane(lane);
         g.setCity(cm);
 
-        System.out.println("\nAz inicializálásnak itt van vége, most jön a szimuláció:\n");
-
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
 
     }
 
     private void test2() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         Junction j1 = new Junction();
@@ -122,6 +123,8 @@ public class Skeleton {
         cm.addPoint(j1);
         cm.addPoint(j2);
         cm.addPoint(j3);
+        cm.addVehicle(c1);
+        cm.addVehicle(c2);
         l12.setStartPoint(j1);
         l12.setEndPoint(j2);
         l23.setStartPoint(j2);
@@ -132,15 +135,19 @@ public class Skeleton {
         j3.addIncomingLane(l23);
         c1.setCurrentPoint(j1);
         c2.setCurrentPoint(j2);
+        c1.setNextPoint(j2);
+        c2.setNextPoint(j3);
         j1.addVehicle(c1);
         j2.addVehicle(c2);
         l12.getSnow().setIce(true);
         g.setCity(cm);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test3() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         Junction j1 = new Junction();
@@ -150,18 +157,22 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(c);
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         c.setCurrentPoint(j1);
+        c.setNextPoint(j2);
         j1.addVehicle(c);
         g.setCity(cm);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test4() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -173,6 +184,7 @@ public class Skeleton {
         cm.addLane(rightLane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         rightLane.setStartPoint(j1);
@@ -182,14 +194,17 @@ public class Skeleton {
         j1.addOutgoingLane(rightLane);
         j2.addIncomingLane(rightLane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test5() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -200,11 +215,13 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
@@ -212,10 +229,12 @@ public class Skeleton {
         sc.getSnowPlowers().get(0).setCurrentHead(ibh);
         lane.getSnow().setIce(true);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test6() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -226,11 +245,13 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
@@ -238,17 +259,21 @@ public class Skeleton {
         sc.getSnowPlowers().get(0).setCurrentHead(salth);
         sc.setSaltStock(0);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test7() {
+        System.out.println("\nInicializálás:\n");
         SnowCleaner sc = new SnowCleaner();
         Store store = new Store();
 
+        System.out.println("\nLefutás:\n");
         store.buy("DragonHead",1,sc);
     }
 
     private void test8() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         BusDriver bd = new BusDriver();
@@ -258,21 +283,25 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(bd.getBus());
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         bd.getBus().setCurrentPoint(j1);
+        bd.getBus().setNextPoint(j2);
         j1.addVehicle(bd.getBus());
         g.setCity(cm);
         g.addPlayer(bd);
         bd.getBus().setBeginningPoint(j1);
         bd.getBus().setEndPoint(j2);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test9() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -283,11 +312,13 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
@@ -295,10 +326,12 @@ public class Skeleton {
         sc.getSnowPlowers().get(0).setCurrentHead(salth);
         sc.setSaltStock(100);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test10() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -309,11 +342,13 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
@@ -321,10 +356,12 @@ public class Skeleton {
         sc.getSnowPlowers().get(0).setCurrentHead(dh);
         sc.setBioKeroseneStock(100);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test11() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         Junction j1 = new Junction();
@@ -334,20 +371,24 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(c);
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         c.setCurrentPoint(j1);
+        c.setNextPoint(j2);
         j1.addVehicle(c);
         g.setCity(cm);
         lane.getSnow().setLevel(6);
         lane.getSnow().setVehiclesPassed(4);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 
     private void test12() {
+        System.out.println("\nInicializálás:\n");
         Game g = new Game();
         CityMap cm = new CityMap();
         SnowCleaner sc = new SnowCleaner();
@@ -358,17 +399,20 @@ public class Skeleton {
         cm.addLane(lane);
         cm.addPoint(j1);
         cm.addPoint(j2);
+        cm.addVehicle(sc.getSnowPlowers().get(0));
         lane.setStartPoint(j1);
         lane.setEndPoint(j2);
         j1.addOutgoingLane(lane);
         j2.addIncomingLane(lane);
         sc.getSnowPlowers().get(0).setCurrentPoint(j1);
+        sc.getSnowPlowers().get(0).setNextPoint(j2);
         j1.addVehicle(sc.getSnowPlowers().get(0));
         g.setCity(cm);
         g.addPlayer(sc);
         sc.addHead(th);
         sc.getSnowPlowers().get(0).setCurrentHead(th);
 
+        System.out.println("\nLefutás:\n");
         g.simulateStep();
     }
 }
