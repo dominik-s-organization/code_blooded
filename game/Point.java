@@ -1,10 +1,11 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Absztrakt ősosztály azthlzat topolgiai pontjainak (pl. csompontok, kereszteződések) reprezentálására.
- * Felelőssge a becsatlakoző és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvntartása.
+ * Absztrakt ősosztaly az úthálzat topolgiai pontjainak (pl. csompontok, keresztezdsek) reprezentálásra.
+ * Felelőssége a becsatlakozás kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartsa.
  */
 public abstract class Point {
     /**
@@ -20,6 +21,69 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes;
 
+    public Point() {
+        vehicles = new ArrayList<>();
+        incomingLanes = new ArrayList<>();
+        outgoingLanes = new ArrayList<>();
+    }
+
+    public List<Lane> getIncomingLanes() {
+        System.out.println("-> point.getIncomingLanes()");
+        System.out.println("<- incomingLanes");
+        return incomingLanes;
+    }
+
+    public List<Lane> getOutgoingLanes() {
+        System.out.println("-> point.getOutgoingLanes()");
+        System.out.println("<- outgoingLanes");
+        return outgoingLanes;
+    }
+
+     public List<Vehicle> getVehicles() {
+        System.out.println("-> point.getVehicles()");
+        System.out.println("<- vehicles");
+        return vehicles;
+     }
+
+    /**
+     * Hozzáad egy járművet a ponthoz (amikor a jármű rálép).
+     *
+     * @param vehicle a hozzáadandó jármű
+     */
+    public void addVehicle(Vehicle vehicle) {
+        System.out.println("-> point.addVehicle(vehicle)");
+        vehicles.add(vehicle);
+    }
+
+    /**
+     * Eltávolít egy járművet a pontról (amikor a jármű továbbhalad).
+     *
+     * @param vehicle az eltávolítandó jármű
+     */
+    public void removeVehicle(Vehicle vehicle) {
+        System.out.println("-> point.removeVehicle(vehicle)");
+        vehicles.remove(vehicle);
+    }
+
+    /**
+     * Beállít egy beérkező sávot a ponthoz.
+     *
+     * @param lane a beérkező sáv
+     */
+    public void addIncomingLane(Lane lane) {
+        System.out.println("-> point.addIncomingLane(lane)");
+        incomingLanes.add(lane);
+    }
+
+    /**
+     * Beállít egy kimenő sávot a ponthoz.
+     *
+     * @param lane a kimenő sáv
+     */
+    public void addOutgoingLane(Lane lane) {
+        System.out.println("-> point.addOutgoingLane(lane)");
+        outgoingLanes.add(lane);
+    }
     /**
      * Meghatározza, hogy az adott jármű ráléphet-e (behajthat-e) erre a pontra.
      * A leszármazott osztályok (pl. Tunnel, Junction) egyedi logikát valósíthatnak meg.
@@ -29,5 +93,9 @@ public abstract class Point {
      */
     public abstract boolean isReachable(Vehicle vehicle);
 
+    /**
+     * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
+     */
     public abstract void lookForJams();
+
 }

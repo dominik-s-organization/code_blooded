@@ -29,11 +29,78 @@ public class Snow {
      */
     private int saltLevel; 
 
+<<<<<<< HEAD
+=======
+    public Snow() {
+        this.level = 0;
+        this.vehiclesPassed = 0;
+        this.ice = false;
+        this.brokenIce = false;
+        this.saltLevel = 0;
+    }
+
+    public int getLevel() {
+        System.out.println("-> snow.getLevel()");
+        System.out.println("<- level");
+        return level;
+    }
+
+    public void setLevel(int level) {
+        System.out.println("-> snow.setLevel(level)");
+        this.level = level;
+    }
+
+    public int getVehiclesPassed() {
+        System.out.println("-> snow.getVehiclesPassed()");
+        System.out.println("<- vehiclesPassed");
+        return vehiclesPassed;
+    }
+
+    public void setVehiclesPassed(int vehiclesPassed) {
+        System.out.println("-> snow.setVehiclesPassed(vehiclesPassed)");
+        this.vehiclesPassed = vehiclesPassed;
+    }
+
+    public boolean isIce() {
+        System.out.println("-> snow.isIce()");
+        System.out.println("<- ice");
+        return ice;
+    }
+
+    public void setIce(boolean ice) {
+        System.out.println("-> snow.setIce(ice)");
+        this.ice = ice;
+    }
+
+    public boolean isBrokenIce() {
+        System.out.println("-> snow.isBrokenIce()");
+        System.out.println("<- brokenIce");
+        return brokenIce;
+    }
+
+    public void setBrokenIce(boolean brokenIce) {
+        System.out.println("-> snow.setBrokenIce(brokenIce)");
+        this.brokenIce = brokenIce;
+    }
+
+    public int getSaltLevel() {
+        System.out.println("-> snow.getSaltLevel()");
+        System.out.println("<- saltLevel");
+        return saltLevel;
+    }
+
+    public void setSaltLevel(int saltLevel) {
+        System.out.println("-> snow.setSaltLevel(saltLevel)");
+        this.saltLevel = saltLevel;
+    }
+
+>>>>>>> origin/main
     /**
      * Megnöveli a hó vastagságát 1 egységgel, amennyiben az még nem érte el a maximumot (30)
      * és a sáv nincs sózva.
      */
     public void raise() {
+        System.out.println("-> snow.raise()");    
         if (level < 30) {
             level++;
         }
@@ -45,13 +112,14 @@ public class Snow {
      * @param amount a hó növekedésének mértéke
      */
     public void raiseBy(int amount) {
+        System.out.println("-> snow.raiseBy(amount)");
         level = Math.min(level + amount, 30);
     }
-    public void lower() {}
 
     /**
      * Csökkenti a hó vastagságát (pl. olvadás vagy takarítás következtében).
      */
+<<<<<<< HEAD
     public void lower() {}
 
     /**
@@ -64,4 +132,32 @@ public class Snow {
      * ami később jégképződéshez vezethet.
      */
     public void passVehicle() {}
+=======
+    public void lower() {
+        System.out.println("-> snow.lower()");
+        if (level > 0){
+            level--;
+        }
+    }
+
+    /**
+     * Megtisztítja a sávot a hótól és a jégtől a takarítófejek hatására.
+     */
+    public void clean() {
+        System.out.println("-> snow.clean()");
+        this.level = 0;
+    }
+
+    /**
+     * Egy jármű áthaladásakor hívódik meg. Növeli a letaposottság (vehiclesPassed) mértékét, 
+     * ami később jégképződéshez vezethet.
+     */
+    public void passVehicle() {
+        System.out.println("-> snow.passVehicle()");
+        vehiclesPassed++;
+        if (vehiclesPassed > 4 && level < 15) {
+            setIce(true);
+        }
+    }
+>>>>>>> origin/main
 }
