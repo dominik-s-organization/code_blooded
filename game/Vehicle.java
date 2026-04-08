@@ -15,7 +15,6 @@ public abstract class Vehicle {
      */
     private Lane lastLane;
 
-
     /** 
      * A jármű következő célállomása (pontja), amely felé a jármű haladni próbál.
      */
