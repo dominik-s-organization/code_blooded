@@ -4,44 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Absztrakt �soszt�ly az �th�l�zat topol�giai pontjainak (pl. csom�pontok, keresztez�d�sek) reprezent�l�s�ra.
- * Felel�ss�ge a becsatlakoz� �s kimen� s�vok, valamint az adott ponton tart�zkod� j�rm�vek nyilv�ntart�sa.
+ * Absztrakt ősosztály az őthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
+ * Felelőssége a becsatlakozó és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartása.
  */
 public abstract class Point {
     /**
-     * A ponton (keresztez�d�sben) �ppen tart�zkod� j�rm�vek list�ja.
+     * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
     private List<Vehicle> vehicles;
     /**
-     * A pontba be�rkez� s�vok list�ja.
+     * A pontba beérkező sávok listája.
      */
     private List<Lane> incomingLanes;
     /**
-     * A pontb�l kiindul� s�vok list�ja.
+     * A pontból kiinduló sávok listája.
      */
     private List<Lane> outgoingLanes;
 
-    public Point() {
+    protected Point() {
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
     }
 
     public List<Lane> getIncomingLanes() {
-        System.out.println("-> point.getIncomingLanes()");
-        System.out.println("<- incomingLanes");
         return incomingLanes;
     }
 
     public List<Lane> getOutgoingLanes() {
-        System.out.println("-> point.getOutgoingLanes()");
-        System.out.println("<- outgoingLanes");
         return outgoingLanes;
     }
 
      public List<Vehicle> getVehicles() {
-        System.out.println("-> point.getVehicles()");
-        System.out.println("<- vehicles");
         return vehicles;
      }
 
@@ -51,7 +45,6 @@ public abstract class Point {
      * @param vehicle a hozzáadandó jármű
      */
     public void addVehicle(Vehicle vehicle) {
-        System.out.println("-> point.addVehicle(vehicle)");
         vehicles.add(vehicle);
     }
 
@@ -61,8 +54,9 @@ public abstract class Point {
      * @param vehicle az eltávolítandó jármű
      */
     public void removeVehicle(Vehicle vehicle) {
-        System.out.println("-> point.removeVehicle(vehicle)");
-        vehicles.remove(vehicle);
+        if (vehicles.contains(vehicle)) {
+            vehicles.remove(vehicle);
+        }
     }
 
     /**
@@ -71,7 +65,6 @@ public abstract class Point {
      * @param lane a beérkező sáv
      */
     public void addIncomingLane(Lane lane) {
-        System.out.println("-> point.addIncomingLane(lane)");
         incomingLanes.add(lane);
     }
 
@@ -81,21 +74,39 @@ public abstract class Point {
      * @param lane a kimenő sáv
      */
     public void addOutgoingLane(Lane lane) {
-        System.out.println("-> point.addOutgoingLane(lane)");
         outgoingLanes.add(lane);
     }
-    /**
-     * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) erre a pontra.
-     * A lesz�rmazott oszt�lyok (pl. Tunnel, Junction) egyedi logik�t val�s�thatnak meg.
-     *
-     * @param vehicle a vizsg�lt j�rm�, amely r� szeretne l�pni a pontra
-     * @return true, ha a j�rm� r�l�phet a pontra, ellenkez� esetben false
+    
+    /*
+     * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
+     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
      */
-    public abstract boolean isReachable(Vehicle vehicle);
+    public boolean isReachable(Vehicle vehicle) {
+        return isReachableHelp(this, vehicle);
+    }
+
+    /*
+     * Segédfüggvény az isReachable metódushoz, amelyet a konkrét csomópont típusok implementálnak.
+     * @param point, a kérdéses csomópont, amelyre a jármű megpróbál rálépni.
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
+     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
+     */
+    protected abstract boolean isReachableHelp(Point point, Vehicle vehicle);
 
     /**
      * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
      */
-    public abstract void lookForJams();
+    public void lookForJams() {
+        for (Vehicle vehicle1 : getVehicles()) {
+            for (Vehicle vehicle2 : getVehicles()) {
+                if (!vehicle1.equals(vehicle2) && vehicle1.getLastLane().equals(vehicle2.getLastLane())) {
+                    vehicle1.jam();
+                    vehicle2.jam();
+                    vehicle1.getLastLane().setJammed(true);
+                }
+            }
+        }
+    }
 
 }

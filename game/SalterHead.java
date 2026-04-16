@@ -1,9 +1,9 @@
 package game;
 
 /**
- * A s�z� fejet reprezent�l� oszt�ly.
- * Felel�ss�ge, hogy az �tra s�t juttasson, ez�ltal megakad�lyozza a h� lerak�d�s�t �s
- * el�seg�tse a megl�v� j�g/h� olvad�s�t. M�k�d�s�hez s� sz�ks�ges.
+ * A sózó fejet reprezentáló osztály.
+ * Felelőssége, hogy az útra sót juttasson, ezáltal megakadályozza a hó lerakódását és
+ * elősegíti a meglévő jég/hó olvadását. Működéséhez só szükséges.
  */
 public class SalterHead extends Head {
     
@@ -11,17 +11,15 @@ public class SalterHead extends Head {
         super();
     }
     /**
-     * V�grehajtja a s�z�st a megadott s�von.
-     * N�veli a s�v s�-szintj�t, mik�zben cs�kkenti a tulajdonos s�k�szlet�t.
+     * Végrehajtja a sózást a megadott sávon.
+     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos só-készletét.
      *
-     * @param lane a s�v, amelyen a s�z� fej kifejti a hat�s�t
+     * @param lane a sáv, amelyen a sózó fej kifejti a hatását
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> salterHead.clean(lane, snowPlower)");
-
         if (snowPlower.getOwner().consumeMaterial("salt")) {
-            lane.getSnow().setSaltLevel(30);
+            lane.getSnow().setSaltLevel(20);
 
             snowPlower.getOwner().getPaid(25);
         }

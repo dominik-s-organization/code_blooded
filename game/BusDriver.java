@@ -17,25 +17,19 @@ public class BusDriver extends Player {
     }
 
     public int getCompletedRoutes() {
-        System.out.println("-> busDriver.getCompletedRoutes()");
-        System.out.println("<- completedRoutes");
         return completedRoutes;
     }
 
     public Bus getBus() {
-        System.out.println("-> busDriver.getBus()");
-        System.out.println("<- bus");
         return bus;
     }
 
     public void setBus(Bus bus) {
-        System.out.println("-> busDriver.setBus(bus)");
         this.bus = bus;
     }
 
     // A buszvezető teljesíti az útvonalat, és növeli a teljesített útvonalak számát.
     public void completeRoute() {
-        System.out.println("-> busDriver.completeRoute()");
         completedRoutes++;
     }
 }

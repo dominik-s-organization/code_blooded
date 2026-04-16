@@ -9,19 +9,12 @@ public class CrossRoads extends Point {
         super();
     }
 
-    /*
-     * Adott jármű ráléphet-e a kereszteződésre.
-     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a kereszteződésre.
-     * @return true, ha a jármű ráléphet a kereszteződésre, false egyébként.
-     */
-    public boolean isReachable(Vehicle vehicle) {
-        System.out.println("-> crossRoads.isReachable(vehicle)");
-        System.out.println("<- true");
-        return true;
-    }
-    // Adott pontonál van-e dugó.
-    @Override
-    public void lookForJams() {
-        System.out.println("-> crossRoads.lookForJams()");
+    protected boolean isReachableHelp(Point point, Vehicle vehicle) {
+        for (Lane incomingLane : point.getIncomingLanes()) {
+            if (incomingLane.getStartPoint().equals(vehicle.getCurrentPoint()) && !incomingLane.isJammed() && (incomingLane.getSnow().getLevel() < 15 || vehicle instanceof SnowPlower)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

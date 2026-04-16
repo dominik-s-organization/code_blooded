@@ -14,13 +14,11 @@ public class DragonHead extends Head {
     */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> dragonHead.clean(lane, snowPlower)");
-        
         if (snowPlower.getOwner().consumeMaterial("bioKerosene")) {
             lane.getSnow().clean();
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(false);
-
+            
             snowPlower.getOwner().getPaid(35);
         }
     }

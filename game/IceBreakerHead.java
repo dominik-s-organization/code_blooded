@@ -15,8 +15,6 @@ public class IceBreakerHead extends Head {
     */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> iceBreakerHead.clean(lane, snowPlower)");
-
         if (lane.getSnow().isIce()) {
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(true);

@@ -16,71 +16,61 @@ public abstract class Vehicle {
     private Lane lastLane;
 
     /** 
-     * A jármű következő célállomása (pontja), amely felé a jármű haladni próbál.
+     * A jármű következő célállomása (sávja), amelyen a jármű át akar haladni.
      */
-    protected Point nextPoint;
+    protected Lane nextLane;
     /**
      * A várakozási vagy elakadási idő (körökben mérve). 
      * Amíg ez az érték nagyobb nullánál, a jármű nem tud mozogni.
      */
     private int jammedTime;
 
-    public Vehicle() {
+    protected Vehicle() {
         currentPoint = null;
         lastLane = null;
         jammedTime = 0;
     }
 
     public Point getCurrentPoint() {
-        System.out.println("-> vehicle.getCurrentPoint()");
-        System.out.println("<- currentPoint");
         return currentPoint;
     }
 
     public void setCurrentPoint(Point currentPoint) {
-        System.out.println("-> vehicle.setCurrentPoint(currentPoint)");
         this.currentPoint = currentPoint;
     }
 
     public Lane getLastLane() {
-        System.out.println("-> vehicle.getLastLane()");
-        System.out.println("<- lastLane");
         return lastLane;
     }
 
     public void setLastLane(Lane lastLane) {
-        System.out.println("-> vehicle.setLastLane(lastLane)");
         this.lastLane = lastLane;
     }
 
     /**
      * Visszaadja a jármű következő célpontját, amely felé haladni próbál.
-     * @return a következő pont (Point), amely felé a jármű haladni próbál
+     * @return a következő sáv (Lane), amelyen a jármű át akar haladni
      */
-    public abstract Point getNextPoint();
+    public abstract Lane getNextLane();
 
-    public void setNextPoint(Point nextPoint) {
-        System.out.println("-> vehicle.setNextPoint(nextPoint)");
-        this.nextPoint = nextPoint;
+    public void setNextLane(Lane nextLane) {
+        this.nextLane = nextLane;
     }
 
     public int getJammedTime() {
-        System.out.println("-> vehicle.getJammedTime()");
-        System.out.println("<- jammedTime");
         return jammedTime;
     }
 
     public void setJammedTime(int jammedTime) {
-        System.out.println("-> vehicle.setJammedTime(jammedTime)");
         this.jammedTime = jammedTime;
     }
 
     public void decreaseJammedTime() {
         if (jammedTime > 0) {
             jammedTime--;
-            System.out.println("-> vehicle.decreaseJammedTime()");
         }
     }
+    
     /**
      * A jármű elakadását, balesetét vagy büntetési idejét kezelő absztrakt metódus.
      * A leszármazott osztályok a saját logikájuk szerint megvalósítják meg.

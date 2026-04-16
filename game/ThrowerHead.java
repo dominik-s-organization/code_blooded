@@ -1,9 +1,9 @@
 package game;
 
 /**
- * A h� messzire t�rt�n� elsz�r�s�ra szolg�l� h�ny� fejet reprezent�l� oszt�ly.
- * Felel�ss�ge a h� elt�vol�t�sa az �ttestr�l a szomsz�dos s�vok �rint�se n�lk�l (kiveti a rendszerb�l).
- * J�g ellen nem hat�kony.
+ * A hó messzire történő elszórására szolgáló hóhány fejet reprezentáló osztály.
+ * Felelőssége a hó eltávolítása az útról a szomszédos sávok érintése nélkül (kiveti a rendszerből).
+ * Jég ellen nem hatékony.
  */
 public class ThrowerHead extends Head {
 

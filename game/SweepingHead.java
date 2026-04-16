@@ -1,9 +1,9 @@
 package game;
 
 /**
- * A h� eltakar�t�s�ra szolg�l� sepr�fejet reprezent�l� oszt�ly.
- * Felel�ss�ge a h� letakar�t�sa az aktu�lis s�vr�l oly m�don, hogy 
- * a havat �ttolja az egyik szomsz�dos s�vba. A j�gp�nc�lt nem k�pes felt�rni.
+ * A hó eltakarátására szolgáló seprőfejet reprezentáló osztály.
+ * Felelőssége a hó letakarítása az aktuális sávról olyan módon, hogy
+ * a havat áthelyezi az egyik szomszédos sávba. A járműveket nem képes feltárnani.
  */
 public class SweepingHead extends Head {
     
@@ -11,14 +11,12 @@ public class SweepingHead extends Head {
         super();
     }
     /**
-     * Megtiszt�tja az adott s�vot, a havat a szomsz�dos s�vra �thelyezve.
+     * Megtisztítja az adott sávot, a havat a szomszédos sávra áthelyezve.
      *
-     * @param lane a s�v, amelyet a sepr�fej letakar�t
+     * @param lane a sáv, amelyet a seprőfej letakarít
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> sweepingHead.clean(lane, snowPlower)");
-        
         if (lane.getRightLane() != null) {
             int snowAmount = lane.getSnow().getLevel();
             int crushedStoneAmount = lane.getSnow().getCrushedStoneLevel();

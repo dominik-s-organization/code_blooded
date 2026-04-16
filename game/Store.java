@@ -28,14 +28,11 @@ public class Store {
      * @return true, ha a vásárlás sikeres volt, false fedezethiány esetén
      */
     public boolean buy(String item, int quantity, SnowCleaner buyer) {
-        System.out.println("-> store.buy(item, quantity, snowCleaner)");
-        
         // Itt nyilvan majd durvaább logika
 
         Head newHead = new DragonHead();
         buyer.addToInventory(newHead);
         
-        System.out.println("<- true");
         return true;
     }
 }
