@@ -20,30 +20,22 @@ public class SnowPlower extends Vehicle {
         owner = null;
     }
 
-    public Point getNextPoint() {
-        System.out.println("-> snowPlower.getNextPoint()");
-        System.out.println("<- nextPoint");
-        return nextPoint;
+    public Lane getNextLane() {
+        return nextLane;
     }
 
     public Head getCurrentHead() {
-        System.out.println("-> snowPlower.getCurrentHead()");
-        System.out.println("<- currentHead");
         return currentHead;
     }
 
     public void setCurrentHead(Head currentHead) {
-        System.out.println("-> snowPlower.setCurrentHead(currentHead)");
         this.currentHead = currentHead;
     }
 
     public SnowCleaner getOwner() {
-        System.out.println("-> snowPlower.getOwner()");
-        System.out.println("<- owner");
         return owner;
     }
      public void setOwner(SnowCleaner owner) {
-        System.out.println("-> snowPlower.setOwner(owner)");
         this.owner = owner;
     }
     /**
@@ -51,9 +43,7 @@ public class SnowPlower extends Vehicle {
      */
     @Override
     public void jam() {
-        System.out.println("-> snowPlower.jam()");
-        setJammedTime(1);
-        System.out.println("-> snowPlower.setJammedTime(1)");
+        super.setJammedTime(1);
     }
 
     /**
@@ -63,8 +53,6 @@ public class SnowPlower extends Vehicle {
      */
     @Override
     public void move(Point point) {
-        System.out.println("-> snowPlower.move(point)");
-        
         if (super.getJammedTime() > 0) {
             return; // Ha a hókotró elakadt, nem mozoghat.
         }
@@ -73,7 +61,7 @@ public class SnowPlower extends Vehicle {
             super.getCurrentPoint().removeVehicle(this);
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
-            super.setLastLane(point.getIncomingLanes().get(0));
+            super.setLastLane(nextLane);
             currentHead.clean(super.getLastLane(), this);
         }
     }
@@ -84,7 +72,6 @@ public class SnowPlower extends Vehicle {
      * @param head az új takarítófej (Head), amelyet a gépre szerelnek
      */
     public void changeHead(Head head) {
-        System.out.println("-> snowPlower.changeHead(head)");
         this.currentHead = head;
     }
 }
