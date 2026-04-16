@@ -20,12 +20,16 @@ public class SweepingHead extends Head {
         System.out.println("-> sweepingHead.clean(lane, snowPlower)");
         
         if (lane.getRightLane() != null) {
-            int amount = lane.getSnow().getLevel();
+            int snowAmount = lane.getSnow().getLevel();
+            int crushedStoneAmount = lane.getSnow().getCrushedStoneLevel();
             lane.getSnow().clean();
-            lane.getRightLane().getSnow().raiseBy(amount);
+            lane.getSnow().setCrushedStoneLevel(0);
+            lane.getRightLane().getSnow().raiseBy(snowAmount);
+            lane.getRightLane().getSnow().setCrushedStoneLevel(crushedStoneAmount);
         }
         else {
             lane.getSnow().clean();
+            lane.getSnow().setCrushedStoneLevel(0);
         }
         snowPlower.getOwner().getPaid(10);
     }
