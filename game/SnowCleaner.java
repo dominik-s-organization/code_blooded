@@ -28,6 +28,10 @@ public class SnowCleaner extends Player {
      * A rendelkezésre álló biokerozin készlet a sörényfej (DragonHead) működtetéséhez.
      */
     private int bioKeroseneStock;
+    /**
+     * A rendelkezésre álló töröttkő készlet a töröttkőfej (CrushedStoneHead) működtetéséhez.
+     */
+    private int crushedStoneStock;
 
     public SnowCleaner() {
         super();
@@ -36,6 +40,7 @@ public class SnowCleaner extends Player {
         money = 0;
         saltStock = 0;
         bioKeroseneStock = 0;
+        crushedStoneStock = 0;
 
         SnowPlower sp = new SnowPlower();
         snowPlowers.add(sp);
@@ -101,6 +106,17 @@ public class SnowCleaner extends Player {
     public void setBioKeroseneStock(int bioKeroseneStock) {
         System.out.println("-> snowCleaner.setBioKeroseneStock(bioKeroseneStock)");
         this.bioKeroseneStock = bioKeroseneStock;
+    }
+
+    public int getCrushedStoneStock() {
+        System.out.println("-> snowCleaner.getCrushedStoneStock()");
+        System.out.println("<- crushedStoneStock");
+        return crushedStoneStock;
+    }
+
+    public void setCrushedStoneStock(int crushedStoneStock) {
+        System.out.println("-> snowCleaner.setCrushedStoneStock(crushedStoneStock)");
+        this.crushedStoneStock = crushedStoneStock;
     }
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
