@@ -1,28 +1,22 @@
 package game;
 
 /**
- * Speci�lis csom�pontot (alagutat) reprezent�l� oszt�ly az �th�l�zatban.
- * Mivel fedett, a k�rnyezeti hat�sok (havaz�s) jellemz�en nem �rintik, 
- * de biztos�tja az �thalad�st a j�rm�vek sz�m�ra.
+ * Speciális csomópontot (alagutat) reprezentáló osztály az úthálózatban.
+ * Mivel fedett, a környezeti hatások (havazás) jellemzően nem érintik, 
+ * de biztosítja az áthaladást a járművek számára.
  */
 public class Tunnel extends Point {
     
     public Tunnel() {
          super();
     }
-    /**
-     * Meghat�rozza, hogy az adott j�rm� r�l�phet-e (behajthat-e) az alag�tba.
-     *
-     * @param vehicle a vizsg�lt j�rm�, amely be szeretne hajtani az alag�tba
-     * @return true, ha a j�rm� r�l�phet az alag�tra, ellenkez� esetben false
-     */    
-     public boolean isReachable(Vehicle vehicle) {
-        System.out.println("-> tunnel.isReachable(vehicle)");
-        System.out.println("<- true");
-        return true;
-     }
 
-     public void lookForJams() {
-        System.out.println("-> tunnel.lookForJams()");
-     }
+    protected boolean isReachableHelp(Point point, Vehicle vehicle) {
+        for (Lane incomingLane : point.getIncomingLanes()) {
+            if (incomingLane.getStartPoint().equals(vehicle.getCurrentPoint()) && !incomingLane.isJammed() && (incomingLane.getSnow().getLevel() < 15 || vehicle instanceof SnowPlower) && incomingLane.isUnderground() == vehicle.getLastLane().isUnderground()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

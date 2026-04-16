@@ -11,11 +11,9 @@ public class CrushedStoneHead extends Head {
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> crushedStoneHead.clean(lane, snowPlower)");
-        
         if (snowPlower.getOwner().consumeMaterial("crushedStone")) {
             lane.getSnow().setCrushedStoneLevel(10);
-
+            
             snowPlower.getOwner().getPaid(15);
         }
     }

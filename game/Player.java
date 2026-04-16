@@ -11,24 +11,20 @@ public abstract class Player {
     private String name;
 
     public String getName() {
-         System.out.println("-> player.getName()");
-         System.out.println("<- name");
          return name;
      }
  
      public void setName(String name) {
-         System.out.println("-> player.setName(name)");
          this.name = name;
      }
     /**
      * A játékos ezen a metóduson keresztül választja ki a következő célállomást
      * (csomópontot) az általa irányított jármű számára.
      *
-     * @return a kiválasztott célállomás (Point), ahova a jármű lépni fog
+     * @param vehicle a jármű, amelynek a célállomása kiválasztandó
+     * @param nextLane a kiválasztott célállomás (Lane), amin a jármű át akar haladni
      */
-    public Point selectDestination() {
-        System.out.println("-> player.selectDestination()");
-        System.out.println("<- nextPoint");     // Skeleton kedvéért, ez majd kicsit máshogy lesz
-        return null;
+    public void selectDestination(Vehicle vehicle, Lane nextLane) {
+        vehicle.setNextLane(nextLane);
     }
 }

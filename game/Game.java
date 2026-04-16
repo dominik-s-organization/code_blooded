@@ -77,17 +77,16 @@ public class Game {
 
          // Játékosok mozgatása
          for (Player p : players) {
-             Point nextPoint = p.selectDestination();
              if (p instanceof BusDriver) {
                 Bus bus = ((BusDriver) p).getBus();
-                 nextPoint = bus.getNextPoint();
+                 Point nextPoint = bus.getNextPoint();
                     if (nextPoint != null) {
                         bus.move(nextPoint);
                     }
              }
              else if (p instanceof SnowCleaner) {
                  for (SnowPlower sp : ((SnowCleaner) p).getSnowPlowers()) {
-                     nextPoint = sp.getNextPoint();
+                     Point nextPoint = sp.getNextPoint();
                      if (nextPoint != null) {
                          sp.move(nextPoint);
                      }
