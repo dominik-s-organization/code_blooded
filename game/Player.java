@@ -10,6 +10,7 @@ public abstract class Player {
      */
     private String name;
 
+    //Getter, setter
     public String getName() {
          System.out.println("-> player.getName()");
          System.out.println("<- name");

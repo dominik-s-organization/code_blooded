@@ -4,7 +4,7 @@ package game;
  * A Junction osztály egy csomópontot reprezentál a játékban.
  */
 public class Junction extends Point {
-    
+    //Konstruktor
     public Junction() {
         super();
     }

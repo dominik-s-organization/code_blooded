@@ -14,12 +14,14 @@ public class SnowPlower extends Vehicle {
      */
     private SnowCleaner owner;
 
+    //Konstruktor
     public SnowPlower() {
         super();
         currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
         owner = null;
     }
 
+    //Getterek, setterek
     public Point getNextPoint() {
         System.out.println("-> snowPlower.getNextPoint()");
         System.out.println("<- nextPoint");

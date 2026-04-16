@@ -6,7 +6,7 @@ package game;
  * elősegíti a meglévő jég/hó olvadását. Működéséhez só szükséges.
  */
 public class SalterHead extends Head {
-    
+    //Konstruktor
     public SalterHead() {
         super();
     }

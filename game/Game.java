@@ -93,8 +93,10 @@ public class Game {
          }
 
          // Karambolok keresése
-         for (Point point : city.getPoints()) {
-             point.lookForJams();
+         if(city.getVehicles().size() > 1) {
+            for (Point point : city.getPoints()) {
+                point.lookForJams();
+            }
          }
 
          // Végül havazás

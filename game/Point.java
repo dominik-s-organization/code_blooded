@@ -21,12 +21,14 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes;
 
+    //Konstruktor
     public Point() {
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
     }
 
+    // Getterek
     public List<Lane> getIncomingLanes() {
         System.out.println("-> point.getIncomingLanes()");
         System.out.println("<- incomingLanes");

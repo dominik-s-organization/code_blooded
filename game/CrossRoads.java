@@ -13,6 +13,7 @@ public class CrossRoads extends Point {
         return true;
     }
 
+    //konstruktor
     public CrossRoads() {
         super();
     }
