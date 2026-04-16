@@ -27,7 +27,12 @@ public class Snow {
      * A sávra kiszórt aktív só mennyiségét jelzi(0-30). 
      * Minden lépés/kör után csökken. Ha 0, akkor a sáv nincs sózva.
      */
-    private int saltLevel; 
+    private int saltLevel;
+    /**
+     * A sávra kiszórt aktív zúzott kő mennyiségét jelzi (0-5). 
+     * Minden lépés/kör után csökken, ha hó hullott rá. Ha 0, akkor nincs rászórva zúzott kő.
+     */
+    private int crushedStoneLevel; 
 
     //Konstruktor
     public Snow() {
@@ -92,6 +97,17 @@ public class Snow {
     public void setSaltLevel(int saltLevel) {
         System.out.println("-> snow.setSaltLevel(saltLevel)");
         this.saltLevel = saltLevel;
+    }
+
+    public int getCrushedStoneLevel() {
+        System.out.println("-> snow.getCrushedStoneLevel()");
+        System.out.println("<- crushedStoneLevel");
+        return crushedStoneLevel;
+    }
+
+    public void setCrushedStoneLevel(int crushedStoneLevel) {
+        System.out.println("-> snow.setCrushedStoneLevel(crushedStoneLevel)");
+        this.crushedStoneLevel = crushedStoneLevel;
     }
 
     /**

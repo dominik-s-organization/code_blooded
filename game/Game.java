@@ -49,10 +49,12 @@ public class Game {
     public void simulateStep() {
          System.out.println("-> game.simulateStep()");
 
+         /*
          // Elakadt járművek kezelése
          for (Vehicle v : city.getVehicles()) {
              v.decreaseJammedTime();
          }
+        */  // Most még ez nem kell
 
          // Kocsik mozgatása
          List<Car> cars = new ArrayList<>();
@@ -66,9 +68,9 @@ public class Game {
              if (nextPoint != null) {
                  car.move(nextPoint);
              }
-             if (car.getLastLane().getSnow().isIce()) {         // csúszás, ha jeges volt az előző út 
+             if (car.getLastLane().getSnow().isIce() || car.getLastLane().getSnow().getCrushedStoneLevel() == 0) {         // csúszás, ha jeges volt az előző út 
                 Point newPoint = car.getCurrentPoint().getOutgoingLanes().get(0).getEndPoint();
-                 car.move(newPoint);
+                car.move(newPoint);
              }
          }
 

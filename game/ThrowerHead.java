@@ -20,6 +20,7 @@ public class ThrowerHead extends Head {
         System.out.println("-> throwerHead.clean(lane, snowPlower)");
     
         lane.getSnow().clean();
+        lane.getSnow().setCrushedStoneLevel(0);
 
         snowPlower.getOwner().getPaid(20);
     }
