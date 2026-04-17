@@ -12,16 +12,18 @@ public class SalterHead extends Head {
     }
     /**
      * Végrehajtja a sózást a megadott sávon.
+<<<<<<< HEAD
      * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos sókészletét.
+=======
+     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos só-készletét.
+>>>>>>> main
      *
      * @param lane a sáv, amelyen a sózó fej kifejti a hatását
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> salterHead.clean(lane, snowPlower)");
-
         if (snowPlower.getOwner().consumeMaterial("salt")) {
-            lane.getSnow().setSaltLevel(30);
+            lane.getSnow().setSaltLevel(20);
 
             snowPlower.getOwner().getPaid(25);
         }

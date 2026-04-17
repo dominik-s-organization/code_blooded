@@ -1,0 +1,20 @@
+# --- Csomopontok (Junctions) letrehozasa ---
+create_junction J1
+create_junction J2
+create_junction J3
+create_junction J4
+create_junction J5
+
+# --- Savok (Lanes) letrehozasa es osszekotese ---
+create_lane lane_1 J1 J2
+create_lane lane_2 J2 J3
+create_lane lane_3 J1 J4
+create_lane lane_4 J4 J5
+create_lane lane_5 J2 J5
+
+# --- Entitasok (Jarmuvek, Jatekosok) elhelyezese ---
+place_entity plower plower_1 J1
+place_entity plower plower_2 J5
+place_entity bus bus_1 J4
+place_entity car car_1 J2
+place_entity cleaner cleaner_1 J1

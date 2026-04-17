@@ -4,8 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+<<<<<<< HEAD
  * Absztrakt ősosztaly az úthálzat topolgiai pontjainak (pl. csompontok, keresztezdsek) reprezentálásra.
  * Felelőssége a becsatlakozás kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartsa.
+=======
+ * Absztrakt ősosztály az őthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
+ * Felelőssége a becsatlakozó és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartása.
+>>>>>>> main
  */
 public abstract class Point {
     /**
@@ -21,8 +26,12 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes;
 
+<<<<<<< HEAD
     //Konstruktor
     public Point() {
+=======
+    protected Point() {
+>>>>>>> main
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
@@ -30,20 +39,14 @@ public abstract class Point {
 
     // Getterek
     public List<Lane> getIncomingLanes() {
-        System.out.println("-> point.getIncomingLanes()");
-        System.out.println("<- incomingLanes");
         return incomingLanes;
     }
 
     public List<Lane> getOutgoingLanes() {
-        System.out.println("-> point.getOutgoingLanes()");
-        System.out.println("<- outgoingLanes");
         return outgoingLanes;
     }
 
      public List<Vehicle> getVehicles() {
-        System.out.println("-> point.getVehicles()");
-        System.out.println("<- vehicles");
         return vehicles;
      }
 
@@ -53,7 +56,6 @@ public abstract class Point {
      * @param vehicle a hozzáadandó jármű
      */
     public void addVehicle(Vehicle vehicle) {
-        System.out.println("-> point.addVehicle(vehicle)");
         vehicles.add(vehicle);
     }
 
@@ -63,8 +65,9 @@ public abstract class Point {
      * @param vehicle az eltávolítandó jármű
      */
     public void removeVehicle(Vehicle vehicle) {
-        System.out.println("-> point.removeVehicle(vehicle)");
-        vehicles.remove(vehicle);
+        if (vehicles.contains(vehicle)) {
+            vehicles.remove(vehicle);
+        }
     }
 
     /**
@@ -73,7 +76,6 @@ public abstract class Point {
      * @param lane a beérkező sáv
      */
     public void addIncomingLane(Lane lane) {
-        System.out.println("-> point.addIncomingLane(lane)");
         incomingLanes.add(lane);
     }
 
@@ -83,21 +85,48 @@ public abstract class Point {
      * @param lane a kimenő sáv
      */
     public void addOutgoingLane(Lane lane) {
-        System.out.println("-> point.addOutgoingLane(lane)");
         outgoingLanes.add(lane);
     }
+<<<<<<< HEAD
     /**
      * Meghatározza, hogy az adott jármű ráléphet-e (behajthat-e) erre a pontra.
      * A leszármazott osztályok (pl. Tunnel, Junction) egyedi logikát valósíthatnak meg.
      *
      * @param vehicle a vizsgált jármű, amely rálépni szeretne a pontra
      * @return true, ha a jármű ráléphet a pontra, ellenkező esetben false
+=======
+    
+    /*
+     * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
+     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
+>>>>>>> main
      */
-    public abstract boolean isReachable(Vehicle vehicle);
+    public boolean isReachable(Vehicle vehicle) {
+        return isReachableHelp(this, vehicle);
+    }
+
+    /*
+     * Segédfüggvény az isReachable metódushoz, amelyet a konkrét csomópont típusok implementálnak.
+     * @param point, a kérdéses csomópont, amelyre a jármű megpróbál rálépni.
+     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
+     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
+     */
+    protected abstract boolean isReachableHelp(Point point, Vehicle vehicle);
 
     /**
      * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
      */
-    public abstract void lookForJams();
+    public void lookForJams() {
+        for (Vehicle vehicle1 : getVehicles()) {
+            for (Vehicle vehicle2 : getVehicles()) {
+                if (!vehicle1.equals(vehicle2) && vehicle1.getLastLane().equals(vehicle2.getLastLane())) {
+                    vehicle1.jam();
+                    vehicle2.jam();
+                    vehicle1.getLastLane().setJammed(true);
+                }
+            }
+        }
+    }
 
 }

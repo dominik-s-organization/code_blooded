@@ -30,53 +30,38 @@ public class CityMap {
 
     // Getterek, setterek
     public List<Point> getPoints() { 
-        if (points.size() > 0) {
-            System.out.println("-> cityMap.getPoints()");
-            System.out.println("<- points");
-        }
         return points; 
     }
+
     public void setPoints(List<Point> points) { 
-        System.out.println("-> cityMap.setPoints(points)");
         this.points = points; 
     }
 
     public void addPoint(Point point) {
-        System.out.println("-> cityMap.addPoint(point)");
         points.add(point);
     }
 
     public List<Lane> getLanes() {
-        if (lanes.size() > 0) {
-            System.out.println("-> cityMap.getLanes()");
-            System.out.println("<- lanes");
-        }
         return lanes; 
     }
+
     public void setLanes(List<Lane> lanes) { 
-        System.out.println("-> cityMap.setLanes(lanes)");
         this.lanes = lanes; 
     }
 
     public void addLane(Lane lane) {
-        System.out.println("-> cityMap.addLane(lane)");
         lanes.add(lane);
     }
 
     public List<Vehicle> getVehicles() { 
-        if (vehicles.size() > 0) {
-            System.out.println("-> cityMap.getVehicles()");
-            System.out.println("<- vehicles");
-        }
         return vehicles;
     }
+
     public void setVehicles(List<Vehicle> vehicles) { 
-        System.out.println("-> cityMap.setVehicles(vehicles)");
         this.vehicles = vehicles;
     }
 
     public void addVehicle(Vehicle vehicle) {
-        System.out.println("-> cityMap.addVehicle(vehicle)");
         vehicles.add(vehicle);
     }
 }

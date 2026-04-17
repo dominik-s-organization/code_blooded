@@ -1,47 +1,49 @@
 package game;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+
 /**
  * A Car osztály a Vehicle absztrakt osztályból származik, és egy autót reprezentál a játékban.
  */
 public class Car extends Vehicle {
     private Point home; // Az autó otthona, ahová vissza akar jutni.
     private Point work; // Az autó munkahelye, ahová el kell jutni.
+    private boolean isHeadingHome; // Jelzi, hogy az autó éppen hazafelé tart-e.
 
     // Konstruktor
     public Car() {
         super();
         home = null;
         work = null;
+        isHeadingHome = false;
     }
 
     // Getterek, setterek
     public Point getHome() {
-        System.out.println("-> car.getHome()");
-        System.out.println("<- home");
         return home;
     }
 
     public void setHome(Point home) {
-        System.out.println("-> car.setHome(home)");
         this.home = home;
     }
 
     public Point getWork() {
-        System.out.println("-> car.getWork()");
-        System.out.println("<- work");
         return work;
     }
 
     public void setWork(Point work) {
-        System.out.println("-> car.setWork(work)");
         this.work = work;
     }
 
     @Override
     // Ha ütközés történik, az autó megáll a forgalomban.
     public void jam() {
-        System.out.println("-> car.jam()");
-        super.setJammedTime(5);
+        super.setJammedTime(10);
     }
 
     @Override
@@ -50,8 +52,6 @@ public class Car extends Vehicle {
     * @param point A pont, amely felé az autó mozogni fog.
     */
     public void move(Point point) {
-        System.out.println("-> car.move(point)");
-
         if (super.getJammedTime() > 0) {
             return; // Ha a busz elakadt, nem mozoghat.
         }
@@ -60,17 +60,87 @@ public class Car extends Vehicle {
             super.getCurrentPoint().removeVehicle(this);
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
-            super.setLastLane(point.getIncomingLanes().get(0));
+            super.setLastLane(nextLane);
+        }
+
+        if (point.equals(work)) {
+            isHeadingHome = true;
+        }
+        else if (point.equals(home)) {
+            isHeadingHome = false;
         }
     }
 
     /*
-    * Kiszámolja és visszaadja a következő pontot, amely felé az autó haladni próbál.
-    * @return A következő pont (Point), amely felé az autó haladni próbál.
+    * Kiszámolja és visszaadja a következő sávot, amelyen az autó át akar haladni.
+    * @return A következő sáv (Lane), amelyen az autó át akar haladni.
     */
-    public Point getNextPoint() {
-        System.out.println("-> car.getNextPoint()");
-        System.out.println("<- nextPoint");
-        return nextPoint;
+    public Lane getNextLane() {
+         Point current = this.getCurrentPoint();
+
+        // Ha nincs beállítva otthon vagy munkahely, nem tud hova menni
+        if (home == null || work == null || current == null) {
+            return null;
+        }
+
+        Point target = isHeadingHome ? home : work;
+
+        // Ha már megérkezett a célba, megfordítjuk az irányt, és az új cél felé indul
+        if (current == target) {
+            isHeadingHome = !isHeadingHome;
+            target = isHeadingHome ? home : work;
+        }
+
+        // BFS algoritmus inicializálása
+        Queue<Point> queue = new LinkedList<>();
+        Map<Point, Point> parentMap = new HashMap<>(); // Melyik pontból jöttünk
+        Map<Point, Lane> edgeToMap = new HashMap<>();  // Melyik SÁVON jöttünk az adott pontba
+
+        Set<Point> visited = new HashSet<>(); // A már megvizsgált pontok halmaza
+
+        queue.add(current);
+        visited.add(current);
+
+        Point foundTarget = null;
+
+        // Gráf bejárása
+        while (!queue.isEmpty()) {
+            Point p = queue.poll();
+
+            // Ha megtaláltuk a célt, leállítjuk a keresést
+            if (p == target) {
+                foundTarget = p;
+                break;
+            }
+
+            // Szomszédos csomópontok (kimenő sávok végpontjai) vizsgálata
+            for (Lane lane : p.getOutgoingLanes()) {
+                Point nextPoint = lane.getEndPoint();
+
+                // Csak akkor vizsgáljuk, ha még nem jártunk ott ÉS a pont járható az autónak
+                if (nextPoint != null && !visited.contains(nextPoint) && nextPoint.isReachable(this)) {
+                    visited.add(nextPoint);
+                    parentMap.put(nextPoint, p); 
+                    edgeToMap.put(nextPoint, lane); // Feljegyezzük a SÁVOT is, amin idejutottunk!
+                    queue.add(nextPoint);
+                }
+            }
+        }
+
+        // Ha a BFS nem talált utat (pl. minden út le van zárva/balesetes)
+        if (foundTarget == null) {
+            return null;
+        }
+
+        // Visszakövetjük az utat a céltól egészen a jelenlegi pont utáni első lépésig
+        Point step = foundTarget;
+        while (parentMap.get(step) != current) {
+            step = parentMap.get(step);
+        }
+
+        // Itt a varázslat: a legelső pontot már nem pontként, hanem a hozzá vezető sávként adjuk vissza
+        Lane laneToTake = edgeToMap.get(step);
+
+        return laneToTake;
     }
 }

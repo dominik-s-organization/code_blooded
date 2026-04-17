@@ -28,6 +28,14 @@ public class SnowCleaner extends Player {
      * A rendelkezésre álló biokerozin készlet a sörényfej (DragonHead) működtetéséhez.
      */
     private int bioKeroseneStock;
+    /**
+     * A rendelkezésre álló töröttkő készlet a töröttkőfej (CrushedStoneHead) működtetéséhez.
+     */
+    private int crushedStoneStock;
+    /**
+     * A töröttő készlet maximális mennyisége
+     */
+    private int maxCrushedStone;
 
     //Konstruktor
     public SnowCleaner() {
@@ -37,6 +45,8 @@ public class SnowCleaner extends Player {
         money = 0;
         saltStock = 0;
         bioKeroseneStock = 0;
+        crushedStoneStock = 0;
+        maxCrushedStone = 100;
 
         SnowPlower sp = new SnowPlower();
         snowPlowers.add(sp);
@@ -46,71 +56,71 @@ public class SnowCleaner extends Player {
 
     // Getterek, setterek
     public List<SnowPlower> getSnowPlowers() {
-        System.out.println("-> snowCleaner.getSnowPlowers()");
-        System.out.println("<- snowPlowers");
         return snowPlowers;
     }
 
     public void setSnowPlowers(List<SnowPlower> snowPlowers) {
-        System.out.println("-> snowCleaner.setSnowPlowers(snowPlowers)");
         this.snowPlowers = snowPlowers;
     }
 
     public List<Head> getInventory() {
-        System.out.println("-> snowCleaner.getInventory()");
-        System.out.println("<- inventory");
         return inventory;
     }
 
     public void setInventory(List<Head> inventory) {
-        System.out.println("-> snowCleaner.setInventory(inventory)");
         this.inventory = inventory;
     }
 
     public void addHead(Head head) {
-        System.out.println("-> snowCleaner.addHead(head)");
         inventory.add(head);
     }
 
     public int getMoney() {
-        System.out.println("-> snowCleaner.getMoney()");
-        System.out.println("<- money");
         return money;
     }
 
     public void setMoney(int money) {
-        System.out.println("-> snowCleaner.setMoney(money)");
         this.money = money;
     }
 
     public int getSaltStock() {
-        System.out.println("-> snowCleaner.getSaltStock()");
-        System.out.println("<- saltStock");
         return saltStock;
     }
 
     public void setSaltStock(int saltStock) {
-        System.out.println("-> snowCleaner.setSaltStock(saltStock)");
         this.saltStock = saltStock;
     }
 
     public int getBioKeroseneStock() {
-        System.out.println("-> snowCleaner.getBioKeroseneStock()");
-        System.out.println("<- bioKeroseneStock");
         return bioKeroseneStock;
     }
 
     public void setBioKeroseneStock(int bioKeroseneStock) {
-        System.out.println("-> snowCleaner.setBioKeroseneStock(bioKeroseneStock)");
         this.bioKeroseneStock = bioKeroseneStock;
     }
+
+    public int getCrushedStoneStock() {
+        return crushedStoneStock;
+    }
+
+    public void setCrushedStoneStock(int crushedStoneStock) {
+        this.crushedStoneStock = crushedStoneStock;
+    }
+
+    public void getMaxCrushedStone(int maxCrushedStone) {
+        this.maxCrushedStone = maxCrushedStone;
+    }
+
+    public int getMaxCrushedStone() {
+        return maxCrushedStone;
+    }
+
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
      *
      * @param amount a jóváíandó pénzösszeg
      */
     public void getPaid(int amount) {
-        System.out.println("-> snowCleaner.getPaid(amount)");
         this.money += amount;
     }
 
@@ -126,19 +136,22 @@ public class SnowCleaner extends Player {
         if (type.equals("salt")) {
             if (saltStock >= 10) {
                 saltStock -= 10;
-                System.out.println("<- true");
                 return true;
             }
         } else if (type.equals("biokerosene")) {
             if (bioKeroseneStock >= 10) {
                 bioKeroseneStock -= 10;
-                System.out.println("<- true");
+                return true;
+            }
+        } else if (type.equals("crushedStone")) {
+            if (crushedStoneStock >= 10) {
+                crushedStoneStock -= 10;
                 return true;
             }
         }
-        System.out.println("<- false");
         return false;
     }
+<<<<<<< HEAD
 
     /**
      * A boltban megvásárolt takarítófejet a játékos raktárába helyezi.
@@ -149,3 +162,7 @@ public class SnowCleaner extends Player {
         inventory.add(head);
     }
 }
+=======
+}
+
+>>>>>>> main
