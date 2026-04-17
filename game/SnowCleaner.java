@@ -32,6 +32,10 @@ public class SnowCleaner extends Player {
      * A rendelkezésre álló töröttkő készlet a töröttkőfej (CrushedStoneHead) működtetéséhez.
      */
     private int crushedStoneStock;
+    /**
+     * A töröttő készlet maximális mennyisége
+     */
+    private int maxCrushedStone;
 
     public SnowCleaner() {
         super();
@@ -41,6 +45,7 @@ public class SnowCleaner extends Player {
         saltStock = 0;
         bioKeroseneStock = 0;
         crushedStoneStock = 0;
+        maxCrushedStone = 100;
 
         SnowPlower sp = new SnowPlower();
         snowPlowers.add(sp);
@@ -98,6 +103,14 @@ public class SnowCleaner extends Player {
 
     public void setCrushedStoneStock(int crushedStoneStock) {
         this.crushedStoneStock = crushedStoneStock;
+    }
+
+    public void getMaxCrushedStone(int maxCrushedStone) {
+        this.maxCrushedStone = maxCrushedStone;
+    }
+
+    public int getMaxCrushedStone() {
+        return maxCrushedStone;
     }
 
     /**
