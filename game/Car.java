@@ -41,7 +41,7 @@ public class Car extends Vehicle {
     @Override
     // Ha ütközés történik, az autó megáll a forgalomban.
     public void jam() {
-        super.setJammedTime(5);
+        super.setJammedTime(10);
     }
 
     @Override
