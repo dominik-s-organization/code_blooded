@@ -14,11 +14,10 @@ public class SnowPlower extends Vehicle {
      */
     private SnowCleaner owner;
 
-    public SnowPlower(int id) {
-        super(id);
+    public SnowPlower() {
+        super();
         currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
         owner = null;
-        canSlip = false;
     }
 
     public Lane getNextLane() {

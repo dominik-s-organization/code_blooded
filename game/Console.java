@@ -31,7 +31,7 @@ class Console {
 
                     switch (command) {
                         case "add_player":
-                            if(game.getPlayerCount() <= 4){
+                            if(game.getPlayerCount() < 4){
                                 if(args[2].equals("snow_cleaner")){
                                     game.addPlayer(new SnowCleaner(args[1]));
                                 }
