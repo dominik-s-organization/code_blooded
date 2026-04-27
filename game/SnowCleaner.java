@@ -37,8 +37,8 @@ public class SnowCleaner extends Player {
      */
     private int maxCrushedStone;
 
-    public SnowCleaner() {
-        super();
+    public SnowCleaner(String name) {
+        super(name);
         snowPlowers = new ArrayList<>();
         inventory = new ArrayList<>();
         money = 0;

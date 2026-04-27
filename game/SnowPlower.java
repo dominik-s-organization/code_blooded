@@ -18,7 +18,6 @@ public class SnowPlower extends Vehicle {
         super();
         currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
         owner = null;
-        canSlip = false;
     }
 
     public Lane getNextLane() {
