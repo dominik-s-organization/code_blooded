@@ -99,7 +99,13 @@ public abstract class Point {
      */
     public void lookForJams() {
         for (Vehicle vehicle1 : getVehicles()) {
+            if (vehicle1.getLastLane() == null) {
+                continue;
+            }
             for (Vehicle vehicle2 : getVehicles()) {
+                if (vehicle2.getLastLane() == null) {
+                    continue;
+                }
                 if (!vehicle1.equals(vehicle2) && vehicle1.getLastLane().equals(vehicle2.getLastLane())) {
                     vehicle1.jam();
                     vehicle2.jam();
