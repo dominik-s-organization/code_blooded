@@ -87,5 +87,5 @@ public class Game {
         for (Lane lane : city.getLanes()) {
             lane.raiseSnow();
         }
-    }
+    } // teszt hogy mukodik e a pr
 }
