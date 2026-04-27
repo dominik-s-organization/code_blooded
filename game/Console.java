@@ -68,7 +68,6 @@ class Console {
                             else{
                                 game.simulateStep();
                             }
-                            game.simulateStep();
                             break;
                             
                         case "random":

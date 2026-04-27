@@ -61,10 +61,12 @@ public class Game {
             vehicle.decreaseJammedTime();
 
             // mozgatás
-            Point nextPoint = vehicle.getNextLane().getEndPoint();
-             if (nextPoint != null) {
-                 vehicle.move(nextPoint);
-             }
+            Lane nextLane = vehicle.getNextLane();
+            if (nextLane == null) { continue; }
+            Point nextPoint = nextLane.getEndPoint();
+            if (nextPoint != null) {
+                vehicle.move(nextPoint);
+            }
 
              // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
              if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {

@@ -105,13 +105,14 @@ public class SnowCleaner extends Player {
         this.crushedStoneStock = crushedStoneStock;
     }
 
-    public void getMaxCrushedStone(int maxCrushedStone) {
-        this.maxCrushedStone = maxCrushedStone;
-    }
-
     public int getMaxCrushedStone() {
         return maxCrushedStone;
     }
+    
+    public void setMaxCrushedStone(int maxCrushedStone) {
+        this.maxCrushedStone = maxCrushedStone;
+    }
+
 
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
@@ -136,7 +137,7 @@ public class SnowCleaner extends Player {
                 saltStock -= 10;
                 return true;
             }
-        } else if (type.equals("biokerosene")) {
+        } else if (type.equals("bioKerosene")) {
             if (bioKeroseneStock >= 10) {
                 bioKeroseneStock -= 10;
                 return true;
