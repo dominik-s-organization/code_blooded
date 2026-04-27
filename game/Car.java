@@ -20,6 +20,7 @@ public class Car extends Vehicle {
         home = null;
         work = null;
         isHeadingHome = false;
+        canSlip = true;
     }
 
     public Point getHome() {
@@ -59,6 +60,7 @@ public class Car extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
+            super.getLastLane().getSnow().passVehicle();
         }
 
         if (point.equals(work)) {
