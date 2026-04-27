@@ -20,6 +20,12 @@ public class SnowPlower extends Vehicle {
         owner = null;
     }
 
+    public SnowPlower(String id) {
+        super(id);
+        currentHead = new SweepingHead();
+        owner = null;
+    }
+
     public Lane getNextLane() {
         return nextLane;
     }
@@ -73,5 +79,18 @@ public class SnowPlower extends Vehicle {
      */
     public void changeHead(Head head) {
         this.currentHead = head;
+    }
+
+    @Override
+    public void stat() {
+        System.out.println("SnowPlower ID: " + getId());
+        System.out.println("Type: SnowPlower");
+        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        System.out.println("Jammed Time: " + getJammedTime());
+        System.out.println("Can Slip: " + canSlip);
+        System.out.println("Current Head: " + (getCurrentHead() != null ? getCurrentHead().getClass().getSimpleName() : "null"));
+        System.out.println("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
     }
 }
