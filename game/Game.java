@@ -16,6 +16,14 @@ public class Game {
         players = new ArrayList<>();
     }
 
+    public int getPlayerCount(){
+        return players.size();
+    }
+
+    public CityMap getCityMapOfGame(){
+        return city;
+    }
+
     public void setCity(CityMap city) {
         System.out.println("-> game.setCity(cm)");
         this.city = city;
@@ -37,13 +45,13 @@ public class Game {
     }
 
     // A játék mentése, amely elmenti a jelenlegi állapotot egy fájlba.
-    public void saveGame() {
-        System.out.println("-> game.saveGame()");
+    public void saveGame(String filename) {
+        System.out.println("-> game.saveGame(" + filename + ")");
     }
 
     // A játék betöltése, amely visszaállítja a játék állapotát egy fájlból.
-    public void loadGame() {
-        System.out.println("-> game.loadGame()");
+    public void loadGame(String filename) {
+        System.out.println("-> game.loadGame(" + filename + ")");
     }
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.

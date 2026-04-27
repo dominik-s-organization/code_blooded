@@ -14,8 +14,8 @@ public class SnowPlower extends Vehicle {
      */
     private SnowCleaner owner;
 
-    public SnowPlower() {
-        super();
+    public SnowPlower(int id) {
+        super(id);
         currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
         owner = null;
     }
