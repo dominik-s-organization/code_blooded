@@ -4,6 +4,7 @@ package game;
  * A Lane osztály egy sávot reprezentál a játékban.
  */
 public class Lane {
+    private final String id; // A sáv egyedi azonosítója.
     private Point startpoint; // sáv kezdőpontja, ami lehet egy Junction vagy egy CrossRoads
     private Point endpoint; // sáv végpontja, ami lehet egy Junction vagy egy CrossRoads
     private Lane leftLane; // balra eső sáv
@@ -13,6 +14,11 @@ public class Lane {
     private Snow snow; // a sávon lévő hóviszonyokat reprezentáló objektum
 
     public Lane() {
+        this(null);
+    }
+
+    public Lane(String id) {
+        this.id = id;
         startpoint = null;
         endpoint = null;
         leftLane = null;
@@ -20,6 +26,10 @@ public class Lane {
         isJammed = false;
         isUnderground = false;
         snow = new Snow();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public void setStartPoint(Point startpoint) {
@@ -94,5 +104,23 @@ public class Lane {
             }
             snow.raise();
         }
+    }
+
+    /**
+     * Kiírja a sáv állapotát és tulajdonságait a konzolra.
+     */
+    public void stat() {
+        System.out.println("Lane ID: " + getId());
+        System.out.println("Start Point: " + (getStartPoint() != null ? getStartPoint().getId() : "null"));
+        System.out.println("End Point: " + (getEndPoint() != null ? getEndPoint().getId() : "null"));
+        System.out.println("Left Lane: " + (getLeftLane() != null ? getLeftLane().getId() : "null"));
+        System.out.println("Right Lane: " + (getRightLane() != null ? getRightLane().getId() : "null"));
+        System.out.println("Is Jammed: " + isJammed());
+        System.out.println("Is Underground: " + isUnderground());
+        System.out.println("Snow Level: " + snow.getLevel());
+        System.out.println("Ice: " + snow.isIce());
+        System.out.println("Broken Ice: " + snow.isBrokenIce());
+        System.out.println("Salt Level: " + snow.getSaltLevel());
+        System.out.println("Crushed Stone Level: " + snow.getCrushedStoneLevel());
     }
 }

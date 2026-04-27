@@ -7,6 +7,10 @@ package game;
  */
 public abstract class Vehicle { 
     /**
+     * A jármű egyedi azonosítója a játékban.
+     */
+    private final String id;
+    /**
      * A jármű aktuális helyzete (csomópontja) az úthálózatban.
      */
     private Point currentPoint;
@@ -30,9 +34,18 @@ public abstract class Vehicle {
     public boolean canSlip;
 
     protected Vehicle() {
+        this(null);
+    }
+
+    protected Vehicle(String id) {
+        this.id = id;
         currentPoint = null;
         lastLane = null;
         jammedTime = 0;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Point getCurrentPoint() {
@@ -80,6 +93,11 @@ public abstract class Vehicle {
      * A leszármazott osztályok a saját logikájuk szerint megvalósítják meg.
      */
     public abstract void jam();
+
+    /**
+     * Kiírja a jármű állapotát és tulajdonságait a konzolra.
+     */
+    public abstract void stat();
 
     /**
      * A járművet a megadott célállomás (pont) felé mozgatja.

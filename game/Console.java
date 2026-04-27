@@ -81,7 +81,27 @@ class Console {
                             
                         case "stat":
                             // Objektum állapotának lekérdezése: <objektum_id>[cite: 144, 146].
-                            
+                            if (args.length < 2) {
+                                System.out.println("> ERROR: Missing object ID for stat command.");
+                                break;
+                            }
+                            String id = args[1];
+                            Vehicle v = game.getVehicleById(id);
+                            if (v != null) {
+                                v.stat();
+                                break;
+                            }
+                            Lane l = game.getLaneById(id);
+                            if (l != null) {
+                                l.stat();
+                                break;
+                            }
+                            Point p = game.getPointById(id);
+                            if (p != null) {
+                                p.stat();
+                                break;
+                            }
+                            System.out.println("> ERROR: Object with id " + id + " not found.");
                             break;
                             
                         case "move":

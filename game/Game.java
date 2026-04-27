@@ -1,19 +1,23 @@
 package game;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.
  */
-public class Game {
+public class Game implements IdGenerator {
     private CityMap city; // A város térképe, amely tartalmazza a pontokat, útvonalakat és járműveket.
     private List<Player> players; // A játékosok listája.
+    private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
 
     public Game() {
         city = null;
         players = new ArrayList<>();
+        idCounters = new HashMap<>();
     }
 
     public int getPlayerCount(){
@@ -26,6 +30,54 @@ public class Game {
 
     public void setCity(CityMap city) {
         this.city = city;
+    }
+
+    @Override
+    public String generateId(String prefix) {
+        int next = idCounters.getOrDefault(prefix, 0) + 1;
+        idCounters.put(prefix, next);
+        return prefix + "_" + next;
+    }
+
+    @Override
+    public void reset() {
+        idCounters.clear();
+    }
+
+    public Vehicle getVehicleById(String id) {
+        if (city == null || id == null) {
+            return null;
+        }
+        for (Vehicle vehicle : city.getVehicles()) {
+            if (id.equals(vehicle.getId())) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
+    public Lane getLaneById(String id) {
+        if (city == null || id == null) {
+            return null;
+        }
+        for (Lane lane : city.getLanes()) {
+            if (id.equals(lane.getId())) {
+                return lane;
+            }
+        }
+        return null;
+    }
+
+    public Point getPointById(String id) {
+        if (city == null || id == null) {
+            return null;
+        }
+        for (Point point : city.getPoints()) {
+            if (id.equals(point.getId())) {
+                return point;
+            }
+        }
+        return null;
     }
 
     public void addPlayer(Player player) {

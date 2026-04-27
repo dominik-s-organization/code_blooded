@@ -9,6 +9,10 @@ import java.util.List;
  */
 public abstract class Point {
     /**
+     * A pont egyedi azonosítója.
+     */
+    private final String id;
+    /**
      * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
     private List<Vehicle> vehicles;
@@ -22,9 +26,18 @@ public abstract class Point {
     private List<Lane> outgoingLanes;
 
     protected Point() {
+        this(null);
+    }
+
+    protected Point(String id) {
+        this.id = id;
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
     }
 
     public List<Lane> getIncomingLanes() {
@@ -108,4 +121,9 @@ public abstract class Point {
             }
         }
     }
+
+    /**
+     * Kiírja a pont állapotát és tulajdonságait a konzolra.
+     */
+    public abstract void stat();
 }
