@@ -17,12 +17,10 @@ public class Game {
     }
 
     public void setCity(CityMap city) {
-        System.out.println("-> game.setCity(cm)");
         this.city = city;
     }
 
     public void addPlayer(Player player) {
-        System.out.println("-> game.addPlayer(player)");
         this.players.add(player);
     }
 
@@ -38,66 +36,45 @@ public class Game {
 
     // A játék mentése, amely elmenti a jelenlegi állapotot egy fájlba.
     public void saveGame() {
-        System.out.println("-> game.saveGame()");
+        
+        // TO DO
+
     }
 
     // A játék betöltése, amely visszaállítja a játék állapotát egy fájlból.
     public void loadGame() {
-        System.out.println("-> game.loadGame()");
+        
+        // TO DO
+
     }
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
          
-         // Elakadt járművek kezelése
-         for (Vehicle v : city.getVehicles()) {
-             v.decreaseJammedTime();
-         }
+         // Járművek mozgatása
+         for (Vehicle vehicle : city.getVehicles()) {
+            // Elakadt járművek kezelése
+            vehicle.decreaseJammedTime();
 
-         // Kocsik mozgatása
-         List<Car> cars = new ArrayList<>();
-         for (Vehicle v : city.getVehicles()) {
-             if (v instanceof Car) {
-                 cars.add((Car) v);
-             }
-         }
-         for (Car car : cars) {
-            Point nextPoint = car.getNextLane().getEndPoint();
+            // mozgatás
+            Point nextPoint = vehicle.getNextLane().getEndPoint();
              if (nextPoint != null) {
-                 car.move(nextPoint);
+                 vehicle.move(nextPoint);
              }
-             // csúszás, ha jeges volt az előző út 
-             if (car.getLastLane().getSnow().isIce() && car.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
+
+             // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
+             if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
                 Point newPoint = null;
-                for (Lane lane : car.getCurrentPoint().getOutgoingLanes()) {
+                for (Lane lane : vehicle.getCurrentPoint().getOutgoingLanes()) {
                     // ez azért kell, hogy hátrafele ne csússzon, kereszteződésnél jobbra balra is csúszhat
-                    if (lane.getEndPoint().isReachable(car) && !car.getLastLane().getStartPoint().equals(lane.getEndPoint())) {
+                    if (lane.getEndPoint().isReachable(vehicle) && !vehicle.getLastLane().getStartPoint().equals(lane.getEndPoint())) {
                         newPoint = lane.getEndPoint();
                         break;
                     }
                 }
                 if (newPoint != null) {
-                    car.move(newPoint);
+                    vehicle.move(newPoint);
                 }
-             }
-         }
-
-         // Játékosok mozgatása
-         for (Player p : players) {
-             if (p instanceof BusDriver) {
-                Bus bus = ((BusDriver) p).getBus();
-                 Point nextPoint = bus.getNextLane().getEndPoint();
-                    if (nextPoint != null) {
-                        bus.move(nextPoint);
-                    }
-             }
-             else if (p instanceof SnowCleaner) {
-                 for (SnowPlower sp : ((SnowCleaner) p).getSnowPlowers()) {
-                     Point nextPoint = sp.getNextLane().getEndPoint();
-                     if (nextPoint != null) {
-                         sp.move(nextPoint);
-                     }
-                 }
              }
          }
 
@@ -108,7 +85,7 @@ public class Game {
 
          // Végül havazás
         for (Lane lane : city.getLanes()) {
-             lane.change(null);
+            lane.raiseSnow();
         }
     }
 }

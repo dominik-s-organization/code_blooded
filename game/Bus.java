@@ -15,6 +15,7 @@ public class Bus extends Vehicle {
         owner = null;
         beginningPoint = null;
         endPoint = null;
+        canSlip = true;
     }
 
     public Lane getNextLane() {
@@ -73,6 +74,7 @@ public class Bus extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
+            super.getLastLane().getSnow().passVehicle();
 
             if (point.equals(endPoint)) {
                 switchRoute();

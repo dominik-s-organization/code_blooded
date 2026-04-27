@@ -79,30 +79,20 @@ public class Lane {
     }
 
     /*
-     * Változtat a sáv állapotán.
-     * @param vehicle, a rajta átmenő jármű, vagy null, ha csak a hó változik.
+     * Növeli a hó szintjét a sávon a megfelelő módon
      */
-    public void change(Vehicle vehicle) {        
-        if (vehicle == null) {
-            if (snow.getSaltLevel() > 0) {
-                snow.setSaltLevel(snow.getSaltLevel() - 1);
-                snow.lower();
-                snow.setIce(false);
-                snow.setBrokenIce(false);
+    public void raiseSnow() {        
+        if (snow.getSaltLevel() > 0) {
+            snow.setSaltLevel(snow.getSaltLevel() - 1);
+            snow.lower();
+            snow.setIce(false);
+            snow.setBrokenIce(false);
+        }
+        else {
+            if (snow.getCrushedStoneLevel() > 0) {
+                snow.setCrushedStoneLevel(snow.getCrushedStoneLevel() - 1);
             }
-            else {
-                if (snow.getCrushedStoneLevel() > 0) {
-                    snow.setCrushedStoneLevel(snow.getCrushedStoneLevel() - 1);
-                }
-                snow.raise();
-            }
+            snow.raise();
         }
-        else if (vehicle instanceof Bus || vehicle instanceof Car) {
-            snow.passVehicle();
-        }
-        else if (vehicle instanceof SnowPlower) {
-            SnowPlower sp = (SnowPlower) vehicle;
-            sp.getCurrentHead().clean(this, sp);
-        }
-    }   
+    }
 }
