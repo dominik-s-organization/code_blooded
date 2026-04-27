@@ -9,8 +9,8 @@ public class BusDriver extends Player {
     // A busz, amelyet a buszvezető vezet.
     private Bus bus;
 
-    public BusDriver() {
-        super();
+    public BusDriver(String name) {
+        super(name);
         completedRoutes = 0;
         bus = new Bus();
         bus.setOwner(this);
