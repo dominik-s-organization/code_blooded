@@ -16,12 +16,7 @@ public class Tunnel extends Point {
     }
 
     protected boolean isReachableHelp(Point point, Vehicle vehicle) {
-        for (Lane incomingLane : point.getIncomingLanes()) {
-            if (incomingLane.getStartPoint().equals(vehicle.getCurrentPoint()) && !incomingLane.isJammed() && (incomingLane.getSnow().getLevel() < 15 || vehicle instanceof SnowPlower) && incomingLane.isUnderground() == vehicle.getLastLane().isUnderground()) {
-                return true;
-            }
-        }
-        return false;
+        return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || vehicle.canSlip) && vehicle.getNextLane().isUnderground() == vehicle.getLastLane().isUnderground();
     }
 
     @Override
