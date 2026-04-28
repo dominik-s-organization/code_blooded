@@ -50,7 +50,11 @@ class Console {
         String command = args[0];
 
         switch (command) {
-            case "add_player":
+            case "add_player": {
+                if (args.length < 3) {
+                    System.out.println("> ERROR: Missing arguments for add_player command. Usage: add_player <name> <role>");
+                    break;
+                }
                 commandHistory.add(line);
                 if(game.getPlayerCount() < 4) {
                     if(args[2].equals("snow_cleaner")){
@@ -66,8 +70,9 @@ class Console {
                 }
                 System.out.println("> ERROR: Maximum player limit reached.");
                 break;
+            }
                             
-            case "load":
+            case "load": {
                 // Konfiguráció betöltése fájlból: <fájlnév.txt>[cite: 126, 128].
                 if (args.length < 2) {
                     System.out.println("> ERROR: Missing filename.");
@@ -76,9 +81,14 @@ class Console {
                     // A load-ot magát NEM mentjük a history-ba
                 }
                 break;
+            }
                             
-            case "step":
+            case "step": {
                 // Léptetés végrehajtása (Game.simulateStep()): [n][cite: 129, 131, 136].
+                if (args.length > 2) {
+                    System.out.println("> ERROR: Too many arguments for step command. Usage: step [n]");
+                    break;
+                }
                 commandHistory.add(line);
                 if(args.length > 1){
                     int steps;
@@ -96,8 +106,13 @@ class Console {
                     game.simulateStep();
                 }
                 break;
-            case "stat":
+            }
+            case "stat": {
                 // Objektum állapotának lekérdezése: <objektum_id>[cite: 144, 146].
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing object ID for stat command.");
+                    break;
+                }
                 commandHistory.add(line);
                 if (args.length < 2) {
                     System.out.println("> ERROR: Missing object ID for stat command.");
@@ -121,23 +136,49 @@ class Console {
                 }
                 System.out.println("> ERROR: Object with id " + id + " not found.");
                 break;
-                            
-            case "move":
+            }         
+            case "move": {
                 // Jármű menetirányának kiválasztása: <vehicle_id> <lane_id>[cite: 147, 149].
-                commandHistory.add(line);
+                if(args.length < 3){
+                    System.out.println("> ERROR: Missing arguments for move command. Usage: move <vehicle_id> <lane_id>");
+                    break;
+                }
+                Vehicle v = game.getVehicleById(args[1]);
+                Lane l = game.getLaneById(args[2]);
+                if (v != null && l != null) {
+                    if(args[1].contains("car_")){
+                        System.out.println("> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.");
+                        break;
+                    }
+                    v.setNextLane(l);
+                }
                 break;
-                            
-            case "buy":
+            }
+            case "buy": {
                 // Vásárlás a Bolttal: <player_id> <item_name> [quantity][cite: 150, 153].
-                commandHistory.add(line);
+                if(args.length < 3){
+                    System.out.println("> ERROR: Missing arguments for buy command. Usage: buy <player_id> <item_name> [quantity]");
+                    break;
+                }
+                Player p = game.getPlayerByName(args[1]);
+                if (p == null) {
+                    System.out.println("> ERROR: Player with name " + args[1] + " not found.");
+                    break;
+                }
+                String itemName = args[2];
                 break;
-                            
-            case "equip":
+            }              
+            case "equip": {
                 // Hókotró fejének lecserélése: <plower_id> <head_type>[cite: 154, 156].
+                if (args.length < 3) {
+                    System.out.println("> ERROR: Missing arguments for equip command. Usage: equip <plower_id> <head_type>");
+                    break;
+                }
                 commandHistory.add(line);
                 break;
+            }
                             
-            case "save":
+            case "save": {
                 // Aktuális állapot kimentése: <fájlnév.txt>[cite: 157, 162].
                 if (args.length < 2) {
                     System.out.println("> ERROR: Missing filename.");
@@ -146,40 +187,64 @@ class Console {
                     // A save-et sem mentjük, mert betöltéskor nem akarunk újra menteni
                 }
                 break;
+            }
                             
-            case "create_junction":
+            case "create_junction": {
                 // Új csomópont létrehozása: <junction_id>[cite: 166, 168].
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing arguments for create_junction command. Usage: create_junction <junction_id>");
+                    break;
+                }
                 commandHistory.add(line);
                 break;
+            }
                             
-            case "create_lane":
+            case "create_lane": {
                 // Új sáv létrehozása és bekötése: <start_junction_id> <end_junction_id>[cite: 169, 171].
+                if (args.length < 3) {
+                    System.out.println("> ERROR: Missing arguments for create_lane command. Usage: create_lane <start_junction_id> <end_junction_id>");
+                    break;
+                }
                 commandHistory.add(line);
                 break;
+            }
                             
-            case "set_lane":
+            case "set_lane": {
                 // Sáv paramétereinek manuális beállítása[cite: 172, 174].
+                if (args.length < 4) {
+                    System.out.println("> ERROR: Missing arguments for set_lane command. Usage: set_lane <lane_id> <parameter> <value>");
+                    break;
+                }
                 commandHistory.add(line);
                 break;
+            }
                             
-            case "place_vehicle":
+            case "place_vehicle": {
                 // Jármű lehelyezése a megadott pozícióra[cite: 175, 176].
+                if (args.length < 3) {
+                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <vehicle_id> <position>");
+                    break;
+                }
                 commandHistory.add(line);
                 break;
+            }
                             
-            case "exit":
+            case "exit": {
                 // A szimulációs program biztonságos leállítása[cite: 216].
-                return false; 
+                return false;
+            }
                             
-            case "help":
+            case "help": {
                 // A szimulációs program segítségének megjelenítése[cite: 216].
                 printHelp();
-                break; 
+                break;
+            }
                         
-            default:
+            default: {
                 // Szabálytalan parancs esetén hibaüzenet[cite: 184, 189].
                 System.out.println("> ERROR: Unknown command: " + command);
                 break;
+            }
         }
         return true;
     }
