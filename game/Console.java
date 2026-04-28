@@ -166,6 +166,7 @@ class Console {
         
         // Rendszervezérlő és lekérdező parancsok
         System.out.println("add_player <name> <role>");
+        System.out.println("  role: snowcleaner | busdriver");
         System.out.println("  Leírás: Új játékos regisztrálása a szimulációs rendszerbe. [cite: 124, 125]");
         
         System.out.println("load <fájlnév.txt>");
@@ -176,18 +177,18 @@ class Console {
         
         System.out.println("random <on | off>");
         System.out.println("  Leírás: A játék véletlenszám-generátorának (RNG) állapotát vezérli. [cite: 139, 140]");
-        
+        /*  EZ NEM KELL
         System.out.println("force_slip <car_id> <true | false>");
         System.out.println("  Leírás: Arra kényszeríti a rendszert determinisztikus módban, hogy egy civil autó garantáltan megcsússzon. [cite: 142, 143]");
-        
+        */
         System.out.println("stat <objektum_id>");
         System.out.println("  Leírás: Állapotlekérdező parancs. A konzolra írja egy entitás összes aktuális, belső paraméterét. [cite: 145, 146]");
         
-        System.out.println("move <vehicle_id> <junction_id>");
-        System.out.println("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott csomópont felé próbáljon haladni. [cite: 148, 149]");
+        System.out.println("move <vehicle_id> <lane_id>");
+        System.out.println("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott sávon át próbáljon haladni. [cite: 148, 149]");
         
         System.out.println("buy <player_id> <item_name> [quantity]");
-        System.out.println("  Leírás: A Takarító (Cleaner) játékos tárgyat/nyersanyagot vásárol a Boltból. [cite: 151, 153]");
+        System.out.println("  Leírás: A Takarító (SnowCleaner) játékos tárgyat/nyersanyagot vásárol a Boltból. [cite: 151, 153]");
         
         System.out.println("equip <plower_id> <head_type>");
         System.out.println("  Leírás: Lecseréli a hókotrón lévő aktuális fejet egy másik, már birtokolt fejre. [cite: 155, 156]");
@@ -198,17 +199,19 @@ class Console {
         // Konfigurációs és pályaépítő parancsok
         System.out.println("\n--- Konfigurációs és pályaépítő parancsok ---");
         
-        System.out.println("create_junction <junction_id>");
-        System.out.println("  Leírás: Létrehoz egy új csomópontot (Junction vagy CrossRoads). [cite: 167, 168]");
-        
-        System.out.println("create_lane <lane_id> <start_junction_id> <end_junction_id>");
+        System.out.println("create_point <type>");
+        System.out.println("  type: junction | crossroads | tunnel");
+        System.out.println("  Leírás: Létrehoz egy új pontot. [cite: 167, 168]");
+
+        System.out.println("create_lane <start_junction_id> <end_junction_id>");
         System.out.println("  Leírás: Létrehoz egy sávot, és logikailag összeköti a csomópontokat. [cite: 170, 171]");
         
         System.out.println("set_lane <lane_id> <is_jammed | is_underground | snow_level | ice | broken_ice | salt_level | crushed_Stone_level> <érték>");
         System.out.println("  Leírás: Tesztelési célból egy sáv paramétereit manuálisan, azonnal beállítja. [cite: 173, 174]");
         
-        System.out.println("place_vehicle <type> <entity_id> <position_id>");
-        System.out.println("  Leírás: Elhelyez egy járművet (Busz, Civil autó, Hókotró) a megadott kezdőpozíción. [cite: 176]");
+        System.out.println("place_vehicle <type> <position_id>");
+        System.out.println("  type: bus | car | snow_plower");
+        System.out.println("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción. [cite: 176]");
 
         System.out.println("help");
         System.out.println("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");
