@@ -101,17 +101,11 @@ public class Game {
          }
 
          // Karambolok keresése
-<<<<<<< HEAD
          if(city.getVehicles().size() > 1) {
             for (Point point : city.getPoints()) {
                 point.lookForJams();
             }
          }
-=======
-        for (Point point : city.getPoints()) {
-            point.lookForJams();
-        }
->>>>>>> main
 
          // Végül havazás
         for (Lane lane : city.getLanes()) {
