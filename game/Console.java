@@ -1,7 +1,15 @@
 package game;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+<<<<<<< HEAD
+=======
+import java.io.PrintWriter;
+import java.util.ArrayList;
+>>>>>>> origin/main
 import java.util.List;
 import java.io.IOException;
 
@@ -9,17 +17,23 @@ class Console {
 
     public Game game;
 
+<<<<<<< HEAD
     public List<String> commandHistory; // A parancsok előzményeinek tárolása a későbbi elemzéshez vagy visszakereséshez.
+=======
+    public ArrayList<String> commandHistory = new ArrayList<>();
+>>>>>>> origin/main
 
     public void ReadConsoleParams() {
         // A parancsok beolvasása a szabványos bemenetről (stdin) történik[cite: 105].
         // Try-with-resources használata a BufferedReader automatikus lezárásához.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             
-            while (true) {
+            boolean isGoing = true;
+            while (isGoing) {
                 printHelp();
                 String line;
                 try {
+                    System.out.print("> ");
                     line = reader.readLine();
                     commandHistory.add(line); // A beolvasott parancs hozzáadása a parancs előzményekhez.
                 } catch (IOException e) {
@@ -30,6 +44,7 @@ class Console {
 
                 if (line != null && !line.trim().isEmpty()) {
                     // A bemeneti nyelv soronként értelmezett, szóközökkel elválasztva[cite: 115, 116].
+<<<<<<< HEAD
                     String[] args = line.trim().split("\\s+");
                     String command = args[0];
 
@@ -214,11 +229,187 @@ class Console {
                             break;
                         }
                     }
+=======
+                    isGoing = processCommand(line);
+>>>>>>> origin/main
                 }
             }
         } catch (IOException e) {
             // Kritikus hiba a standard input elérésekor.
             System.out.println("> ERROR: Critical system error while accessing console.");
+        }
+    }
+
+    public boolean processCommand(String line) {
+        String[] args = line.trim().split("\\s+");
+        String command = args[0];
+
+        switch (command) {
+            case "add_player":
+                commandHistory.add(line);
+                if(game.getPlayerCount() < 4) {
+                    if(args[2].equals("snow_cleaner")){
+                        game.addPlayer(new SnowCleaner(args[1]));
+                    }
+                    else if(args[2].equals("bus_driver")){
+                        game.addPlayer(new BusDriver(args[1]));
+                    }
+                    else{
+                        System.out.println("> ERROR: Invalid player type: " + args[2]);
+                    }
+                    break;
+                }
+                System.out.println("> ERROR: Maximum player limit reached.");
+                break;
+                            
+            case "load":
+                // Konfiguráció betöltése fájlból: <fájlnév.txt>[cite: 126, 128].
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing filename.");
+                } else {
+                    loadGame(args[1]);
+                    // A load-ot magát NEM mentjük a history-ba
+                }
+                break;
+                            
+            case "step":
+                // Léptetés végrehajtása (Game.simulateStep()): [n][cite: 129, 131, 136].
+                commandHistory.add(line);
+                if(args.length > 1){
+                    int steps;
+                    try {
+                        steps = Integer.parseInt(args[1]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("> ERROR: Invalid number of steps: " + args[1]);
+                        break;
+                    }
+                    for(int i = 0; i < steps; i++){
+                        game.simulateStep();
+                    }
+                }
+                else{
+                    game.simulateStep();
+                }
+                break;
+            case "stat":
+                // Objektum állapotának lekérdezése: <objektum_id>[cite: 144, 146].
+                commandHistory.add(line);
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing object ID for stat command.");
+                    break;
+                }
+                String id = args[1];
+                Vehicle v = game.getVehicleById(id);
+                if (v != null) {
+                    v.stat();
+                    break;
+                }
+                Lane l = game.getLaneById(id);
+                if (l != null) {
+                    l.stat();
+                    break;
+                }
+                Point p = game.getPointById(id);
+                if (p != null) {
+                    p.stat();
+                    break;
+                }
+                System.out.println("> ERROR: Object with id " + id + " not found.");
+                break;
+                            
+            case "move":
+                // Jármű menetirányának kiválasztása: <vehicle_id> <lane_id>[cite: 147, 149].
+                commandHistory.add(line);
+                break;
+                            
+            case "buy":
+                // Vásárlás a Bolttal: <player_id> <item_name> [quantity][cite: 150, 153].
+                commandHistory.add(line);
+                break;
+                            
+            case "equip":
+                // Hókotró fejének lecserélése: <plower_id> <head_type>[cite: 154, 156].
+                commandHistory.add(line);
+                break;
+                            
+            case "save":
+                // Aktuális állapot kimentése: <fájlnév.txt>[cite: 157, 162].
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing filename.");
+                } else {
+                    saveGame(args[1]);
+                    // A save-et sem mentjük, mert betöltéskor nem akarunk újra menteni
+                }
+                break;
+                            
+            case "create_junction":
+                // Új csomópont létrehozása: <junction_id>[cite: 166, 168].
+                commandHistory.add(line);
+                break;
+                            
+            case "create_lane":
+                // Új sáv létrehozása és bekötése: <start_junction_id> <end_junction_id>[cite: 169, 171].
+                commandHistory.add(line);
+                break;
+                            
+            case "set_lane":
+                // Sáv paramétereinek manuális beállítása[cite: 172, 174].
+                commandHistory.add(line);
+                break;
+                            
+            case "place_vehicle":
+                // Jármű lehelyezése a megadott pozícióra[cite: 175, 176].
+                commandHistory.add(line);
+                break;
+                            
+            case "exit":
+                // A szimulációs program biztonságos leállítása[cite: 216].
+                return false; 
+                            
+            case "help":
+                // A szimulációs program segítségének megjelenítése[cite: 216].
+                printHelp();
+                break; 
+                        
+            default:
+                // Szabálytalan parancs esetén hibaüzenet[cite: 184, 189].
+                System.out.println("> ERROR: Unknown command: " + command);
+                break;
+        }
+        return true;
+    }
+
+    public void saveGame(String filename) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            for (String cmd : commandHistory) {
+                writer.println(cmd);
+            }
+            System.out.println("> Game saved to " + filename);
+        } catch (IOException e) {
+            System.out.println("> ERROR: Could not save to file: " + e.getMessage());
+        }
+    }
+    
+    public void loadGame(String filename) {
+        File file = new File(filename);
+        if (!file.exists()) {
+            System.out.println("> ERROR: File not found: " + filename);
+            return;
+        }
+
+        // Betöltés előtt érdemes lehet alaphelyzetbe állítani a játékot:
+        game = new Game(); 
+        commandHistory.clear();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // A fájlból olvasott parancsokat végrehajtjuk, így rekonstruálva a játék állapotát.
+                processCommand(line);
+            }
+            System.out.println("> Game loaded from " + filename);
+        } catch (IOException e) {
+            System.out.println("> ERROR: Error reading file: " + e.getMessage());
         }
     }
 
