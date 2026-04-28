@@ -48,8 +48,6 @@ public class Store {
         }
     }
 
-
-
     /**
      * A bolt kínálatát és az árakat tároló adatszerkezet.
      * Kulcs: a tétel neve (pl. "SalterHead", "salt"), érték: az ár.
@@ -88,37 +86,46 @@ public class Store {
     buyer.setMoney(buyer.getMoney() - totalCost);
 
     switch (item) {
-        case SALT:
+        case SALT: {
             buyer.setSaltStock(buyer.getSaltStock() + actualQuantity);
             break;
-        case BIO_KEROSENE:
+        }
+        case BIO_KEROSENE: {
             buyer.setBioKeroseneStock(buyer.getBioKeroseneStock() + actualQuantity);
             break;
-        case CRUSHED_STONE:
+        }
+        case CRUSHED_STONE: {
             buyer.setCrushedStoneStock(buyer.getCrushedStoneStock() + actualQuantity);
             break;
-        case THROWER_HEAD:
+        }
+        case THROWER_HEAD: {
             for (int i = 0; i < actualQuantity; i++) buyer.addHead(new ThrowerHead());
             break;
-        case ICE_BREAKER_HEAD:
+        }
+        case ICE_BREAKER_HEAD: {
             for (int i = 0; i < actualQuantity; i++) buyer.addHead(new IceBreakerHead());
             break;
-        case SALTER_HEAD:
+        }
+        case SALTER_HEAD: {
             for (int i = 0; i < actualQuantity; i++) buyer.addHead(new SalterHead());
             break;
-        case DRAGON_HEAD:
+        }
+        case DRAGON_HEAD: {
             for (int i = 0; i < actualQuantity; i++) buyer.addHead(new DragonHead());
             break;
-        case CRUSHED_STONE_HEAD:
+        }
+        case CRUSHED_STONE_HEAD: {
             for (int i = 0; i < actualQuantity; i++) buyer.addHead(new CrushedStoneHead());
             break;
-        case SNOW_PLOWER:
+        }
+        case SNOW_PLOWER: {
             for (int i = 0; i < actualQuantity; i++) {
                 SnowPlower sp = new SnowPlower();
                 sp.setOwner(buyer);
                 buyer.getSnowPlowers().add(sp);
             }
             break;
+        }
     }
     
     return true;

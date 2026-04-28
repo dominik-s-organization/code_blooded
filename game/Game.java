@@ -84,6 +84,18 @@ public class Game implements IdGenerator {
         this.players.add(player);
     }
 
+    public Player getPlayerByName(String name) {
+        if (name == null) {
+            return null;
+        }
+        for (Player player : players) {
+            if (name.equals(player.getName())) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     // A játék elindítása, amely inicializálja a várost és a játékosokat.
     public void startGame() {
         System.out.println("-> game.startGame()");
