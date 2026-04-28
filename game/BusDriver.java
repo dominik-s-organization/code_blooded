@@ -10,8 +10,8 @@ public class BusDriver extends Player {
     private Bus bus;
 
     // Konstruktor
-    public BusDriver() {
-        super();
+    public BusDriver(String name) {
+        super(name);
         completedRoutes = 0;
         bus = new Bus();
         bus.setOwner(this);

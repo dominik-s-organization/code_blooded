@@ -28,6 +28,18 @@ public class CityMap {
         this.vehicles = vehicles;
     }
 
+    public int getPointCount() {
+        return points.size();
+    }
+
+    public int getLaneCount() {
+        return lanes.size();
+    }
+
+    public int getVehicleCount() {
+        return vehicles.size();
+    }
+
     // Getterek, setterek
     public List<Point> getPoints() { 
         return points; 

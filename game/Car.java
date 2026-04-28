@@ -21,6 +21,15 @@ public class Car extends Vehicle {
         home = null;
         work = null;
         isHeadingHome = false;
+        canSlip = true;
+    }
+
+    public Car(String id) {
+        super(id);
+        home = null;
+        work = null;
+        isHeadingHome = false;
+        canSlip = true;
     }
 
     // Getterek, setterek
@@ -61,6 +70,8 @@ public class Car extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
+            super.getLastLane().getSnow().passVehicle();
+            super.setNextLane(null);
         }
 
         if (point.equals(work)) {
@@ -142,5 +153,19 @@ public class Car extends Vehicle {
         Lane laneToTake = edgeToMap.get(step);
 
         return laneToTake;
+    }
+
+    @Override
+    public void stat() {
+        System.out.println("Car ID: " + getId());
+        System.out.println("Type: Car");
+        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        System.out.println("Jammed Time: " + getJammedTime());
+        System.out.println("Can Slip: " + canSlip);
+        System.out.println("Home: " + (getHome() != null ? getHome().getId() : "null"));
+        System.out.println("Work: " + (getWork() != null ? getWork().getId() : "null"));
+        System.out.println("Is Heading Home: " + isHeadingHome);
     }
 }

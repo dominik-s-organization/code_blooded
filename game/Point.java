@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-<<<<<<< HEAD
- * Absztrakt ősosztaly az úthálzat topolgiai pontjainak (pl. csompontok, keresztezdsek) reprezentálásra.
- * Felelőssége a becsatlakozás kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartsa.
-=======
  * Absztrakt ősosztály az őthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
  * Felelőssége a becsatlakozó és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartása.
->>>>>>> main
  */
 public abstract class Point {
+    /**
+     * A pont egyedi azonosítója.
+     */
+    private final String id;
     /**
      * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
@@ -26,15 +25,20 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes;
 
-<<<<<<< HEAD
     //Konstruktor
-    public Point() {
-=======
     protected Point() {
->>>>>>> main
+        this(null);
+    }
+
+    protected Point(String id) {
+        this.id = id;
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
     }
 
     // Getterek
@@ -87,20 +91,11 @@ public abstract class Point {
     public void addOutgoingLane(Lane lane) {
         outgoingLanes.add(lane);
     }
-<<<<<<< HEAD
-    /**
-     * Meghatározza, hogy az adott jármű ráléphet-e (behajthat-e) erre a pontra.
-     * A leszármazott osztályok (pl. Tunnel, Junction) egyedi logikát valósíthatnak meg.
-     *
-     * @param vehicle a vizsgált jármű, amely rálépni szeretne a pontra
-     * @return true, ha a jármű ráléphet a pontra, ellenkező esetben false
-=======
-    
+
     /*
      * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
      * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
      * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
->>>>>>> main
      */
     public boolean isReachable(Vehicle vehicle) {
         return isReachableHelp(this, vehicle);
@@ -119,7 +114,13 @@ public abstract class Point {
      */
     public void lookForJams() {
         for (Vehicle vehicle1 : getVehicles()) {
+            if (vehicle1.getLastLane() == null) {
+                continue;
+            }
             for (Vehicle vehicle2 : getVehicles()) {
+                if (vehicle2.getLastLane() == null) {
+                    continue;
+                }
                 if (!vehicle1.equals(vehicle2) && vehicle1.getLastLane().equals(vehicle2.getLastLane())) {
                     vehicle1.jam();
                     vehicle2.jam();
@@ -129,4 +130,8 @@ public abstract class Point {
         }
     }
 
+    /**
+     * Kiírja a pont állapotát és tulajdonságait a konzolra.
+     */
+    public abstract void stat();
 }

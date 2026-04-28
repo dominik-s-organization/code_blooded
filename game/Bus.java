@@ -16,6 +16,15 @@ public class Bus extends Vehicle {
         owner = null;
         beginningPoint = null;
         endPoint = null;
+        canSlip = true;
+    }
+
+    public Bus(String id) {
+        super(id);
+        owner = null;
+        beginningPoint = null;
+        endPoint = null;
+        canSlip = true;
     }
 
     public Lane getNextLane() {
@@ -74,10 +83,26 @@ public class Bus extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
+            super.getLastLane().getSnow().passVehicle();
+            super.setNextLane(null);
 
             if (point.equals(endPoint)) {
                 switchRoute();
             }
         }
+    }
+
+    @Override
+    public void stat() {
+        System.out.println("Bus ID: " + getId());
+        System.out.println("Type: Bus");
+        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        System.out.println("Jammed Time: " + getJammedTime());
+        System.out.println("Can Slip: " + canSlip);
+        System.out.println("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
+        System.out.println("Beginning Point: " + (getBeginningPoint() != null ? getBeginningPoint().getId() : "null"));
+        System.out.println("End Point: " + (getEndPoint() != null ? getEndPoint().getId() : "null"));
     }
 }
