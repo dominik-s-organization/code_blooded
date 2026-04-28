@@ -28,13 +28,13 @@ public class BusDriver extends Player {
         this.bus = bus;
     }
 
-    // A buszvezető teljesíti az útvonalat, és növeli a teljesített útvonalak számát.
-    public void completeRoute() {
-        completedRoutes++;
-    }
-
     @Override
     public String getType() {
         return "bus_driver";
+    }
+
+    // A buszvezető teljesíti az útvonalat, és növeli a teljesített útvonalak számát.
+    public void completeRoute() {
+        completedRoutes++;
     }
 }
