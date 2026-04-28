@@ -37,9 +37,4 @@ public class BusDriver extends Player {
     public void completeRoute() {
         completedRoutes++;
     }
-
-    @Override
-    public String getType() {
-        return "bus_driver";
-    }
 }

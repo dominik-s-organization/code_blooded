@@ -38,6 +38,4 @@ public abstract class Player {
     public void selectDestination(Vehicle vehicle, Lane nextLane) {
         vehicle.setNextLane(nextLane);
     }
-
-    public abstract String getType();
 }
