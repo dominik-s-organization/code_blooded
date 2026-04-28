@@ -80,6 +80,18 @@ public class Game implements IdGenerator {
         return null;
     }
 
+    public Player getPlayerById(String name) {
+        if (name == null) {
+            return null;
+        }
+        for (Player player : players) {
+            if (name.equals(player.getName())) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     public void addPlayer(Player player) {
         this.players.add(player);
     }

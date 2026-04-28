@@ -2,11 +2,14 @@ package game;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.io.IOException;
 
 class Console {
 
     public Game game;
+
+    public List<String> commandHistory; // A parancsok előzményeinek tárolása a későbbi elemzéshez vagy visszakereséshez.
 
     public void ReadConsoleParams() {
         // A parancsok beolvasása a szabványos bemenetről (stdin) történik[cite: 105].
@@ -18,6 +21,7 @@ class Console {
                 String line;
                 try {
                     line = reader.readLine();
+                    commandHistory.add(line); // A beolvasott parancs hozzáadása a parancs előzményekhez.
                 } catch (IOException e) {
                     // Amennyiben a beolvasás során hiba történik, hibaüzenetet küldünk[cite: 189].
                     System.out.println("> ERROR: Reading from standard input failed.");
@@ -30,7 +34,11 @@ class Console {
                     String command = args[0];
 
                     switch (command) {
-                        case "add_player":
+                        case "add_player": {
+                            if(args.length < 3){
+                                System.out.println("> ERROR: Missing arguments for add_player command. Usage: add_player <player_name> <player_type>");
+                                break;
+                            }
                             if(game.getPlayerCount() < 4){
                                 if(args[2].equals("snow_cleaner")){
                                     game.addPlayer(new SnowCleaner(args[1]));
@@ -45,13 +53,17 @@ class Console {
                             }
                             System.out.println("> ERROR: Maximum player limit reached.");
                             break;
-                            
-                        case "load":
+                        }
+                        case "load": {
                             // Konfiguráció betöltése fájlból: <fájlnév.txt>[cite: 126, 128].
+                            if(args.length < 2){
+                                System.out.println("> ERROR: Missing filename for load command.");
+                                break;
+                            }
                             game.loadGame(args[1]);
                             break;
-                            
-                        case "step":
+                        }
+                        case "step": {
                             // Léptetés végrehajtása (Game.simulateStep()): [n][cite: 129, 131, 136].
                             if(args.length > 1){
                                 int steps;
@@ -69,16 +81,9 @@ class Console {
                                 game.simulateStep();
                             }
                             break;
-                            
-                        case "random":
-                            // RNG állapot vezérlése: <on | off>[cite: 138, 140].
-                            break;
-                            
-                        case "force_slip":
-                            // Autó kényszerített megcsúsztatása: <car_id> <true | false>[cite: 141, 143].
-                            break;
-                            
-                        case "stat":
+                        }
+
+                        case "stat": {
                             // Objektum állapotának lekérdezése: <objektum_id>[cite: 144, 146].
                             if (args.length < 2) {
                                 System.out.println("> ERROR: Missing object ID for stat command.");
@@ -102,53 +107,112 @@ class Console {
                             }
                             System.out.println("> ERROR: Object with id " + id + " not found.");
                             break;
-                            
-                        case "move":
-                            // Jármű menetirányának kiválasztása: <vehicle_id> <junction_id>[cite: 147, 149].
+                        }
+                        case "move": {
+                            // Jármű menetirányának kiválasztása: <vehicle_id> <lane_id>[cite: 147, 149].
+                            if(args.length < 3){
+                                System.out.println("> ERROR: Missing arguments for move command. Usage: move <vehicle_id> <lane_id>");
+                                break;
+                            }
+                            Vehicle v = game.getVehicleById(args[1]);
+                            Lane l = game.getLaneById(args[2]);
+                            if (v != null && l != null) {
+                                if(args[1].contains("car_")){
+                                    System.out.println("> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.");
+                                    break;
+                                }
+                                v.setNextLane(l);
+                            }
                             break;
-                            
-                        case "buy":
+                        }
+                        case "buy": {
                             // Vásárlás a Bolttal: <player_id> <item_name> [quantity][cite: 150, 153].
+                            if(args.length < 3){
+                                System.out.println("> ERROR: Missing arguments for buy command. Usage: buy <player_id> <item_name> [quantity]");
+                                break;
+                            }
+                            Player p = game.getPlayerById(args[1]);
+                            if (p == null) {
+                                System.out.println("> ERROR: Player with id " + args[1] + " not found.");
+                                break;
+                            }
+                            String itemName = args[2];
+                            int quantity = 1; // alapértelmezett mennyiség
+                            if (args.length > 3) {
+                                try {
+                                    quantity = Integer.parseInt(args[3]);
+                                } catch (NumberFormatException e) {
+                                    System.out.println("> ERROR: Invalid quantity: " + args[3]);
+                                    break;
+                                }
+                            }
+                            try {
+                                p.buy(itemName, quantity);
+                            } catch (UnsupportedOperationException e) {
+                                System.out.println("> ERROR: " + e.getMessage());
+                            }
                             break;
-                            
-                        case "equip":
+                        }
+                        case "equip": {
                             // Hókotró fejének lecserélése: <plower_id> <head_type>[cite: 154, 156].
+                            if(args.length < 3){
+                                System.out.println("> ERROR: Missing arguments for equip command. Usage: equip <player_id> <head_type>");
+                                break;
+                            }
+                            Player p = game.getPlayerById(args[1]);
+                            if (p == null) {
+                                System.out.println("> ERROR: Player with id " + args[1] + " not found.");
+                                break;
+                            }
+                            String headType = args[2];
+                            try {
+                                p.equip(headType);
+                            } catch (UnsupportedOperationException e) {
+                                System.out.println("> ERROR: " + e.getMessage());
+                            }
                             break;
-                            
-                        case "save":
+                        }
+                        case "save": {
                             // Aktuális állapot kimentése: <fájlnév.txt>[cite: 157, 162].
+                            if(args.length < 2){
+                                System.out.println("> ERROR: Missing filename for save command.");
+                                break;
+                            }
                             game.saveGame(args[1]);
                             break;
-                            
-                        case "create_junction":
+                        }
+                        case "create_junction": {
                             // Új csomópont létrehozása: <junction_id>[cite: 166, 168].
-                            break;
                             
-                        case "create_lane":
+                            break;
+                        }
+                        case "create_lane": {
                             // Új sáv létrehozása és bekötése: <lane_id> <start_junction_id> <end_junction_id>[cite: 169, 171].
                             break;
-                            
-                        case "set_lane":
+                        }
+                        case "set_lane": {
                             // Sáv paramétereinek manuális beállítása[cite: 172, 174].
                             break;
-                            
-                        case "place_vehicle":
+                        }
+                        case "place_vehicle": {
                             // Jármű lehelyezése a megadott pozícióra[cite: 175, 176].
                             break;
-                            
-                        case "exit":
+                        }
+                        case "exit": {
                             // A szimulációs program biztonságos leállítása[cite: 216].
                             return; 
-                            
-                        case "help":
+                        }
+                        case "help": {
                             // A szimulációs program segítségének megjelenítése[cite: 216].
                             printHelp();
                             return; 
-                        
-                        default:
+                        }
+
+                        default: {
                             // Szabálytalan parancs esetén hibaüzenet[cite: 184, 189].
                             System.out.println("> ERROR: Unknown command: " + command);
                             break;
+                        }
                     }
                 }
             }
@@ -175,17 +239,11 @@ class Console {
         System.out.println("step [n]");
         System.out.println("  Leírás: A léptető parancs. Kiváltja a cselekvések tényleges végrehajtását. Opcionálisan megadható a lépések száma. [cite: 130, 136]");
         
-        System.out.println("random <on | off>");
-        System.out.println("  Leírás: A játék véletlenszám-generátorának (RNG) állapotát vezérli. [cite: 139, 140]");
-        /*  EZ NEM KELL
-        System.out.println("force_slip <car_id> <true | false>");
-        System.out.println("  Leírás: Arra kényszeríti a rendszert determinisztikus módban, hogy egy civil autó garantáltan megcsússzon. [cite: 142, 143]");
-        */
         System.out.println("stat <objektum_id>");
         System.out.println("  Leírás: Állapotlekérdező parancs. A konzolra írja egy entitás összes aktuális, belső paraméterét. [cite: 145, 146]");
         
         System.out.println("move <vehicle_id> <lane_id>");
-        System.out.println("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott sávon át próbáljon haladni. [cite: 148, 149]");
+        System.out.println("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott sávon át próbáljon haladni. Az Car objektumok nem mozgathatók mert automatikusan mozognak.[cite: 148, 149]");
         
         System.out.println("buy <player_id> <item_name> [quantity]");
         System.out.println("  Leírás: A Takarító (SnowCleaner) játékos tárgyat/nyersanyagot vásárol a Boltból. [cite: 151, 153]");
