@@ -12,24 +12,34 @@ import java.util.Objects;
 public class Game implements IdGenerator {
     private CityMap city; // A város térképe, amely tartalmazza a pontokat, útvonalakat és járműveket.
     private List<Player> players; // A játékosok listája.
+    private Store store; // A játékban elérhető tárgyak boltja.
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
 
     public Game() {
         city = null;
         players = new ArrayList<>();
+        store = new Store();
         idCounters = new HashMap<>();
     }
 
-    public int getPlayerCount(){
-        return players.size();
-    }
-
-    public CityMap getCityMapOfGame(){
+    public CityMap getCityMap(){
         return city;
     }
 
     public void setCity(CityMap city) {
         this.city = city;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     @Override

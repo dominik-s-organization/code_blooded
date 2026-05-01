@@ -56,7 +56,7 @@ class Console {
                     break;
                 }
                 commandHistory.add(line);
-                if(game.getPlayerCount() < 4) {
+                if(game.getPlayers().size() < 4) {
                     if(args[2].equals("snow_cleaner")){
                         game.addPlayer(new SnowCleaner(args[1]));
                     }
@@ -114,10 +114,7 @@ class Console {
                     break;
                 }
                 commandHistory.add(line);
-                if (args.length < 2) {
-                    System.out.println("> ERROR: Missing object ID for stat command.");
-                    break;
-                }
+
                 String id = args[1];
                 Vehicle v = game.getVehicleById(id);
                 if (v != null) {
@@ -166,6 +163,21 @@ class Console {
                     break;
                 }
                 String itemName = args[2];
+                int quantity = 1;
+                if (args.length > 3) {
+                    try {
+                        quantity = Integer.parseInt(args[3]);
+                    } catch (NumberFormatException e) {
+                        System.out.println("> ERROR: Invalid quantity. Please specify a valid number.");
+                        break;
+                    }
+                }
+                if (p instanceof SnowCleaner) {         // EZT MÁSHOGY KÉNE DE NEMTOM HOGY
+                    SnowCleaner sc = (SnowCleaner) p;
+                    game.getStore().buy(itemName, quantity, sc);
+                } else {
+                    System.out.println("> ERROR: Only SnowCleaner players can buy items from the shop.");
+                }
                 break;
             }              
             case "equip": {
@@ -189,13 +201,39 @@ class Console {
                 break;
             }
                             
-            case "create_junction": {
-                // Új csomópont létrehozása: <junction_id>[cite: 166, 168].
-                if (args.length < 2) {
-                    System.out.println("> ERROR: Missing arguments for create_junction command. Usage: create_junction <junction_id>");
+            case "create_point": {
+                // Új csomópont létrehozása: <type>[cite: 166, 168].
+                if (args.length < 3) {
+                    System.out.println("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
                     break;
                 }
                 commandHistory.add(line);
+
+                String type = args[1];
+                if (!type.equals("junction") && !type.equals("crossroads") && !type.equals("tunnel")) {
+                    System.out.println("> ERROR: Invalid point type: " + type + ". Valid types are: junction, crossroads, tunnel.");
+                    break;
+                }
+                switch (type) {
+                    case "junction":
+                        Junction junction = new Junction();
+                        junction.setId(game.generateId("point"));
+                        game.getCityMap().addPoint(junction);
+                        break;
+                    case "crossroads":
+                        CrossRoads crossroads = new CrossRoads();
+                        crossroads.setId(game.generateId("point"));
+                        game.getCityMap().addPoint(crossroads);
+                        break;
+                    case "tunnel":
+                        Tunnel tunnel = new Tunnel();
+                        tunnel.setId(game.generateId("point"));
+                        game.getCityMap().addPoint(tunnel);
+                        break;
+                    default:
+                        System.out.println("> ERROR: Invalid point type: " + type);
+                        break;
+                }
                 break;
             }
                             
@@ -206,6 +244,26 @@ class Console {
                     break;
                 }
                 commandHistory.add(line);
+                
+                Point startPoint = game.getPointById(args[1]);
+                Point endPoint = game.getPointById(args[2]);
+                Lane lane = new Lane();
+                lane.setId(game.generateId("lane"));
+                lane.setStartPoint(startPoint);
+                lane.setEndPoint(endPoint);
+                
+                // Beállítani a legutolsó ugyanilyen sáv jobb oldali szomszádjának az új sávot
+                List<Lane> lanes = game.getCityMap().getLanes();
+                for (int i = lanes.size() - 1; i >= 0; i--) {
+                    if (lanes.get(i).getStartPoint().equals(startPoint) && lanes.get(i).getEndPoint().equals(endPoint)) {
+                        Lane leftLane = lanes.get(i);
+                        lane.setLeftLane(leftLane);
+                        leftLane.setRightLane(lane);
+                        break;
+                    }
+                }
+
+                game.getCityMap().addLane(lane);
                 break;
             }
                             
