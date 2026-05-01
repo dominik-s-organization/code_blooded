@@ -151,17 +151,21 @@ class Console {
                 }
                 break;
             }
+
             case "buy": {
-                // Vásárlás a Bolttal: <player_id> <item_name> [quantity][cite: 150, 153].
+                // Vásárlás a Bolttal: <player_id> <item_name> [quantity]
                 if(args.length < 3){
                     System.out.println("> ERROR: Missing arguments for buy command. Usage: buy <player_id> <item_name> [quantity]");
                     break;
                 }
+                commandHistory.add(line);
+
                 Player p = game.getPlayerByName(args[1]);
                 if (p == null) {
                     System.out.println("> ERROR: Player with name " + args[1] + " not found.");
                     break;
                 }
+                
                 String itemName = args[2];
                 int quantity = 1;
                 if (args.length > 3) {
@@ -172,21 +176,58 @@ class Console {
                         break;
                     }
                 }
-                if (p instanceof SnowCleaner) {         // EZT MÁSHOGY KÉNE DE NEMTOM HOGY
+                
+                // Itt használjuk a polimorf getType() metódust az instanceof helyett!
+                if ("snow_cleaner".equals(p.getType())) {         
                     SnowCleaner sc = (SnowCleaner) p;
                     game.getStore().buy(itemName, quantity, sc);
                 } else {
                     System.out.println("> ERROR: Only SnowCleaner players can buy items from the shop.");
                 }
                 break;
-            }              
+            }           
+
             case "equip": {
-                // Hókotró fejének lecserélése: <plower_id> <head_type>[cite: 154, 156].
+                /**
+                 * Hókotró fejének lecserélése a kívánt típusra.
+                 * Szintaxis: equip <plower_id> <head_type>
+                 */
                 if (args.length < 3) {
                     System.out.println("> ERROR: Missing arguments for equip command. Usage: equip <plower_id> <head_type>");
                     break;
                 }
                 commandHistory.add(line);
+                
+                Vehicle v = game.getVehicleById(args[1]);
+                if (v == null) {
+                    System.out.println("> ERROR: Vehicle not found: " + args[1]);
+                    break;
+                }
+                
+                try {
+                    // Ha a jármű egy Car vagy Bus, akkor kivételt dob, amit lent elkapunk.
+                    SnowPlower sp = (SnowPlower) v;
+                    
+                    String headType = args[2].toLowerCase();
+                    Head newHead = null;
+
+                    // Az átadott string alapján eldöntjük, melyik fejet kell felszerelni
+                    if (headType.contains("sweeping")) newHead = new SweepingHead();
+                    else if (headType.contains("thrower")) newHead = new ThrowerHead();
+                    else if (headType.contains("icebreaker")) newHead = new IceBreakerHead();
+                    else if (headType.contains("salter")) newHead = new SalterHead();
+                    else if (headType.contains("dragon")) newHead = new DragonHead();
+                    else if (headType.contains("crushedstone")) newHead = new CrushedStoneHead();
+
+                    if (newHead != null) {
+                        sp.changeHead(newHead);
+                    } else {
+                        System.out.println("> ERROR: Unknown head type: " + headType);
+                    }
+                } catch (ClassCastException e) {
+                    // Ha a kasztolás elszállt, akkor az objektum biztosan nem hókotró volt.
+                    System.out.println("> ERROR: Vehicle is not a SnowPlower: " + args[1]);
+                }
                 break;
             }
                             
@@ -268,22 +309,97 @@ class Console {
             }
                             
             case "set_lane": {
-                // Sáv paramétereinek manuális beállítása[cite: 172, 174].
+                /**
+                 * Sáv paramétereinek manuális beállítása tesztelési célból.
+                 * Szintaxis: set_lane <lane_id> <parameter> <value>
+                 */
                 if (args.length < 4) {
                     System.out.println("> ERROR: Missing arguments for set_lane command. Usage: set_lane <lane_id> <parameter> <value>");
                     break;
                 }
                 commandHistory.add(line);
+
+                Lane laneToSet = game.getLaneById(args[1]);
+                if (laneToSet == null) {
+                    System.out.println("> ERROR: Lane not found: " + args[1]);
+                    break;
+                }
+
+                String param = args[2].toLowerCase();
+                String valueStr = args[3].toLowerCase();
+
+                try {
+                    switch (param) {
+                        case "is_jammed":
+                            laneToSet.setJammed(Boolean.parseBoolean(valueStr));
+                            break;
+                        case "is_underground":
+                            laneToSet.setUnderground(Boolean.parseBoolean(valueStr));
+                            break;
+                        case "snow_level":
+                            laneToSet.getSnow().setLevel(Integer.parseInt(valueStr));
+                            break;
+                        case "ice":
+                            laneToSet.getSnow().setIce(Boolean.parseBoolean(valueStr));
+                            break;
+                        case "broken_ice":
+                            laneToSet.getSnow().setBrokenIce(Boolean.parseBoolean(valueStr));
+                            break;
+                        case "salt_level":
+                            laneToSet.getSnow().setSaltLevel(Integer.parseInt(valueStr));
+                            break;
+                        case "crushed_stone_level":
+                            laneToSet.getSnow().setCrushedStoneLevel(Integer.parseInt(valueStr));
+                            break;
+                        default:
+                            System.out.println("> ERROR: Unknown parameter: " + param);
+                    }
+                } catch (Exception e) {
+                    System.out.println("> ERROR: Invalid value format for " + param + ". Check if it should be a number or true/false.");
+                }
                 break;
             }
                             
+
             case "place_vehicle": {
-                // Jármű lehelyezése a megadott pozícióra[cite: 175, 176].
-                if (args.length < 3) {
-                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <vehicle_id> <position>");
+                /**
+                 * Jármű lehelyezése a megadott kezdőpontra a város hálózatában.
+                 * Szintaxis: place_vehicle <type> <entity_id> <position_id>
+                 */
+                if (args.length < 4) {
+                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <type> <entity_id> <position_id>");
                     break;
                 }
                 commandHistory.add(line);
+
+                String type = args[1].toLowerCase();
+                String eId = args[2];
+                String pId = args[3];
+
+                Point startingPoint = game.getPointById(pId);
+                if (startingPoint == null) {
+                    System.out.println("> ERROR: Starting point not found: " + pId);
+                    break;
+                }
+
+                Vehicle newVehicle = null;
+                if (type.equals("car")) {
+                    newVehicle = new Car(vId);
+                } else if (type.equals("bus")) {
+                    newVehicle = new Bus(vId);
+                } else if (type.equals("snow_plower")) {
+                    newVehicle = new SnowPlower(vId);
+                } else {
+                    System.out.println("> ERROR: Unknown vehicle type: " + type);
+                    break;
+                }
+
+                // Jármű logikai elhelyezése a csomóponton és a várostérképen
+                if (newVehicle != null) {
+                    newVehicle.setCurrentPoint(startingPoint);
+                    startingPoint.addVehicle(newVehicle);
+                    game.getCityMap().addVehicle(newVehicle);
+                }
                 break;
             }
                             
