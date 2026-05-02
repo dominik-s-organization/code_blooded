@@ -21,7 +21,7 @@ public class ThrowerHead extends Head {
     
         lane.getSnow().clean();
         lane.getSnow().setCrushedStoneLevel(0);
-
+        Logger.log("> ACTION: " + lane.getId() + " state_changed Cleaned");
         snowPlower.getOwner().getPaid(20);
     }
 }

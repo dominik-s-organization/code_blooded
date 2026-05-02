@@ -19,7 +19,7 @@ public class DragonHead extends Head {
             lane.getSnow().clean();
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(false);
-            
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Cleaned");
             snowPlower.getOwner().getPaid(35);
         }
     }

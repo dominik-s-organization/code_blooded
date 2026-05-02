@@ -64,9 +64,11 @@ class Console {
                 if(game.getPlayers().size() < 4) {
                     if(args[2].equals("snow_cleaner")){
                         game.addPlayer(new SnowCleaner(args[1]));
+                        Logger.log("> OK");
                     }
                     else if(args[2].equals("bus_driver")){
                         game.addPlayer(new BusDriver(args[1]));
+                        Logger.log("> OK");
                     }
                     else{
                         Logger.log("> ERROR: Invalid player type: " + args[2]);
@@ -83,6 +85,7 @@ class Console {
                     Logger.log("> ERROR: Missing filename.");
                 } else {
                     loadGame(args[1]);
+                    Logger.log("> OK");
                     // A load-ot magát NEM mentjük a history-ba
                 }
                 break;
@@ -189,6 +192,8 @@ class Console {
                         break;
                     }
                     v.setNextLane(l);
+                    Logger.log("> OK");
+                    Logger.log("> ACTION: " + v.getId() + " set_intent " + l.getId());
                 }
                 break;
             }
@@ -221,13 +226,15 @@ class Console {
                 // Itt használjuk a polimorf getType() metódust az instanceof helyett!
                 if ("snow_cleaner".equals(p.getType())) {         
                     SnowCleaner sc = (SnowCleaner) p;
-                    game.getStore().buy(itemName, quantity, sc);
-                } else {
-                    Logger.log("> ERROR: Only SnowCleaner players can buy items from the shop.");
-                }
-                break;
-            }           
-
+                    boolean success = game.getStore().buy(itemName, quantity, sc);
+                    if (success) {
+                        Logger.log("> OK");
+                        Logger.log("> ACTION: " + sc.getName() + " bought " + itemName);
+                    } else {
+                        Logger.log("> ERROR: Insufficient funds or invalid item.");
+                    }
+                }         
+                
             case "equip": {
                 /**
                  * Hókotró fejének lecserélése a kívánt típusra, amennyiben az a játékos eszköztárában van.
@@ -272,7 +279,8 @@ class Console {
 
                     if (headToEquip != null) {
                         sp.changeHead(headToEquip); // Felszereljük a meglévő fejet
-                        Logger.log("> SUCCESS: " + headToEquip.getClass().getSimpleName() + " successfully equipped on " + args[1]);
+                        Logger.log("> OK");
+                        Logger.log("> ACTION: " + sp.getOwner().getName() + " equipped " + currentHeadName + " to " + args[1]);
                     } else {
                         // Ha a ciklus végigért, és nem talált ilyen fejet a listában:
                         Logger.log("> ERROR: The owner does not have a '" + args[2] + "' in their inventory. Buy it first from the Store!");
@@ -313,16 +321,19 @@ class Console {
                         Junction junction = new Junction();
                         junction.setId(game.generateId("junction"));
                         game.getCityMap().addPoint(junction);
+                        Logger.log("> OK");
                         break;
                     case "crossroads":
                         CrossRoads crossroads = new CrossRoads();
                         crossroads.setId(game.generateId("crossroads"));
                         game.getCityMap().addPoint(crossroads);
+                        Logger.log("> OK");
                         break;
                     case "tunnel":
                         Tunnel tunnel = new Tunnel();
                         tunnel.setId(game.generateId("tunnel"));
                         game.getCityMap().addPoint(tunnel);
+                        Logger.log("> OK");
                         break;
                     default:
                         Logger.log("> ERROR: Invalid point type: " + type);
@@ -362,6 +373,7 @@ class Console {
                 }
 
                 game.getCityMap().addLane(lane);
+                Logger.log("> OK");
                 break;
             }
                             
@@ -389,24 +401,31 @@ class Console {
                     switch (param) {
                         case "is_jammed":
                             laneToSet.setJammed(Boolean.parseBoolean(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "is_underground":
                             laneToSet.setUnderground(Boolean.parseBoolean(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "snow_level":
                             laneToSet.getSnow().setLevel(Integer.parseInt(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "ice":
                             laneToSet.getSnow().setIce(Boolean.parseBoolean(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "broken_ice":
                             laneToSet.getSnow().setBrokenIce(Boolean.parseBoolean(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "salt_level":
                             laneToSet.getSnow().setSaltLevel(Integer.parseInt(valueStr));
+                            Logger.log("> OK");
                             break;
                         case "crushed_stone_level":
                             laneToSet.getSnow().setCrushedStoneLevel(Integer.parseInt(valueStr));
+                            Logger.log("> OK");
                             break;
                         default:
                             Logger.log("> ERROR: Unknown parameter: " + param);
@@ -461,6 +480,7 @@ class Console {
                     newVehicle.setCurrentPoint(startingPoint);
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
+                    Logger.log("> OK");
                 }
                 break;
             }

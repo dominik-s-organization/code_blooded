@@ -20,10 +20,12 @@ public class SweepingHead extends Head {
             lane.getSnow().setCrushedStoneLevel(0);
             lane.getRightLane().getSnow().raiseBy(snowAmount);
             lane.getRightLane().getSnow().setCrushedStoneLevel(crushedStoneAmount);
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Cleaned");
         }
         else {
             lane.getSnow().clean();
             lane.getSnow().setCrushedStoneLevel(0);
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Cleaned");
         }
         snowPlower.getOwner().getPaid(10);
     }
