@@ -4,7 +4,6 @@ package game;
  * A CrossRoads osztály egy kereszteződést reprezentál a játékban.
  */
 public class CrossRoads extends Point {
-<<<<<<< HEAD
     /*
      * Adott jármű ráléphet-e a kereszteződést.
      * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a kereszteződésre.
@@ -17,12 +16,8 @@ public class CrossRoads extends Point {
     //konstruktor
     public CrossRoads() {
         super();
-=======
-    
-    public CrossRoads() {
-        super();
     }
-
+    
     public CrossRoads(String id) {
         super(id);
     }

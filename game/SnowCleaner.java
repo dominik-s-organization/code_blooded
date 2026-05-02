@@ -37,14 +37,8 @@ public class SnowCleaner extends Player {
      */
     private int maxCrushedStone;
 
-<<<<<<< HEAD
-    //Konstruktor
-    public SnowCleaner() {
-        super();
-=======
     public SnowCleaner(String name) {
         super(name);
->>>>>>> main
         snowPlowers = new ArrayList<>();
         inventory = new ArrayList<>();
         money = 0;
@@ -157,18 +151,5 @@ public class SnowCleaner extends Player {
         }
         return false;
     }
-<<<<<<< HEAD
-
-    /**
-     * A boltban megvásárolt takarítófejet a játékos raktárába helyezi.
-     * * @param head a megvásárolt takarítófej
-     */
-    public void addToInventory(Head head) {
-        System.out.println("-> snowCleaner.addToInventory(head)");
-        inventory.add(head);
-    }
-}
-=======
 }
 
->>>>>>> main

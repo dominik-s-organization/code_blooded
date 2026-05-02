@@ -1,7 +1,8 @@
 package game;
 
 public class Main {    public static void main(String[] args) {
-        Skeleton skeleton = new Skeleton();
-        skeleton.menu();
+        Game game = new Game();
+        CityMap city = new CityMap();
+        game.setCity(city);
     }
 }

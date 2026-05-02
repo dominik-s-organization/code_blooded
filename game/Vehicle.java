@@ -28,13 +28,12 @@ public abstract class Vehicle {
      * Amíg ez az érték nagyobb nullánál, a jármű nem tud mozogni.
      */
     private int jammedTime;
-        /**
+    /**
      * Meghatározza, hogy a jármű tud e csúszni a jegen.
      */
     public boolean canSlip;
 
     protected Vehicle() {
-
         this(null);
     }
 

@@ -21,11 +21,6 @@ public class SnowPlower extends Vehicle {
         owner = null;
     }
 
-<<<<<<< HEAD
-    //Getterek, setterek
-    public Point getNextPoint() {
-        return nextPoint;
-=======
     public SnowPlower(String id) {
         super(id);
         currentHead = new SweepingHead();
@@ -34,7 +29,6 @@ public class SnowPlower extends Vehicle {
 
     public Lane getNextLane() {
         return nextLane;
->>>>>>> main
     }
 
     public Head getCurrentHead() {
