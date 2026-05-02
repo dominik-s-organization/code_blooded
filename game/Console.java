@@ -30,7 +30,7 @@ class Console {
                     line = reader.readLine();
                 } catch (IOException e) {
                     // Amennyiben a beolvasás során hiba történik, hibaüzenetet küldünk[cite: 189].
-                    System.out.println("> ERROR: Reading from standard input failed.");
+                    Logger.log("> ERROR: Reading from standard input failed.");
                     break;
                 }
 
@@ -41,7 +41,7 @@ class Console {
             }
         } catch (IOException e) {
             // Kritikus hiba a standard input elérésekor.
-            System.out.println("> ERROR: Critical system error while accessing console.");
+            Logger.log("> ERROR: Critical system error while accessing console.");
         }
     }
 
@@ -52,7 +52,7 @@ class Console {
         switch (command) {
             case "add_player": {
                 if (args.length < 3) {
-                    System.out.println("> ERROR: Missing arguments for add_player command. Usage: add_player <name> <role>");
+                    Logger.log("> ERROR: Missing arguments for add_player command. Usage: add_player <name> <role>");
                     break;
                 }
                 commandHistory.add(line);
@@ -64,18 +64,18 @@ class Console {
                         game.addPlayer(new BusDriver(args[1]));
                     }
                     else{
-                        System.out.println("> ERROR: Invalid player type: " + args[2]);
+                        Logger.log("> ERROR: Invalid player type: " + args[2]);
                     }
                     break;
                 }
-                System.out.println("> ERROR: Maximum player limit reached.");
+                Logger.log("> ERROR: Maximum player limit reached.");
                 break;
             }
                             
             case "load": {
                 // Konfiguráció betöltése fájlból: <fájlnév.txt>[cite: 126, 128].
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing filename.");
+                    Logger.log("> ERROR: Missing filename.");
                 } else {
                     loadGame(args[1]);
                     // A load-ot magát NEM mentjük a history-ba
@@ -86,7 +86,7 @@ class Console {
             case "step": {
                 // Léptetés végrehajtása (Game.simulateStep()): [n][cite: 129, 131, 136].
                 if (args.length > 2) {
-                    System.out.println("> ERROR: Too many arguments for step command. Usage: step [n]");
+                    Logger.log("> ERROR: Too many arguments for step command. Usage: step [n]");
                     break;
                 }
                 commandHistory.add(line);
@@ -95,7 +95,7 @@ class Console {
                     try {
                         steps = Integer.parseInt(args[1]);
                     } catch (NumberFormatException e) {
-                        System.out.println("> ERROR: Invalid number of steps: " + args[1]);
+                        Logger.log("> ERROR: Invalid number of steps: " + args[1]);
                         break;
                     }
                     for(int i = 0; i < steps; i++){
@@ -110,7 +110,7 @@ class Console {
             case "stat": {
                 // Objektum állapotának lekérdezése: <objektum_id>[cite: 144, 146].
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing object ID for stat command.");
+                    Logger.log("> ERROR: Missing object ID for stat command.");
                     break;
                 }
                 commandHistory.add(line);
@@ -131,20 +131,56 @@ class Console {
                     p.stat();
                     break;
                 }
-                System.out.println("> ERROR: Object with id " + id + " not found.");
+                Logger.log("> ERROR: Object with id " + id + " not found.");
                 break;
             }         
+
+            case "test": {
+                /**
+                 * Automatikus tesztfuttató parancs.
+                 * Szintaxis: test <teszt_száma>
+                 * Példa: test 01 -> beolvassa a test_01.txt fájlt, és a kimenetet a 01_test.txt-be menti.
+                 */
+                if (args.length < 2) {
+                    Logger.log("> ERROR: Missing test number. Usage: test <number>");
+                    break;
+                }
+                commandHistory.add(line);
+                
+                String testNum = args[1];
+                // A bemeneti és kimeneti fájlnevek dinamikus generálása
+                String inputFile = "test_" + testNum + ".txt";
+                String outputFile = testNum + "_test.txt";
+                
+                //Tesztelői mód bekapcsolása a futás idejére
+                Logger.testerMode = true;
+                
+                //Napló törlése, hogy előző tesztek kimenete ne szemetelje tele az újat
+                Logger.clear();
+
+                //Teszt parancsok beolvasása és futtatása
+                loadGame(inputFile);
+                
+                System.out.println("> Test " + testNum + " completed. Saving output to " + outputFile);
+                //Eredmények automatikus kimentése
+                Logger.save(outputFile);
+                
+                //Visszaállítjuk a tesztelői módot hamisra
+                Logger.testerMode = false;
+                break;
+            }
+
             case "move": {
                 // Jármű menetirányának kiválasztása: <vehicle_id> <lane_id>[cite: 147, 149].
                 if(args.length < 3){
-                    System.out.println("> ERROR: Missing arguments for move command. Usage: move <vehicle_id> <lane_id>");
+                    Logger.log("> ERROR: Missing arguments for move command. Usage: move <vehicle_id> <lane_id>");
                     break;
                 }
                 Vehicle v = game.getVehicleById(args[1]);
                 Lane l = game.getLaneById(args[2]);
                 if (v != null && l != null) {
                     if(args[1].contains("car_")){
-                        System.out.println("> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.");
+                        Logger.log("> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.");
                         break;
                     }
                     v.setNextLane(l);
@@ -155,14 +191,14 @@ class Console {
             case "buy": {
                 // Vásárlás a Bolttal: <player_id> <item_name> [quantity]
                 if(args.length < 3){
-                    System.out.println("> ERROR: Missing arguments for buy command. Usage: buy <player_id> <item_name> [quantity]");
+                    Logger.log("> ERROR: Missing arguments for buy command. Usage: buy <player_id> <item_name> [quantity]");
                     break;
                 }
                 commandHistory.add(line);
 
                 Player p = game.getPlayerByName(args[1]);
                 if (p == null) {
-                    System.out.println("> ERROR: Player with name " + args[1] + " not found.");
+                    Logger.log("> ERROR: Player with name " + args[1] + " not found.");
                     break;
                 }
                 
@@ -172,7 +208,7 @@ class Console {
                     try {
                         quantity = Integer.parseInt(args[3]);
                     } catch (NumberFormatException e) {
-                        System.out.println("> ERROR: Invalid quantity. Please specify a valid number.");
+                        Logger.log("> ERROR: Invalid quantity. Please specify a valid number.");
                         break;
                     }
                 }
@@ -182,25 +218,25 @@ class Console {
                     SnowCleaner sc = (SnowCleaner) p;
                     game.getStore().buy(itemName, quantity, sc);
                 } else {
-                    System.out.println("> ERROR: Only SnowCleaner players can buy items from the shop.");
+                    Logger.log("> ERROR: Only SnowCleaner players can buy items from the shop.");
                 }
                 break;
             }           
 
             case "equip": {
                 /**
-                 * Hókotró fejének lecserélése a kívánt típusra.
+                 * Hókotró fejének lecserélése a kívánt típusra, amennyiben az a játékos eszköztárában van.
                  * Szintaxis: equip <plower_id> <head_type>
                  */
                 if (args.length < 3) {
-                    System.out.println("> ERROR: Missing arguments for equip command. Usage: equip <plower_id> <head_type>");
+                    Logger.log("> ERROR: Missing arguments for equip command. Usage: equip <plower_id> <head_type>");
                     break;
                 }
                 commandHistory.add(line);
                 
                 Vehicle v = game.getVehicleById(args[1]);
                 if (v == null) {
-                    System.out.println("> ERROR: Vehicle not found: " + args[1]);
+                    Logger.log("> ERROR: Vehicle not found: " + args[1]);
                     break;
                 }
                 
@@ -208,25 +244,37 @@ class Console {
                     // Ha a jármű egy Car vagy Bus, akkor kivételt dob, amit lent elkapunk.
                     SnowPlower sp = (SnowPlower) v;
                     
-                    String headType = args[2].toLowerCase();
-                    Head newHead = null;
+                    if (sp.getOwner() == null) {
+                        Logger.log("> ERROR: SnowPlower has no owner, cannot access inventory.");
+                        break;
+                    }
 
-                    // Az átadott string alapján eldöntjük, melyik fejet kell felszerelni
-                    if (headType.contains("sweeping")) newHead = new SweepingHead();
-                    else if (headType.contains("thrower")) newHead = new ThrowerHead();
-                    else if (headType.contains("icebreaker")) newHead = new IceBreakerHead();
-                    else if (headType.contains("salter")) newHead = new SalterHead();
-                    else if (headType.contains("dragon")) newHead = new DragonHead();
-                    else if (headType.contains("crushedstone")) newHead = new CrushedStoneHead();
+                    // A parancsban kapott szót lecsupaszítjuk (kisbetűsítjük és kivesszük az esetleges aláhúzásokat)
+                    String targetType = args[2].toLowerCase();
+                    Head headToEquip = null;
 
-                    if (newHead != null) {
-                        sp.changeHead(newHead);
+                    // Végignézzük a tulajdonos (SnowCleaner) eszköztárát (inventory)
+                    for (Head h : sp.getOwner().getInventory()) {
+                        // Lekérjük az inventory-ban lévő fej pontos osztálynevét (pl. "ThrowerHead" -> "throwerhead")
+                        String currentHeadName = h.getClass().getSimpleName().toLowerCase();
+                        
+                        // Ha a név tartalmazza a keresett típust (pl. a "throwerhead" tartalmazza a "thrower" szót)
+                        if (currentHeadName.contains(targetType)) {
+                            headToEquip = h; // Megtaláltuk a megfelelő fejet a raktárban!
+                            break; 
+                        }
+                    }
+
+                    if (headToEquip != null) {
+                        sp.changeHead(headToEquip); // Felszereljük a meglévő fejet
+//valami ilysemi                        Logger.log("> SUCCESS: " + headToEquip.getClass().getSimpleName() + " successfully equipped on " + args[1]);
                     } else {
-                        System.out.println("> ERROR: Unknown head type: " + headType);
+                        // Ha a ciklus végigért, és nem talált ilyen fejet a listában:
+                        Logger.log("> ERROR: The owner does not have a '" + args[2] + "' in their inventory. Buy it first from the Store!");
                     }
                 } catch (ClassCastException e) {
                     // Ha a kasztolás elszállt, akkor az objektum biztosan nem hókotró volt.
-                    System.out.println("> ERROR: Vehicle is not a SnowPlower: " + args[1]);
+                    Logger.log("> ERROR: Vehicle is not a SnowPlower: " + args[1]);
                 }
                 break;
             }
@@ -234,7 +282,7 @@ class Console {
             case "save": {
                 // Aktuális állapot kimentése: <fájlnév.txt>[cite: 157, 162].
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing filename.");
+                    Logger.log("> ERROR: Missing filename.");
                 } else {
                     saveGame(args[1]);
                     // A save-et sem mentjük, mert betöltéskor nem akarunk újra menteni
@@ -245,14 +293,14 @@ class Console {
             case "create_point": {
                 // Új csomópont létrehozása: <type>[cite: 166, 168].
                 if (args.length < 3) {
-                    System.out.println("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
+                    Logger.log("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
                     break;
                 }
                 commandHistory.add(line);
 
                 String type = args[1];
                 if (!type.equals("junction") && !type.equals("crossroads") && !type.equals("tunnel")) {
-                    System.out.println("> ERROR: Invalid point type: " + type + ". Valid types are: junction, crossroads, tunnel.");
+                    Logger.log("> ERROR: Invalid point type: " + type + ". Valid types are: junction, crossroads, tunnel.");
                     break;
                 }
                 switch (type) {
@@ -272,7 +320,7 @@ class Console {
                         game.getCityMap().addPoint(tunnel);
                         break;
                     default:
-                        System.out.println("> ERROR: Invalid point type: " + type);
+                        Logger.log("> ERROR: Invalid point type: " + type);
                         break;
                 }
                 break;
@@ -281,7 +329,7 @@ class Console {
             case "create_lane": {
                 // Új sáv létrehozása és bekötése: <start_junction_id> <end_junction_id>[cite: 169, 171].
                 if (args.length < 3) {
-                    System.out.println("> ERROR: Missing arguments for create_lane command. Usage: create_lane <start_junction_id> <end_junction_id>");
+                    Logger.log("> ERROR: Missing arguments for create_lane command. Usage: create_lane <start_junction_id> <end_junction_id>");
                     break;
                 }
                 commandHistory.add(line);
@@ -314,14 +362,14 @@ class Console {
                  * Szintaxis: set_lane <lane_id> <parameter> <value>
                  */
                 if (args.length < 4) {
-                    System.out.println("> ERROR: Missing arguments for set_lane command. Usage: set_lane <lane_id> <parameter> <value>");
+                    Logger.log("> ERROR: Missing arguments for set_lane command. Usage: set_lane <lane_id> <parameter> <value>");
                     break;
                 }
                 commandHistory.add(line);
 
                 Lane laneToSet = game.getLaneById(args[1]);
                 if (laneToSet == null) {
-                    System.out.println("> ERROR: Lane not found: " + args[1]);
+                    Logger.log("> ERROR: Lane not found: " + args[1]);
                     break;
                 }
 
@@ -352,10 +400,10 @@ class Console {
                             laneToSet.getSnow().setCrushedStoneLevel(Integer.parseInt(valueStr));
                             break;
                         default:
-                            System.out.println("> ERROR: Unknown parameter: " + param);
+                            Logger.log("> ERROR: Unknown parameter: " + param);
                     }
                 } catch (Exception e) {
-                    System.out.println("> ERROR: Invalid value format for " + param + ". Check if it should be a number or true/false.");
+                    Logger.log("> ERROR: Invalid value format for " + param + ". Check if it should be a number or true/false.");
                 }
                 break;
             }
@@ -367,7 +415,7 @@ class Console {
                  * Szintaxis: place_vehicle <type> <entity_id> <position_id>
                  */
                 if (args.length < 4) {
-                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <type> <entity_id> <position_id>");
+                    Logger.log("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <type> <entity_id> <position_id>");
                     break;
                 }
                 commandHistory.add(line);
@@ -378,7 +426,7 @@ class Console {
 
                 Point startingPoint = game.getPointById(pId);
                 if (startingPoint == null) {
-                    System.out.println("> ERROR: Starting point not found: " + pId);
+                    Logger.log("> ERROR: Starting point not found: " + pId);
                     break;
                 }
 
@@ -390,7 +438,7 @@ class Console {
                 } else if (type.equals("snow_plower")) {
                     newVehicle = new SnowPlower(vId);
                 } else {
-                    System.out.println("> ERROR: Unknown vehicle type: " + type);
+                    Logger.log("> ERROR: Unknown vehicle type: " + type);
                     break;
                 }
 
@@ -416,7 +464,7 @@ class Console {
                         
             default: {
                 // Szabálytalan parancs esetén hibaüzenet[cite: 184, 189].
-                System.out.println("> ERROR: Unknown command: " + command);
+                Logger.log("> ERROR: Unknown command: " + command);
                 break;
             }
         }
@@ -437,7 +485,7 @@ class Console {
     public void loadGame(String filename) {
         File file = new File(filename);
         if (!file.exists()) {
-            System.out.println("> ERROR: File not found: " + filename);
+            Logger.log("> ERROR: File not found: " + filename);
             return;
         }
 
@@ -451,9 +499,9 @@ class Console {
                 // A fájlból olvasott parancsokat végrehajtjuk, így rekonstruálva a játék állapotát.
                 processCommand(line);
             }
-            System.out.println("> Game loaded from " + filename);
+            Logger.log("> Game loaded from " + filename);
         } catch (IOException e) {
-            System.out.println("> ERROR: Error reading file: " + e.getMessage());
+            Logger.log("> ERROR: Error reading file: " + e.getMessage());
         }
     }
 
@@ -461,56 +509,56 @@ class Console {
      * Segédfüggvény a rendelkezésre álló parancsok és argumentumaik listázására.
      */
     public void printHelp() {
-        System.out.println("--- Elérhető parancsok és használatuk ---");
+        Logger.log("--- Elérhető parancsok és használatuk ---");
         
         // Rendszervezérlő és lekérdező parancsok
-        System.out.println("add_player <name> <role>");
-        System.out.println("  role: snowcleaner | busdriver");
-        System.out.println("  Leírás: Új játékos regisztrálása a szimulációs rendszerbe. [cite: 124, 125]");
+        Logger.log("add_player <name> <role>");
+        Logger.log("  role: snowcleaner | busdriver");
+        Logger.log("  Leírás: Új játékos regisztrálása a szimulációs rendszerbe. [cite: 124, 125]");
         
-        System.out.println("load <fájlnév.txt>");
-        System.out.println("  Leírás: A programot egy előre megadott konfigurációból indítja el. [cite: 127, 128]");
+        Logger.log("load <fájlnév.txt>");
+        Logger.log("  Leírás: A programot egy előre megadott konfigurációból indítja el. [cite: 127, 128]");
         
-        System.out.println("step [n]");
-        System.out.println("  Leírás: A léptető parancs. Kiváltja a cselekvések tényleges végrehajtását. Opcionálisan megadható a lépések száma. [cite: 130, 136]");
+        Logger.log("step [n]");
+        Logger.log("  Leírás: A léptető parancs. Kiváltja a cselekvések tényleges végrehajtását. Opcionálisan megadható a lépések száma. [cite: 130, 136]");
         
-        System.out.println("stat <objektum_id>");
-        System.out.println("  Leírás: Állapotlekérdező parancs. A konzolra írja egy entitás összes aktuális, belső paraméterét. [cite: 145, 146]");
+        Logger.log("stat <objektum_id>");
+        Logger.log("  Leírás: Állapotlekérdező parancs. A konzolra írja egy entitás összes aktuális, belső paraméterét. [cite: 145, 146]");
         
-        System.out.println("move <vehicle_id> <lane_id>");
-        System.out.println("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott sávon át próbáljon haladni. [cite: 148, 149]");
+        Logger.log("move <vehicle_id> <lane_id>");
+        Logger.log("  Leírás: Utasítja a megadott járművet, hogy a következő step alkalmával a megadott sávon át próbáljon haladni. [cite: 148, 149]");
         
-        System.out.println("buy <player_id> <item_name> [quantity]");
-        System.out.println("  Leírás: A Takarító (SnowCleaner) játékos tárgyat/nyersanyagot vásárol a Boltból. [cite: 151, 153]");
+        Logger.log("buy <player_id> <item_name> [quantity]");
+        Logger.log("  Leírás: A Takarító (SnowCleaner) játékos tárgyat/nyersanyagot vásárol a Boltból. [cite: 151, 153]");
         
-        System.out.println("equip <plower_id> <head_type>");
-        System.out.println("  Leírás: Lecseréli a hókotrón lévő aktuális fejet egy másik, már birtokolt fejre. [cite: 155, 156]");
+        Logger.log("equip <plower_id> <head_type>");
+        Logger.log("  Leírás: Lecseréli a hókotrón lévő aktuális fejet egy másik, már birtokolt fejre. [cite: 155, 156]");
         
-        System.out.println("save <fájlnév.txt>");
-        System.out.println("  Leírás: A teljes aktuális szimulációs állapotot kimenti a megadott szöveges fájlba. [cite: 158, 162]");
+        Logger.log("save <fájlnév.txt>");
+        Logger.log("  Leírás: A teljes aktuális szimulációs állapotot kimenti a megadott szöveges fájlba. [cite: 158, 162]");
         
         // Konfigurációs és pályaépítő parancsok
-        System.out.println("\n--- Konfigurációs és pályaépítő parancsok ---");
+        Logger.log("\n--- Konfigurációs és pályaépítő parancsok ---");
         
-        System.out.println("create_point <type>");
-        System.out.println("  type: junction | crossroads | tunnel");
-        System.out.println("  Leírás: Létrehoz egy új pontot. [cite: 167, 168]");
+        Logger.log("create_point <type>");
+        Logger.log("  type: junction | crossroads | tunnel");
+        Logger.log("  Leírás: Létrehoz egy új pontot. [cite: 167, 168]");
 
-        System.out.println("create_lane <start_junction_id> <end_junction_id>");
-        System.out.println("  Leírás: Létrehoz egy sávot, és logikailag összeköti a csomópontokat. [cite: 170, 171]");
+        Logger.log("create_lane <start_junction_id> <end_junction_id>");
+        Logger.log("  Leírás: Létrehoz egy sávot, és logikailag összeköti a csomópontokat. [cite: 170, 171]");
         
-        System.out.println("set_lane <lane_id> <is_jammed | is_underground | snow_level | ice | broken_ice | salt_level | crushed_Stone_level> <érték>");
-        System.out.println("  Leírás: Tesztelési célból egy sáv paramétereit manuálisan, azonnal beállítja. [cite: 173, 174]");
+        Logger.log("set_lane <lane_id> <is_jammed | is_underground | snow_level | ice | broken_ice | salt_level | crushed_Stone_level> <érték>");
+        Logger.log("  Leírás: Tesztelési célból egy sáv paramétereit manuálisan, azonnal beállítja. [cite: 173, 174]");
         
-        System.out.println("place_vehicle <type> <position_id>");
-        System.out.println("  type: bus | car | snow_plower");
-        System.out.println("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción. [cite: 176]");
+        Logger.log("place_vehicle <type> <position_id>");
+        Logger.log("  type: bus | car | snow_plower");
+        Logger.log("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción. [cite: 176]");
 
-        System.out.println("help");
-        System.out.println("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");
+        Logger.log("help");
+        Logger.log("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");
         
-        System.out.println("exit");
-        System.out.println("  Leírás: A szimulációs program biztonságos leállítása és kilépés a parancssorból. ");
-        System.out.println("-------------------------------------------");
+        Logger.log("exit");
+        Logger.log("  Leírás: A szimulációs program biztonságos leállítása és kilépés a parancssorból. ");
+        Logger.log("-------------------------------------------");
     }
 }
