@@ -16,7 +16,7 @@ public class Game implements IdGenerator {
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
 
     public Game() {
-        city = null;
+        city = new CityMap();
         players = new ArrayList<>();
         store = new Store();
         idCounters = new HashMap<>();
