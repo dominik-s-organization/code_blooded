@@ -34,6 +34,7 @@ public class Snow {
      */
     private int crushedStoneLevel; 
 
+    //Konstruktor
     public Snow() {
         this.level = 0;
         this.vehiclesPassed = 0;
@@ -42,6 +43,7 @@ public class Snow {
         this.saltLevel = 0;
     }
 
+    // Getterek, setterek
     public int getLevel() {
         return level;
     }
@@ -112,6 +114,7 @@ public class Snow {
     /**
      * Csökkenti a hó vastagságát (pl. olvadás vagy takarítás következtében).
      */
+
     public void lower() {
         if (level > 0){
             level--;
@@ -135,4 +138,5 @@ public class Snow {
             setIce(true);
         }
     }
+    
 }

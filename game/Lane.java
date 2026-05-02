@@ -11,8 +11,9 @@ public class Lane {
     private Lane rightLane; // jobbra eső sáv
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
-    private Snow snow; // a sávon lévő hóviszonyokat reprezentáló objektum
+    private Snow snow;
 
+    // Konstruktor
     public Lane() {
         this(null);
     }

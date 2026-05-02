@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
+// A Console osztály felelős a parancssori interakciók kezeléséért, a parancsok értelmezéséért és végrehajtásáért.
 class Console {
-
     public Game game = new Game();
 
     public ArrayList<String> commandHistory = new ArrayList<>();
 
-    public void ReadConsoleParams() {
+    public void readConsoleParams() {
         // A parancsok beolvasása a szabványos bemenetről (stdin) történik[cite: 105].
         // Try-with-resources használata a BufferedReader automatikus lezárásához.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -48,6 +48,11 @@ class Console {
     public boolean processCommand(String line) {
         String[] args = line.trim().split("\\s+");
         String command = args[0];
+
+        if(game == null){
+            System.out.println("> ERROR: Game instance is not initialized.");
+            return false;
+        }
 
         switch (command) {
             case "add_player": {

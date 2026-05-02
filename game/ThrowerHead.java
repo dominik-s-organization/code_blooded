@@ -11,9 +11,9 @@ public class ThrowerHead extends Head {
         super();
     }
     /**
-     * Megtiszt�tja az adott s�vot, a havat messzire haj�tva, cs�kkentve a h�r�teget.
+     * Megtisztítja az adott sávot, a havat messzire hajtva, csökkentve a hőrteget.
      *
-     * @param lane a s�v, amelyet a h�h�ny� fej letakar�t
+     * @param lane a sáv, amelyet a hóyny fej letakarít
      */    
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
