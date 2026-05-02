@@ -4,41 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A tesztelési és normál kimeneteket kezelõ központi naplózó osztály.
+ * A tesztelï¿½si ï¿½s normï¿½l kimeneteket kezelï¿½ kï¿½zponti naplï¿½zï¿½ osztï¿½ly.
  */
 public class Logger {
     /** 
-     * Tesztelõi mód kapcsolója. Ha true, kiírja a konzolra is az üzeneteket.
-     * Alapértelmezetten kikapcsolva tartjuk.
+     * Tesztelï¿½i mï¿½d kapcsolï¿½ja. Ha true, kiï¿½rja a konzolra is az ï¿½zeneteket.
+     * Alapï¿½rtelmezetten kikapcsolva tartjuk.
      */
     public static boolean testerMode = false;
     
-    /** A kimenetek memóriában tárolt listája a fájlba mentéshez. */
+    /** A kimenetek memï¿½riï¿½ban tï¿½rolt listï¿½ja a fï¿½jlba mentï¿½shez. */
     public static List<String> outputHistory = new ArrayList<>();
 
     /**
-     * Központi kiíró metódus.
-     * Mindig eltárolja az üzenetet a listában, de csak tesztelõi módban írja ki a konzolra.
-     * @param message a kiírandó üzenet
+     * Kï¿½zponti kiï¿½rï¿½ metï¿½dus.
+     * Mindig eltï¿½rolja az ï¿½zenetet a listï¿½ban, de csak tesztelï¿½i mï¿½dban ï¿½rja ki a konzolra.
+     * @param message a kiï¿½randï¿½ ï¿½zenet
      */
     public static void log(String message) {
         outputHistory.add(message);
-        if (testerMode) {
-
+        if (!testerMode) {
             System.out.println(message);
         }
     }
     
     /**
-     * Törli az eddigi naplózott kimeneteket (hasznos lehet a 'load' parancsnál).
+     * Tï¿½rli az eddigi naplï¿½zott kimeneteket (hasznos lehet a 'load' parancsnï¿½l).
      */
     public static void clear() {
         outputHistory.clear();
     }
 
     /**
-     * Kimenti a naplózott kimeneteket a megadott fájlba (pl. teszteléshez).
-     * @param filename a létrehozandó txt fájl neve
+     * Kimenti a naplï¿½zott kimeneteket a megadott fï¿½jlba (pl. tesztelï¿½shez).
+     * @param filename a lï¿½trehozandï¿½ txt fï¿½jl neve
      */
     public static void save(String filename) {
         try (java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.FileWriter(filename))) {
