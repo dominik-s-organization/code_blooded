@@ -13,7 +13,7 @@ public class CrushedStoneHead extends Head {
     public void clean(Lane lane, SnowPlower snowPlower) {
         if (snowPlower.getOwner().consumeMaterial("crushedStone")) {
             lane.getSnow().setCrushedStoneLevel(10);
-            
+            Logger.log("> ACTION: " + lane.getId() + " state_changed CrushedStoned");
             snowPlower.getOwner().getPaid(15);
         }
     }
