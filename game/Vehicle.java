@@ -9,7 +9,7 @@ public abstract class Vehicle {
     /**
      * A jármű egyedi azonosítója a játékban.
      */
-    private final String id;
+    private String id;
     /**
      * A jármű aktuális helyzete (csomópontja) az úthálózatban.
      */
@@ -47,6 +47,12 @@ public abstract class Vehicle {
     // Getterek, setterek
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        if (this.id == null) {
+            this.id = id;
+        }
     }
 
     public Point getCurrentPoint() {

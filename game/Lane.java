@@ -4,7 +4,7 @@ package game;
  * A Lane osztály egy sávot reprezentál a játékban.
  */
 public class Lane {
-    private final String id; // A sáv egyedi azonosítója.
+    private String id; // A sáv egyedi azonosítója.
     private Point startpoint; // sáv kezdőpontja, ami lehet egy Junction vagy egy CrossRoads
     private Point endpoint; // sáv végpontja, ami lehet egy Junction vagy egy CrossRoads
     private Lane leftLane; // balra eső sáv
@@ -33,7 +33,12 @@ public class Lane {
         return id;
     }
 
-    // Getterek, setterek
+    public void setId(String id) {
+        if (this.id == null) {
+            this.id = id;
+        }
+    }
+
     public void setStartPoint(Point startpoint) {
         this.startpoint = startpoint;
     }

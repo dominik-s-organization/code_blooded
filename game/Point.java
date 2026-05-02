@@ -11,7 +11,7 @@ public abstract class Point {
     /**
      * A pont egyedi azonosítója.
      */
-    private final String id;
+    private String id;
     /**
      * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
@@ -41,7 +41,12 @@ public abstract class Point {
         return id;
     }
 
-    // Getterek
+    public void setId(String id) {
+        if (this.id == null) {
+            this.id = id;
+        }
+    }
+
     public List<Lane> getIncomingLanes() {
         return incomingLanes;
     }

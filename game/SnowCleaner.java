@@ -151,5 +151,10 @@ public class SnowCleaner extends Player {
         }
         return false;
     }
+
+    @Override
+    public String getType() {
+        return "snow_cleaner";
+    }
 }
 

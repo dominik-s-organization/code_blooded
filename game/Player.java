@@ -21,6 +21,13 @@ public abstract class Player {
      public void setName(String name) {
          this.name = name;
      }
+
+    /**
+     * Visszaadja a játékos típusát.
+     *
+     * @return a játékos típusa (pl. "snow_cleaner", "bus_driver")
+     */
+    public abstract String getType();
     /**
      * A játékos ezen a metóduson keresztül választja ki a következő célállomást
      * (csomópontot) az általa irányított jármű számára.
