@@ -41,6 +41,7 @@ public class Junction extends Point {
         } else {
             System.out.println("No outgoing lanes.");
         }
+        
         System.out.println("Vehicles: " + getVehicles().size());
         if(getVehicles().size() > 0) {
             System.out.println("Vehicles:");
