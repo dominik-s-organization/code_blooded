@@ -6,14 +6,13 @@ package game;
  * elősegíti a meglévő jég/hó olvadását. Működéséhez só szükséges.
  */
 public class SalterHead extends Head {
-    
+    //Konstruktor
     public SalterHead() {
         super();
     }
     /**
      * Végrehajtja a sózást a megadott sávon.
      * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos só-készletét.
-     *
      * @param lane a sáv, amelyen a sózó fej kifejti a hatását
      */
     @Override

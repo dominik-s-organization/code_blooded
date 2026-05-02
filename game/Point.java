@@ -25,6 +25,7 @@ public abstract class Point {
      */
     private List<Lane> outgoingLanes;
 
+    //Konstruktor
     protected Point() {
         this(null);
     }
@@ -95,7 +96,7 @@ public abstract class Point {
     public void addOutgoingLane(Lane lane) {
         outgoingLanes.add(lane);
     }
-    
+
     /*
      * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
      * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.

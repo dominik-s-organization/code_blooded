@@ -10,6 +10,7 @@ public class Bus extends Vehicle {
     private Point beginningPoint; // A busz kezdőpontja, ahonnan elindul.
     private Point endPoint; // A busz végpontja, ahová tart.
 
+    // Paraméter nélküli konstruktor
     public Bus() {
         super();
         owner = null;
@@ -18,6 +19,7 @@ public class Bus extends Vehicle {
         canSlip = true;
     }
 
+    //paraméteres konstruktor
     public Bus(String id) {
         super(id);
         owner = null;
@@ -26,6 +28,7 @@ public class Bus extends Vehicle {
         canSlip = true;
     }
 
+    // Getterek és setterek
     public Lane getNextLane() {
         return nextLane;
     }

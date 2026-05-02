@@ -15,6 +15,7 @@ public class Car extends Vehicle {
     private Point work; // Az autó munkahelye, ahová el kell jutni.
     private boolean isHeadingHome; // Jelzi, hogy az autó éppen hazafelé tart-e.
 
+    // Konstruktor
     public Car() {
         super();
         home = null;
@@ -31,6 +32,7 @@ public class Car extends Vehicle {
         canSlip = true;
     }
 
+    // Getterek, setterek
     public Point getHome() {
         return home;
     }

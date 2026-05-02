@@ -28,7 +28,7 @@ public abstract class Vehicle {
      * Amíg ez az érték nagyobb nullánál, a jármű nem tud mozogni.
      */
     private int jammedTime;
-        /**
+    /**
      * Meghatározza, hogy a jármű tud e csúszni a jegen.
      */
     public boolean canSlip;
@@ -44,6 +44,7 @@ public abstract class Vehicle {
         jammedTime = 0;
     }
 
+    // Getterek, setterek
     public String getId() {
         return id;
     }

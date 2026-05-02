@@ -10,9 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 
+// A Console osztály felelős a parancssori interakciók kezeléséért, a parancsok értelmezéséért és végrehajtásáért.
 class Console {
+    // game referencia, amelyen keresztül a konzol parancsokat hajt végre a játék állapotán.
+    private Game game;
 
-    public Game game;
+    public Console(Game game) {
+        this.game = game;
+    }
 
     public ArrayList<String> commandHistory = new ArrayList<>();
 
@@ -48,6 +53,11 @@ class Console {
     public boolean processCommand(String line) {
         String[] args = line.trim().split("\\s+");
         String command = args[0];
+
+        if(game == null){
+            System.out.println("> ERROR: Game instance is not initialized.");
+            return false;
+        }
 
         switch (command) {
             case "add_player": {
@@ -373,7 +383,7 @@ class Console {
                 commandHistory.add(line);
 
                 String type = args[1].toLowerCase();
-                String eId = args[2];
+                String vId = args[2];
                 String pId = args[3];
 
                 Point startingPoint = game.getPointById(pId);

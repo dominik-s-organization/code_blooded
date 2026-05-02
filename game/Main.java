@@ -2,7 +2,8 @@ package game;
 
 public class Main {
     public static void main(String[] args) {
-        Console console = new Console();
+        Game myGame = new Game();
+        Console console = new Console(myGame);
         console.ReadConsoleParams();
     }
 }
