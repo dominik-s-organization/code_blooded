@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.
@@ -16,7 +15,7 @@ public class Game implements IdGenerator {
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
 
     public Game() {
-        city = null;
+        city = new CityMap();
         players = new ArrayList<>();
         store = new Store();
         idCounters = new HashMap<>();
@@ -171,9 +170,11 @@ public class Game implements IdGenerator {
          }
 
          // Karambolok keresése
-        for (Point point : city.getPoints()) {
-            point.lookForJams();
-        }
+         if(city.getVehicles().size() > 1) {
+            for (Point point : city.getPoints()) {
+                point.lookForJams();
+            }
+         }
 
          // Végül havazás
         for (Lane lane : city.getLanes()) {

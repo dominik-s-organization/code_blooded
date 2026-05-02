@@ -6,10 +6,6 @@ package game;
  * a havat áthelyezi az egyik szomszédos sávba. A járműveket nem képes feltárnani.
  */
 public class SweepingHead extends Head {
-    
-    public SweepingHead() {
-        super();
-    }
     /**
      * Megtisztítja az adott sávot, a havat a szomszédos sávra áthelyezve.
      *

@@ -53,6 +53,7 @@ public class SnowCleaner extends Player {
         inventory.add(sp.getCurrentHead());
     }
 
+    // Getterek, setterek
     public List<SnowPlower> getSnowPlowers() {
         return snowPlowers;
     }
