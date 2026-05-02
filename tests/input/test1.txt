@@ -1,0 +1,6 @@
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+set_lane l1 snow_level 0
+step
+stat l1
