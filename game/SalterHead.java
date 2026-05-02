@@ -12,11 +12,7 @@ public class SalterHead extends Head {
     }
     /**
      * Végrehajtja a sózást a megadott sávon.
-<<<<<<< HEAD
-     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos sókészletét.
-=======
      * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos só-készletét.
->>>>>>> main
      *
      * @param lane a sáv, amelyen a sózó fej kifejti a hatását
      */
