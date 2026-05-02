@@ -23,7 +23,7 @@ class Console {
             
             boolean isGoing = true;
             while (isGoing) {
-                printHelp();
+                //printHelp();
                 String line;
                 try {
                     System.out.print("> ");
@@ -443,12 +443,12 @@ class Console {
                     BusDriver busDriver = (BusDriver) player;
                     newVehicle = busDriver.getBus();
                     newVehicle.setId(game.generateId("bus"));
-                } else if (player.getType().equals("snowcleaner")) {
+                } else if (player.getType().equals("snow_cleaner")) {
                     SnowCleaner snowCleaner = (SnowCleaner) player;
                     newVehicle = snowCleaner.getSnowPlowers().get(snowCleaner.getSnowPlowers().size() - 1); // utolsó hókotró lehelyezése
-                    newVehicle.setId(game.generateId("snowplower"));
+                    newVehicle.setId(game.generateId("snow_plower"));
                 } else {
-                    Logger.log("> ERROR: Unknown vehicle type: " + type);
+                    Logger.log("> ERROR: Unknown player");
                     break;
                 }
 

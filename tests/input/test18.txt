@@ -1,0 +1,8 @@
+create_junction j1
+create_junction j2
+create_lane l1 j1 j2
+set_lane l1 is_underground true
+place_vehicle car c1 j1
+move c1 j2
+step 1
+stat l1

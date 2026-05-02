@@ -1,0 +1,5 @@
+create_junction j1
+create_junction j2
+create_lane l1 j1 j2
+save test_save_01.txt
+load test_save_01.txt

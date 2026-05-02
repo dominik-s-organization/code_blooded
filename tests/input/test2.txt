@@ -1,0 +1,13 @@
+random off
+create_junction j1
+create_junction j2
+create_junction j3
+create_lane l1 j1 j2
+create_lane l2 j2 j3
+set_lane l1 ice true
+place_vehicle car c1 j1
+place_vehicle car c2 j1
+force_slip c1 true
+step 1
+stat c1
+stat l1

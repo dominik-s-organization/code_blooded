@@ -1,0 +1,8 @@
+add_player p2 Driver
+create_junction j1
+create_junction j2
+create_lane l1 j1 j2
+place_vehicle bus b1 j1
+move b1 j2
+step 1
+stat b1

@@ -1,0 +1,9 @@
+create_junction j1
+create_junction j2
+create_lane l1 j1 j2
+set_lane l1 crushed_Stone_level 2
+place_vehicle plower pl1 j1
+equip pl1 sweepinghead
+move pl1 j2
+step 1
+stat l1
