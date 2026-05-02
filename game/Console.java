@@ -12,16 +12,11 @@ import java.io.IOException;
 
 // A Console osztály felelős a parancssori interakciók kezeléséért, a parancsok értelmezéséért és végrehajtásáért.
 class Console {
-    // game referencia, amelyen keresztül a konzol parancsokat hajt végre a játék állapotán.
-    private Game game;
-
-    public Console(Game game) {
-        this.game = game;
-    }
+    public Game game = new Game();
 
     public ArrayList<String> commandHistory = new ArrayList<>();
 
-    public void ReadConsoleParams() {
+    public void readConsoleParams() {
         // A parancsok beolvasása a szabványos bemenetről (stdin) történik[cite: 105].
         // Try-with-resources használata a BufferedReader automatikus lezárásához.
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
@@ -254,7 +249,7 @@ class Console {
                             
             case "create_point": {
                 // Új csomópont létrehozása: <type>[cite: 166, 168].
-                if (args.length < 3) {
+                if (args.length < 2) {
                     System.out.println("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
                     break;
                 }
@@ -268,17 +263,17 @@ class Console {
                 switch (type) {
                     case "junction":
                         Junction junction = new Junction();
-                        junction.setId(game.generateId("point"));
+                        junction.setId(game.generateId("junction"));
                         game.getCityMap().addPoint(junction);
                         break;
                     case "crossroads":
                         CrossRoads crossroads = new CrossRoads();
-                        crossroads.setId(game.generateId("point"));
+                        crossroads.setId(game.generateId("crossroads"));
                         game.getCityMap().addPoint(crossroads);
                         break;
                     case "tunnel":
                         Tunnel tunnel = new Tunnel();
-                        tunnel.setId(game.generateId("point"));
+                        tunnel.setId(game.generateId("tunnel"));
                         game.getCityMap().addPoint(tunnel);
                         break;
                     default:
@@ -374,17 +369,17 @@ class Console {
             case "place_vehicle": {
                 /**
                  * Jármű lehelyezése a megadott kezdőpontra a város hálózatában.
-                 * Szintaxis: place_vehicle <type> <entity_id> <position_id>
+                 * Szintaxis: place_vehicle <position_id> [player_name]
                  */
-                if (args.length < 4) {
-                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <type> <entity_id> <position_id>");
+                if (args.length < 2) {
+                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <position_id> [player_name]");
                     break;
                 }
                 commandHistory.add(line);
 
-                String type = args[1].toLowerCase();
-                String vId = args[2];
-                String pId = args[3];
+                String pId = args[1];
+                String playerName = args.length > 2 ? args[2] : null;
+                Player player = game.getPlayerById(playerName);
 
                 Point startingPoint = game.getPointById(pId);
                 if (startingPoint == null) {
@@ -393,20 +388,26 @@ class Console {
                 }
 
                 Vehicle newVehicle = null;
-                if (type.equals("car")) {
-                    newVehicle = new Car(vId);
-                } else if (type.equals("bus")) {
-                    newVehicle = new Bus(vId);
-                } else if (type.equals("snow_plower")) {
-                    newVehicle = new SnowPlower(vId);
+                if (playerName == null) {
+                    newVehicle = new Car();
+                    newVehicle.setId(game.generateId("car"));
+                } else if (player.getType().equals("bus_driver")) {
+                    BusDriver busDriver = (BusDriver) player;
+                    newVehicle = busDriver.getBus();
+                    newVehicle.setId(game.generateId("bus"));
+                } else if (player.getType().equals("snowcleaner")) {
+                    SnowCleaner snowCleaner = (SnowCleaner) player;
+                    newVehicle = snowCleaner.getSnowPlowers().get(snowCleaner.getSnowPlowers().size() - 1); // utolsó hókotró lehelyezése
+                    newVehicle.setId(game.generateId("snowplower"));
                 } else {
-                    System.out.println("> ERROR: Unknown vehicle type: " + type);
+                    System.out.println("> ERROR: Unknown vehicle type");
                     break;
                 }
 
                 // Jármű logikai elhelyezése a csomóponton és a várostérképen
                 if (newVehicle != null) {
                     newVehicle.setCurrentPoint(startingPoint);
+                    newVehicle.setLastLane(newVehicle.getCurrentPoint().getIncomingLanes().get(0));
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
                 }
@@ -512,9 +513,10 @@ class Console {
         System.out.println("set_lane <lane_id> <is_jammed | is_underground | snow_level | ice | broken_ice | salt_level | crushed_Stone_level> <érték>");
         System.out.println("  Leírás: Tesztelési célból egy sáv paramétereit manuálisan, azonnal beállítja. [cite: 173, 174]");
         
-        System.out.println("place_vehicle <type> <position_id>");
-        System.out.println("  type: bus | car | snow_plower");
-        System.out.println("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción. [cite: 176]");
+        System.out.println("place_vehicle <position_id> [player_name]");
+        System.out.println("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción.");
+        System.out.println("  Ha adunk nem adunk meg játékosnevet, akkor egy Car típusú jármű kerül lehelyezésre,");
+        System.out.println("  ha pedig megadunk, akkor a játékostól függően egy Bus vagy SnowPlower lesz lehelyezve.");
 
         System.out.println("help");
         System.out.println("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");
