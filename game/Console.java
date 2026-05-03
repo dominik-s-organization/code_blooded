@@ -234,7 +234,7 @@ class Console {
                         Logger.log("> ERROR: Insufficient funds or invalid item.");
                     }
                 }         
-                
+            }
             case "equip": {
                 /**
                  * Hókotró fejének lecserélése a kívánt típusra, amennyiben az a játékos eszköztárában van.
@@ -280,7 +280,7 @@ class Console {
                     if (headToEquip != null) {
                         sp.changeHead(headToEquip); // Felszereljük a meglévő fejet
                         Logger.log("> OK");
-                        Logger.log("> ACTION: " + sp.getOwner().getName() + " equipped " + currentHeadName + " to " + args[1]);
+                        Logger.log("> ACTION: " + sp.getOwner().getName() + " equipped " + headToEquip + " to " + args[1]);
                     } else {
                         // Ha a ciklus végigért, és nem talált ilyen fejet a listában:
                         Logger.log("> ERROR: The owner does not have a '" + args[2] + "' in their inventory. Buy it first from the Store!");
