@@ -17,4 +17,9 @@ public class CrushedStoneHead extends Head {
             snowPlower.getOwner().getPaid(15);
         }
     }
+
+    @Override
+    public String getType() {
+        return "CrushedStoneHead";
+    }
 }

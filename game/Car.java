@@ -171,5 +171,6 @@ public class Car extends Vehicle {
         Logger.log("Home: " + (getHome() != null ? getHome().getId() : "null"));
         Logger.log("Work: " + (getWork() != null ? getWork().getId() : "null"));
         Logger.log("Is Heading Home: " + isHeadingHome);
+        Logger.log("");
     }
 }

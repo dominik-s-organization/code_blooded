@@ -1,10 +1,14 @@
 > OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
+> OK
+> OK, id: snow_plower_1
 > OK
 > OK
+> ACTION: p1 equipped SalterHead on snow_plower_1
 > OK
-> OK
-> OK
-> ERROR: The owner does not have a 'SalterHead' in their inventory. Buy it first from the Store!
+> ACTION: snow_plower_1 set_intent lane_1
 Lane ID: lane_1
 Start Point: junction_1
 End Point: junction_2
@@ -12,8 +16,49 @@ Left Lane: null
 Right Lane: null
 Is Jammed: false
 Is Underground: false
-Snow Level: 6
+Snow Level: 10
 Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+Vehicles Passed: 0
+
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: false
+Current Head: SalterHead
+Owner: p1
+
+-> snowCleaner.consumeMaterial(type)
+-> snowCleaner.consumeMaterial(type): Not enough material.
+> ACTION: snow_plower_1 moved_to junction_2
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 11
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_2
+Last Lane: lane_1
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: SalterHead
+Owner: p1
+
+> Game loaded from tests/input/test_06.txt
+> Test 06 completed. Saving output to tests/output/06_test.txt

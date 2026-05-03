@@ -29,4 +29,9 @@ public class SweepingHead extends Head {
         }
         snowPlower.getOwner().getPaid(10);
     }
+
+    @Override
+    public String getType() {
+        return "SweepingHead";
+    }
 }

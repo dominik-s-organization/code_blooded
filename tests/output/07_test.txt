@@ -1,4 +1,30 @@
 > OK
-> ERROR: Insufficient funds or invalid item.
-> ERROR: Vehicle not found: p1
-> ERROR: Object with id p1 not found.
+> OK
+> OK, id: junction_1
+> OK, id: snow_plower_1
+SnowCleaner: p1
+Money: 1000
+Salt Stock: 0
+BioKerosene Stock: 0
+Crushed Stone Stock: 0
+Max Crushed Stone Capacity: 100
+Inventory:
+  - SweepingHead
+SnowPlowers:
+  - snow_plower_1
+
+> OK
+> ACTION: p1 bought salt
+SnowCleaner: p1
+Money: 990
+Salt Stock: 10
+BioKerosene Stock: 0
+Crushed Stone Stock: 0
+Max Crushed Stone Capacity: 100
+Inventory:
+  - SweepingHead
+SnowPlowers:
+  - snow_plower_1
+
+> Game loaded from tests/input/test_07.txt
+> Test 07 completed. Saving output to tests/output/07_test.txt

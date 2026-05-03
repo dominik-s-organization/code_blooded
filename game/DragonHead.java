@@ -23,4 +23,9 @@ public class DragonHead extends Head {
             snowPlower.getOwner().getPaid(35);
         }
     }
+
+    @Override
+    public String getType() {
+        return "DragonHead";
+    }
 }

@@ -7,6 +7,31 @@
 > OK
 > OK, id: car_1
 > OK
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 0
+Ice: true
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 10
+Vehicles Passed: 0
+
+Car ID: car_1
+Type: Car
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: false
+
 > ACTION: car_1 moved_to junction_2
 Lane ID: lane_1
 Start Point: junction_1
@@ -19,6 +44,19 @@ Snow Level: 1
 Ice: true
 Broken Ice: false
 Salt Level: 0
-Crushed Stone Level: 0
+Crushed Stone Level: 9
+Vehicles Passed: 1
+
+Car ID: car_1
+Type: Car
+Current Point: junction_2
+Last Lane: lane_1
+Next Lane: lane_2
+Jammed Time: 0
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: false
+
 > Game loaded from tests/input/test_14.txt
 > Test 14 completed. Saving output to tests/output/14_test.txt
