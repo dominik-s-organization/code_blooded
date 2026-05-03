@@ -1,0 +1,24 @@
+> OK
+> OK
+> OK
+> OK
+> OK
+> OK
+> OK
+> ACTION: p1 equipped SweepingHead on snow_plower_1
+> OK
+> ACTION: snow_plower_1 set_intent lane_1
+> ACTION: lane_1 state_changed Cleaned
+> ACTION: snow_plower_1 moved_to junction_2
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0

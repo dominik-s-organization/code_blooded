@@ -1,0 +1,15 @@
+> OK
+> OK
+> OK
+> OK
+> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.
+Car ID: car_1
+Type: Car
+Current Point: junction_1
+Last Lane: null
+Next Lane: null
+Jammed Time: 0
+Can Slip: true
+Home: null
+Work: null
+Is Heading Home: false

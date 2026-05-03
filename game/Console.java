@@ -26,7 +26,7 @@ class Console {
             while (isGoing) {
                 String line;
                 try {
-                    System.out.print(" > ");
+                    System.out.print("");
                     line = reader.readLine();
                 } catch (IOException e) {
                     // Amennyiben a beolvasás során hiba történik, hibaüzenetet küldünk[cite: 189].
