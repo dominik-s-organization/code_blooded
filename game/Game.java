@@ -119,22 +119,22 @@ public class Game implements IdGenerator {
 
     // A játék elindítása, amely inicializálja a várost és a játékosokat.
     public void startGame() {
-        System.out.println("-> game.startGame()");
+        Logger.log("-> game.startGame()");
     }
 
     // A játék befejezése, amely lezárja a játékot és megjeleníti az eredményeket.
     public void endGame() {
-        System.out.println("-> game.endGame()");
+        Logger.log("-> game.endGame()");
     }
 
     // A játék mentése, amely elmenti a jelenlegi állapotot egy fájlba.
     public void saveGame(String filename) {
-        System.out.println("-> game.saveGame(" + filename + ")");
+        Logger.log("-> game.saveGame(" + filename + ")");
     }
 
     // A játék betöltése, amely visszaállítja a játék állapotát egy fájlból.
     public void loadGame(String filename) {
-        System.out.println("-> game.loadGame(" + filename + ")");
+        Logger.log("-> game.loadGame(" + filename + ")");
     }
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.

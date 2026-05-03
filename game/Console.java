@@ -50,7 +50,7 @@ class Console {
         String command = args[0];
 
         if (game == null) {
-            System.out.println("> ERROR: Game instance is not initialized.");
+            Logger.log("> ERROR: Game instance is not initialized.");
             return false;
         }
 
@@ -156,8 +156,17 @@ class Console {
                 
                 String testNum = args[1];
                 // A bemeneti és kimeneti fájlnevek dinamikus generálása
-                String inputFile = "test_" + testNum + ".txt";
-                String outputFile = testNum + "_test.txt";
+                int testNumber = testNum.matches("\\d+") ? Integer.parseInt(testNum) : -1;
+
+                if (testNumber < 1 || testNumber > 20) {
+                    Logger.log("> ERROR: Invalid test number: " + testNum);
+                    break;
+                }
+                if (testNumber < 10) {
+                    testNum = "0" + testNum; // Előtag hozzáadása egyjegyű számokhoz
+                }
+                String inputFile = "tests/input/test_" + testNum + ".txt";
+                String outputFile = "tests/output/" + testNum + "_test.txt";
                 
                 //Tesztelői mód bekapcsolása a futás idejére
                 Logger.testerMode = true;
@@ -168,7 +177,7 @@ class Console {
                 //Teszt parancsok beolvasása és futtatása
                 loadGame(inputFile);
                 
-                System.out.println("> Test " + testNum + " completed. Saving output to " + outputFile);
+                Logger.log("> Test " + testNum + " completed. Saving output to " + outputFile);
                 //Eredmények automatikus kimentése
                 Logger.save(outputFile);
                 
@@ -306,7 +315,7 @@ class Console {
             case "create_point": {
                 // Új csomópont létrehozása: <type>[cite: 166, 168].
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
+                    Logger.log("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
                     break;
                 }
                 commandHistory.add(line);
@@ -321,19 +330,19 @@ class Console {
                         Junction junction = new Junction();
                         junction.setId(game.generateId("junction"));
                         game.getCityMap().addPoint(junction);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + junction.getId());
                         break;
                     case "crossroads":
                         CrossRoads crossroads = new CrossRoads();
                         crossroads.setId(game.generateId("crossroads"));
                         game.getCityMap().addPoint(crossroads);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + crossroads.getId());
                         break;
                     case "tunnel":
                         Tunnel tunnel = new Tunnel();
                         tunnel.setId(game.generateId("tunnel"));
                         game.getCityMap().addPoint(tunnel);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + tunnel.getId());
                         break;
                     default:
                         Logger.log("> ERROR: Invalid point type: " + type);
@@ -375,7 +384,7 @@ class Console {
                 }
 
                 game.getCityMap().addLane(lane);
-                Logger.log("> OK");
+                Logger.log("> OK, id: " + lane.getId());
                 break;
             }
                             
@@ -496,7 +505,7 @@ class Console {
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
                     commandHistory.add(line); // Csak akkor adjuk hozzá, ha tényleg sikerült
-                    Logger.log("> OK");
+                    Logger.log("> OK, id: " + newVehicle.getId());
                 } else {
                     Logger.log("> ERROR: Could not create or find vehicle.");
                 }
@@ -580,9 +589,9 @@ class Console {
             for (String cmd : commandHistory) {
                 writer.println(cmd);
             }
-            System.out.println("> Game saved to " + filename);
+            Logger.log("> Game saved to " + filename);
         } catch (IOException e) {
-            System.out.println("> ERROR: Could not save to file: " + e.getMessage());
+            Logger.log("> ERROR: Could not save to file: " + e.getMessage());
         }
     }
     

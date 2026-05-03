@@ -131,7 +131,7 @@ public class SnowCleaner extends Player {
      * @return true, ha van elegendő készlet a fogyasztáshoz, és sikeresen levonták, false ha nincs elég készlet
      */
     public boolean consumeMaterial(String type) {
-        System.out.println("-> snowCleaner.consumeMaterial(type)");
+        Logger.log("-> snowCleaner.consumeMaterial(type)");
         
         if (type.equals("salt")) {
             if (saltStock >= 10) {
@@ -149,6 +149,7 @@ public class SnowCleaner extends Player {
                 return true;
             }
         }
+        Logger.log("-> snowCleaner.consumeMaterial(type): Not enough material.");
         return false;
     }
 
