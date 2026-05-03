@@ -1,7 +1,9 @@
 create_point junction
 create_point junction
+create_point junction
 create_lane junction_1 junction_2
+create_lane junction_2 junction_3
 place_vehicle junction_1
-move car_1 lane_1
+set_car car_1 junction_1 junction_3
 step 1
 stat car_1

@@ -1,9 +1,13 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: junction_3
+> OK, id: lane_1
+> OK, id: lane_2
 > OK
 > OK
+> OK, id: car_1
 > OK
-> OK
-> OK
-> OK
+> ACTION: car_1 moved_to junction_2
 Lane ID: lane_1
 Start Point: junction_1
 End Point: junction_2
@@ -16,3 +20,5 @@ Ice: true
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_14.txt
+> Test 14 completed. Saving output to tests/output/14_test.txt

@@ -1,15 +1,20 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: junction_3
+> OK, id: lane_1
+> OK, id: lane_2
+> OK, id: car_1
 > OK
-> OK
-> OK
-> OK
-> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.
+> ACTION: car_1 moved_to junction_2
 Car ID: car_1
 Type: Car
-Current Point: junction_1
-Last Lane: null
-Next Lane: null
+Current Point: junction_2
+Last Lane: lane_1
+Next Lane: lane_2
 Jammed Time: 0
 Can Slip: true
-Home: null
-Work: null
+Home: junction_1
+Work: junction_3
 Is Heading Home: false
+> Game loaded from tests/input/test_16.txt
+> Test 16 completed. Saving output to tests/output/16_test.txt
