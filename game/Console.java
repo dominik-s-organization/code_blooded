@@ -50,7 +50,7 @@ class Console {
         String command = args[0];
 
         if (game == null) {
-            System.out.println("> ERROR: Game instance is not initialized.");
+            Logger.log("> ERROR: Game instance is not initialized.");
             return false;
         }
 
@@ -177,7 +177,7 @@ class Console {
                 //Teszt parancsok beolvasása és futtatása
                 loadGame(inputFile);
                 
-                System.out.println("> Test " + testNum + " completed. Saving output to " + outputFile);
+                Logger.log("> Test " + testNum + " completed. Saving output to " + outputFile);
                 //Eredmények automatikus kimentése
                 Logger.save(outputFile);
                 
@@ -315,7 +315,7 @@ class Console {
             case "create_point": {
                 // Új csomópont létrehozása: <type>[cite: 166, 168].
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
+                    Logger.log("> ERROR: Missing arguments for create_point command. Usage: create_point <point_type>");
                     break;
                 }
                 commandHistory.add(line);
@@ -330,13 +330,13 @@ class Console {
                         Junction junction = new Junction();
                         junction.setId(game.generateId("junction"));
                         game.getCityMap().addPoint(junction);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + junction.getId());
                         break;
                     case "crossroads":
                         CrossRoads crossroads = new CrossRoads();
                         crossroads.setId(game.generateId("crossroads"));
                         game.getCityMap().addPoint(crossroads);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + crossroads.getId());
                         break;
                     case "tunnel":
                         Tunnel tunnel = new Tunnel();
@@ -589,9 +589,9 @@ class Console {
             for (String cmd : commandHistory) {
                 writer.println(cmd);
             }
-            System.out.println("> Game saved to " + filename);
+            Logger.log("> Game saved to " + filename);
         } catch (IOException e) {
-            System.out.println("> ERROR: Could not save to file: " + e.getMessage());
+            Logger.log("> ERROR: Could not save to file: " + e.getMessage());
         }
     }
     
