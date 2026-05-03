@@ -1,0 +1,33 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: junction_3
+> OK, id: junction_4
+> OK, id: lane_1
+> OK, id: lane_2
+> OK, id: lane_3
+> OK
+> OK
+> OK, id: snow_plower_1
+> OK, id: bus_1
+> OK
+> OK, id: car_1
+> OK
+> Game saved to test_save_01.txt
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: junction_3
+> OK, id: junction_4
+> OK, id: lane_1
+> OK, id: lane_2
+> OK, id: lane_3
+> OK
+> OK
+> OK, id: snow_plower_1
+> OK, id: bus_1
+> OK
+> OK, id: car_1
+> OK
+> Game loaded from test_save_01.txt
+> OK
+> Game loaded from tests/input/test_19.txt
+> Test 19 completed. Saving output to tests/output/19_test.txt

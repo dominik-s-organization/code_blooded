@@ -1,0 +1,33 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 0
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+> Game loaded from tests/input/test_01.txt
+> Test 01 completed. Saving output to tests/output/01_test.txt

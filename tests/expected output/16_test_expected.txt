@@ -1,0 +1,56 @@
+> OK, id: junction_1
+> OK, id: crossroads_1
+> OK, id: lane_1
+> OK, id: lane_2
+> OK
+> OK, id: snow_plower_1
+> OK
+> ACTION: snow_plower_1 set_intent lane_1
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: false
+Current Head: SweepingHead
+Owner: p1
+
+> ACTION: lane_1 state_changed Cleaned
+> ACTION: snow_plower_1 moved_to crossroads_1
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: crossroads_1
+Last Lane: lane_1
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: SweepingHead
+Owner: p1
+
+> OK
+> ACTION: snow_plower_1 set_intent lane_2
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: crossroads_1
+Last Lane: lane_1
+Next Lane: lane_2
+Jammed Time: 0
+Can Slip: false
+Current Head: SweepingHead
+Owner: p1
+
+> ACTION: lane_2 state_changed Cleaned
+> ACTION: snow_plower_1 moved_to junction_1
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: lane_2
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: SweepingHead
+Owner: p1
+
+> Game loaded from tests/input/test_16.txt
+> Test 16 completed. Saving output to tests/output/16_test.txt

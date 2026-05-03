@@ -1,0 +1,28 @@
+> OK
+> OK
+> OK, id: junction_1
+> OK, id: snow_plower_1
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: null
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: SweepingHead
+Owner: p1
+
+> OK
+> ACTION: p1 equipped ThrowerHead on snow_plower_1
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: null
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: ThrowerHead
+Owner: p1
+
+> Game loaded from tests/input/test_17.txt
+> Test 17 completed. Saving output to tests/output/17_test.txt

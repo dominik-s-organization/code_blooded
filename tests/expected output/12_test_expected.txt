@@ -1,0 +1,88 @@
+> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
+> OK
+> OK, id: snow_plower_1
+> OK
+> OK
+> ACTION: p1 equipped ThrowerHead on snow_plower_1
+> OK
+> ACTION: snow_plower_1 set_intent lane_1
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 10
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: false
+Current Head: ThrowerHead
+Owner: p1
+
+SnowCleaner: p1
+Money: 0
+Salt Stock: 0
+BioKerosene Stock: 0
+Crushed Stone Stock: 0
+Max Crushed Stone Capacity: 100
+Inventory:
+  - SweepingHead
+  - ThrowerHead
+SnowPlowers:
+  - snow_plower_1
+
+-> throwerHead.clean(lane, snowPlower)
+> ACTION: lane_1 state_changed Cleaned
+> ACTION: snow_plower_1 moved_to junction_2
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+SnowPlower ID: snow_plower_1
+Type: SnowPlower
+Current Point: junction_2
+Last Lane: lane_1
+Next Lane: null
+Jammed Time: 0
+Can Slip: false
+Current Head: ThrowerHead
+Owner: p1
+
+SnowCleaner: p1
+Money: 20
+Salt Stock: 0
+BioKerosene Stock: 0
+Crushed Stone Stock: 0
+Max Crushed Stone Capacity: 100
+Inventory:
+  - SweepingHead
+  - ThrowerHead
+SnowPlowers:
+  - snow_plower_1
+
+> Game loaded from tests/input/test_12.txt
+> Test 12 completed. Saving output to tests/output/12_test.txt

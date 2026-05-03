@@ -1,0 +1,117 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: junction_3
+> OK, id: lane_1
+> OK, id: lane_2
+> OK
+> OK, id: car_1
+> OK, id: car_2
+> OK
+> OK
+Car ID: car_1
+Type: Car
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: false
+
+Car ID: car_2
+Type: Car
+Current Point: junction_2
+Last Lane: null
+Next Lane: lane_2
+Jammed Time: 0
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: false
+
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 0
+Ice: true
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+Lane ID: lane_2
+Start Point: junction_2
+End Point: junction_3
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 0
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+> ACTION: car_1 moved_to junction_2
+> ACTION: car_1 moved_to junction_3
+> ACTION: car_2 moved_to junction_3
+> ACTION: car_1 and car_2 crashed at junction_3
+> ACTION: car_2 and car_1 crashed at junction_3
+Car ID: car_1
+Type: Car
+Current Point: junction_3
+Last Lane: lane_2
+Next Lane: null
+Jammed Time: 10
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: true
+
+Car ID: car_2
+Type: Car
+Current Point: junction_3
+Last Lane: lane_2
+Next Lane: null
+Jammed Time: 10
+Can Slip: true
+Home: junction_1
+Work: junction_3
+Is Heading Home: true
+
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: true
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 1
+
+Lane ID: lane_2
+Start Point: junction_2
+End Point: junction_3
+Left Lane: null
+Right Lane: null
+Is Jammed: true
+Is Underground: false
+Snow Level: 1
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 2
+
+> Game loaded from tests/input/test_02.txt
+> Test 02 completed. Saving output to tests/output/02_test.txt

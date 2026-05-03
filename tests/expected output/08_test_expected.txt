@@ -1,0 +1,69 @@
+> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
+> OK, id: bus_1
+> OK
+> OK
+> ACTION: bus_1 set_intent lane_1
+Bus ID: bus_1
+Type: Bus
+Current Point: junction_1
+Last Lane: null
+Next Lane: lane_1
+Jammed Time: 0
+Can Slip: true
+Owner: p1
+Beginning Point: junction_1
+End Point: junction_2
+
+BusDriver: p1
+Completed Routes: 0
+Bus: bus_1
+
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 0
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 0
+
+> ACTION: bus_1 moved_to junction_2
+Bus ID: bus_1
+Type: Bus
+Current Point: junction_2
+Last Lane: lane_1
+Next Lane: null
+Jammed Time: 0
+Can Slip: true
+Owner: p1
+Beginning Point: junction_2
+End Point: junction_1
+
+BusDriver: p1
+Completed Routes: 0
+Bus: bus_1
+
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0
+Vehicles Passed: 1
+
+> Game loaded from tests/input/test_08.txt
+> Test 08 completed. Saving output to tests/output/08_test.txt
