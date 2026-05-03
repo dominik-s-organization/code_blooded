@@ -108,5 +108,6 @@ public class Bus extends Vehicle {
         Logger.log("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
         Logger.log("Beginning Point: " + (getBeginningPoint() != null ? getBeginningPoint().getId() : "null"));
         Logger.log("End Point: " + (getEndPoint() != null ? getEndPoint().getId() : "null"));
+        Logger.log("");
     }
 }

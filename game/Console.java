@@ -139,6 +139,11 @@ class Console {
                     p.stat();
                     break;
                 }
+                Player pl = game.getPlayerByName(id);
+                if (pl != null) {
+                    pl.stat();
+                    break;
+                }
                 Logger.log("> ERROR: Object with id " + id + " not found.");
                 break;
             }         
@@ -438,6 +443,10 @@ class Console {
                             laneToSet.getSnow().setCrushedStoneLevel(Integer.parseInt(valueStr));
                             Logger.log("> OK");
                             break;
+                        case "vehicles_passed":
+                            laneToSet.getSnow().setVehiclesPassed(Integer.parseInt(valueStr));
+                            Logger.log("> OK");
+                            break;
                         default:
                             Logger.log("> ERROR: Unknown parameter: " + param);
                     }
@@ -496,11 +505,6 @@ class Console {
 
                 if (newVehicle != null) {
                     newVehicle.setCurrentPoint(startingPoint);
-                    
-                    // Biztonságos sávbeállítás: csak ha van bejövő út
-                    if (!startingPoint.getIncomingLanes().isEmpty()) {
-                        newVehicle.setLastLane(startingPoint.getIncomingLanes().get(0));
-                    }
 
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
@@ -512,55 +516,184 @@ class Console {
                 break;
             }
 
-            case "set_car": {
+            case "set_vehicle": {
                 /**
-                 * Autó otthon és munkahely pontjainak beállítása.
-                 * Szintaxis: set_car <car_id> <home_point_id> <work_point_id>
+                 * Autó otthon/munkahely, illetve busz kezdő/végpontjainak beállítása.
+                 * Szintaxis: set_vehicle <vehicle_id> <point1_id> <point2_id>
                  */
                 if (args.length < 4) {
-                    Logger.log("> ERROR: Missing arguments for set_car command. Usage: set_car <car_id> <home_point_id> <work_point_id>");
+                    Logger.log("> ERROR: Missing arguments for set_vehicle command. Usage: set_vehicle <vehicle_id> <point1_id> <point2_id>");
                     break;
                 }
                 
                 // Parancs mentése a történetbe
                 commandHistory.add(line);
 
-                String carId = args[1];
-                String homeId = args[2];
-                String workId = args[3];
+                String vehicleId = args[1];
+                String p1Id = args[2];
+                String p2Id = args[3];
 
-                Vehicle v = game.getVehicleById(carId);
+                Vehicle v = game.getVehicleById(vehicleId);
                 if (v == null) {
-                    Logger.log("> ERROR: Vehicle not found: " + carId);
+                    Logger.log("> ERROR: Vehicle not found: " + vehicleId);
                     break;
                 }
-
-                // Ellenőrizzük, hogy a jármű valóban egy autó-e
-                if (!carId.contains("car_")) {
-                    Logger.log("> ERROR: Vehicle is not a Car: " + carId);
-                    break;
-                }
-
-                Car car = (Car) v;
 
                 // Csomópontok lekérése
-                Point homePoint = game.getPointById(homeId);
-                if (homePoint == null) {
-                    Logger.log("> ERROR: Home point not found: " + homeId);
+                Point p1 = game.getPointById(p1Id);
+                if (p1 == null) {
+                    Logger.log("> ERROR: Point not found: " + p1Id);
                     break;
                 }
 
-                Point workPoint = game.getPointById(workId);
-                if (workPoint == null) {
-                    Logger.log("> ERROR: Work point not found: " + workId);
+                Point p2 = game.getPointById(p2Id);
+                if (p2 == null) {
+                    Logger.log("> ERROR: Point not found: " + p2Id);
                     break;
                 }
 
-                // Célpontok beállítása
-                car.setHome(homePoint);
-                car.setWork(workPoint);
-                Logger.log("> OK");
+                // Típus azonosítása az ID alapján (instanceof elkerülése végett)
+                if (vehicleId.contains("car")) {
+                    Car car = (Car) v;
+                    car.setHome(p1);
+                    car.setWork(p2);
+                    Logger.log("> OK");
+                } else if (vehicleId.contains("bus")) {
+                    Bus bus = (Bus) v;
+                    bus.setBeginningPoint(p1);
+                    bus.setEndPoint(p2);
+                    Logger.log("> OK");
+                } else {
+                    Logger.log("> ERROR: Vehicle is neither a Car nor a Bus: " + vehicleId);
+                }
 
+                break;
+            }
+
+            case "add_head": {
+                /**
+                 * Takarítófej azonnali hozzáadása egy SnowCleaner játékos eszköztárához (vétel nélkül).
+                 * Szintaxis: add_head <player_name> <head_type>
+                 */
+                if (args.length < 3) {
+                    Logger.log("> ERROR: Missing arguments. Usage: add_head <player_name> <head_type>");
+                    break;
+                }
+                commandHistory.add(line);
+
+                String playerName = args[1];
+                String headType = args[2].toLowerCase();
+
+                Player p = game.getPlayerByName(playerName);
+                if (p == null) {
+                    Logger.log("> ERROR: Player not found: " + playerName);
+                    break;
+                }
+
+                if (!"snow_cleaner".equals(p.getType())) {
+                    Logger.log("> ERROR: Player " + playerName + " is not a snow_cleaner, cannot add heads.");
+                    break;
+                }
+
+                SnowCleaner sc = (SnowCleaner) p;
+                Head newHead = null;
+
+                // A fájllista (kép) alapján a pontos fej típusok:
+                switch (headType) {
+                    case "sweeping":
+                    case "sweepinghead":
+                        newHead = new SweepingHead();
+                        break;
+                    case "thrower":
+                    case "throwerhead":
+                        newHead = new ThrowerHead();
+                        break;
+                    case "salter":
+                    case "salterhead":
+                        newHead = new SalterHead();
+                        break;
+                    case "dragon":
+                    case "dragonhead":
+                        newHead = new DragonHead();
+                        break;
+                    case "crushedstone":
+                    case "crushedstonehead":
+                        newHead = new CrushedStoneHead();
+                        break;
+                    case "icebreaker":
+                    case "icebreakerhead":
+                        newHead = new IceBreakerHead();
+                        break;
+                    default:
+                        Logger.log("> ERROR: Unknown head type: " + headType);
+                        break;
+                }
+
+                if (newHead != null) {
+                    sc.addHead(newHead);
+                    Logger.log("> OK");
+                }
+                break;
+            }
+
+            case "add_resource": {
+                /**
+                 * Erőforrás (pénz, só, biokerozin, törött kő) azonnali hozzáadása egy SnowCleaner játékoshoz (vétel nélkül).
+                 * Szintaxis: add_resource <player_name> <type> <amount>
+                 */
+                if (args.length < 4) {
+                    Logger.log("> ERROR: Missing arguments. Usage: add_resource <player_name> <type> <amount>");
+                    break;
+                }
+                commandHistory.add(line);
+
+                String playerName = args[1];
+                String resourceType = args[2].toLowerCase();
+                int amount;
+
+                try {
+                    amount = Integer.parseInt(args[3]);
+                } catch (NumberFormatException e) {
+                    Logger.log("> ERROR: Invalid amount format. Please provide a number.");
+                    break;
+                }
+
+                Player p = game.getPlayerByName(playerName);
+                if (p == null) {
+                    Logger.log("> ERROR: Player not found: " + playerName);
+                    break;
+                }
+
+                if (!"snow_cleaner".equals(p.getType())) {
+                    Logger.log("> ERROR: Player " + playerName + " is not a snow_cleaner, cannot add resources to them.");
+                    break;
+                }
+
+                SnowCleaner sc = (SnowCleaner) p;
+
+                switch (resourceType) {
+                    case "money":
+                        sc.setMoney(sc.getMoney() + amount);
+                        Logger.log("> OK");
+                        break;
+                    case "salt":
+                        sc.setSaltStock(sc.getSaltStock() + amount);
+                        Logger.log("> OK");
+                        break;
+                    case "biokerosene":
+                    case "bio_kerosene":
+                        sc.setBioKeroseneStock(sc.getBioKeroseneStock() + amount);
+                        Logger.log("> OK");
+                        break;
+                    case "crushedstone":
+                    case "crushed_stone":
+                        sc.setCrushedStoneStock(sc.getCrushedStoneStock() + amount);
+                        Logger.log("> OK");
+                        break;
+                    default:
+                        Logger.log("> ERROR: Unknown resource type: " + resourceType + ". Valid types are: money, salt, biokerosene, crushedstone.");
+                        break;
+                }
                 break;
             }
                                         
@@ -668,8 +801,15 @@ class Console {
         Logger.log("  Ha adunk nem adunk meg játékosnevet, akkor egy Car típusú jármű kerül lehelyezésre,");
         Logger.log("  ha pedig megadunk, akkor a játékostól függően egy Bus vagy SnowPlower lesz lehelyezve.");
 
-        Logger.log("set_car <car_id> <home_point_id> <work_point_id>");
-        Logger.log("  Leírás: Beállítja egy autó otthon (home) és munkahely (work) csomópontját.");
+        Logger.log("set_vehicle <vehicle_id> <point1_id> <point2_id>");
+        Logger.log("  Leírás: Beállítja egy autó otthon (home) és munkahely (work) csomópontját, vagy egy busz kezdő (beginning) és végpontját (end).");
+
+        Logger.log("add_head <player_name> <head_type>");
+        Logger.log("  Leírás: Ingyen hozzáad egy megadott típusú fejet a játékos (SnowCleaner) eszköztárához.");
+
+        Logger.log("add_resource <player_name> <type> <amount>");
+        Logger.log("  type: money | salt | biokerosene | crushedstone");
+        Logger.log("  Leírás: Azonnal hozzáad egy adott mennyiségű erőforrást a játékos (SnowCleaner) készleteihez.");
 
         Logger.log("help");
         Logger.log("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");

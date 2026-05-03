@@ -4,8 +4,11 @@ create_point junction
 create_lane junction_1 junction_2
 create_lane junction_2 junction_3
 set_lane lane_1 ice true
-set_lane lane_1 crushed_Stone_level 1
+set_lane lane_1 crushed_Stone_level 10
 place_vehicle junction_1
-set_car car_1 junction_1 junction_3
-step 1
+set_vehicle car_1 junction_1 junction_3
 stat lane_1
+stat car_1
+step
+stat lane_1
+stat car_1

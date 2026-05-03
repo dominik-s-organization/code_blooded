@@ -103,16 +103,25 @@ public abstract class Point {
      * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
      */
     public boolean isReachable(Vehicle vehicle) {
-        return isReachableHelp(this, vehicle);
-    }
+        if (vehicle.getCurrentPoint().getId().contains("junction")) {
+            if (vehicle.getLastLane() == null) {
+                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+            }
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip) && !vehicle.getLastLane().getStartPoint().equals(this);
+        }
 
-    /*
-     * Segédfüggvény az isReachable metódushoz, amelyet a konkrét csomópont típusok implementálnak.
-     * @param point, a kérdéses csomópont, amelyre a jármű megpróbál rálépni.
-     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
-     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
-     */
-    protected abstract boolean isReachableHelp(Point point, Vehicle vehicle);
+        else if (vehicle.getCurrentPoint().getId().contains("crossroads")) {
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+        }
+
+        else if (vehicle.getCurrentPoint().getId().contains("tunnel")) {
+            if (vehicle.getLastLane() == null) {
+                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+            }
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip) && vehicle.getNextLane().isUnderground() == vehicle.getLastLane().isUnderground();
+        }
+        return false;
+    }
 
     /**
      * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
@@ -130,6 +139,7 @@ public abstract class Point {
                     vehicle1.jam();
                     vehicle2.jam();
                     vehicle1.getLastLane().setJammed(true);
+                    Logger.log("> ACTION: " + vehicle1.getId() + " and " + vehicle2.getId() + " crashed at " + getId());
                 }
             }
         }

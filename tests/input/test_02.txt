@@ -5,7 +5,15 @@ create_lane junction_1 junction_2
 create_lane junction_2 junction_3
 set_lane lane_1 ice true
 place_vehicle junction_1
-set_car car_1 junction_1 junction_3
+place_vehicle junction_2
+set_vehicle car_1 junction_1 junction_3
+set_vehicle car_2 junction_1 junction_3
+stat car_1
+stat car_2
+stat lane_1
+stat lane_2
 step
 stat car_1
+stat car_2
 stat lane_1
+stat lane_2

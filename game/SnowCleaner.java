@@ -41,7 +41,7 @@ public class SnowCleaner extends Player {
         super(name);
         snowPlowers = new ArrayList<>();
         inventory = new ArrayList<>();
-        money = 1000; // Kezdeti pénzösszeg a játékos számára, hogy venni is tudjon valamit a boltban
+        money = 0;
         saltStock = 0;
         bioKeroseneStock = 0;
         crushedStoneStock = 0;
@@ -156,6 +156,28 @@ public class SnowCleaner extends Player {
     @Override
     public String getType() {
         return "snow_cleaner";
+    }
+
+    public void stat() {
+        Logger.log("SnowCleaner: " + getName());
+        Logger.log("Money: " + money);
+        Logger.log("Salt Stock: " + saltStock);
+        Logger.log("BioKerosene Stock: " + bioKeroseneStock);
+        Logger.log("Crushed Stone Stock: " + crushedStoneStock);
+        Logger.log("Max Crushed Stone Capacity: " + maxCrushedStone);
+        Logger.log("Inventory:");
+        if (inventory.size() > 0) {
+            for (Head head : inventory) {
+                Logger.log("  - " + head.getType());
+            }
+        } else {
+            Logger.log("  No heads in inventory.");
+        }
+        Logger.log("SnowPlowers:");
+        for (SnowPlower sp : snowPlowers) {
+            Logger.log("  - " + sp.getId());
+        }
+        Logger.log("");
     }
 }
 
