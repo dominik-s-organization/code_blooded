@@ -1,5 +1,5 @@
-create_junction j1
-create_junction j2
-create_lane l1 j1 j2
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
 save test_save_01.txt
 load test_save_01.txt

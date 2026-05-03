@@ -1,6 +1,6 @@
-add_player p1 Cleaner
-buy p1 throwerhead
-create_junction j1
-place_vehicle plower pl1 j1
-equip pl1 throwerhead
-stat pl1
+add_player p1 snow_cleaner
+buy p1 ThrowerHead
+create_point junction
+place_vehicle junction_1 p1
+equip snow_plower_1 ThrowerHead
+stat snow_plower_1

@@ -1,7 +1,7 @@
-create_junction cr1
-create_junction j2
-create_lane l1 cr1 j2
-place_vehicle car c1 cr1
-move c1 j2
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+place_vehicle junction_1
+move car_1 lane_1
 step 1
-stat c1
+stat car_1

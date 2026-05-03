@@ -1,9 +1,10 @@
-create_junction j1
-create_junction j2
-create_lane l1 j1 j2
-set_lane l1 crushed_Stone_level 2
-place_vehicle plower pl1 j1
-equip pl1 sweepinghead
-move pl1 j2
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+set_lane lane_1 crushed_Stone_level 2
+add_player p1 snow_cleaner
+place_vehicle junction_1 p1
+equip snow_plower_1 SweepingHead
+move snow_plower_1 lane_1
 step 1
-stat l1
+stat lane_1
