@@ -5,7 +5,6 @@
 > OK, id: lane_2
 > OK, id: car_1
 > OK
-> ERROR: Cars cannot be directly commanded to move. They determine their own path based on the city map and traffic conditions.
 > ACTION: car_1 moved_to junction_2
 Car ID: car_1
 Type: Car
