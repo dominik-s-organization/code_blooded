@@ -2,5 +2,6 @@ create_point junction
 create_point junction
 create_lane junction_1 junction_2
 set_lane lane_1 snow_level 1
+set_car car_1 junction_1 junction_2
 place_vehicle junction_1
 step 1

@@ -1,8 +1,9 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
-> OK
-> OK
-> OK
-> OK
+> ERROR: Vehicle not found: car_1
+> OK, id: car_1
 Car ID: car_1
 Type: Car
 Current Point: junction_1
@@ -13,3 +14,5 @@ Can Slip: true
 Home: null
 Work: null
 Is Heading Home: false
+> Game loaded from tests/input/test_03.txt
+> Test 03 completed. Saving output to tests/output/03_test.txt
