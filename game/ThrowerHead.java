@@ -17,7 +17,7 @@ public class ThrowerHead extends Head {
      */    
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
-        System.out.println("-> throwerHead.clean(lane, snowPlower)");
+        Logger.log("-> throwerHead.clean(lane, snowPlower)");
     
         lane.getSnow().clean();
         lane.getSnow().setCrushedStoneLevel(0);

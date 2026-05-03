@@ -161,15 +161,15 @@ public class Car extends Vehicle {
 
     @Override
     public void stat() {
-        System.out.println("Car ID: " + getId());
-        System.out.println("Type: Car");
-        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
-        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
-        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
-        System.out.println("Jammed Time: " + getJammedTime());
-        System.out.println("Can Slip: " + canSlip);
-        System.out.println("Home: " + (getHome() != null ? getHome().getId() : "null"));
-        System.out.println("Work: " + (getWork() != null ? getWork().getId() : "null"));
-        System.out.println("Is Heading Home: " + isHeadingHome);
+        Logger.log("Car ID: " + getId());
+        Logger.log("Type: Car");
+        Logger.log("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        Logger.log("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        Logger.log("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        Logger.log("Jammed Time: " + getJammedTime());
+        Logger.log("Can Slip: " + canSlip);
+        Logger.log("Home: " + (getHome() != null ? getHome().getId() : "null"));
+        Logger.log("Work: " + (getWork() != null ? getWork().getId() : "null"));
+        Logger.log("Is Heading Home: " + isHeadingHome);
     }
 }

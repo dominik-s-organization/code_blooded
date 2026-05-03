@@ -87,14 +87,14 @@ public class SnowPlower extends Vehicle {
 
     @Override
     public void stat() {
-        System.out.println("SnowPlower ID: " + getId());
-        System.out.println("Type: SnowPlower");
-        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
-        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
-        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
-        System.out.println("Jammed Time: " + getJammedTime());
-        System.out.println("Can Slip: " + canSlip);
-        System.out.println("Current Head: " + (getCurrentHead() != null ? getCurrentHead().getClass().getSimpleName() : "null"));
-        System.out.println("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
+        Logger.log("SnowPlower ID: " + getId());
+        Logger.log("Type: SnowPlower");
+        Logger.log("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        Logger.log("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        Logger.log("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        Logger.log("Jammed Time: " + getJammedTime());
+        Logger.log("Can Slip: " + canSlip);
+        Logger.log("Current Head: " + (getCurrentHead() != null ? getCurrentHead().getClass().getSimpleName() : "null"));
+        Logger.log("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
     }
 }

@@ -24,36 +24,36 @@ public class Tunnel extends Point {
 
     @Override
     public void stat() {
-        System.out.println("Tunnel ID: " + getId());
-        System.out.println("Type: Tunnel");
-        System.out.println("Incoming Lanes: " + getIncomingLanes().size());
+        Logger.log("Tunnel ID: " + getId());
+        Logger.log("Type: Tunnel");
+        Logger.log("Incoming Lanes: " + getIncomingLanes().size());
         if(getIncomingLanes().size() > 0) {
-            System.out.println("Incoming Lanes:");
+            Logger.log("Incoming Lanes:");
             for (Lane lane : getIncomingLanes()) {
-                System.out.println("  - " + lane.getId());
+                Logger.log("  - " + lane.getId());
             }
         } else {
-            System.out.println("No incoming lanes.");
+            Logger.log("No incoming lanes.");
         }
 
-        System.out.println("Outgoing Lanes: " + getOutgoingLanes().size());
+        Logger.log("Outgoing Lanes: " + getOutgoingLanes().size());
         if(getOutgoingLanes().size() > 0) {
-            System.out.println("Outgoing Lanes:");
+            Logger.log("Outgoing Lanes:");
             for (Lane lane : getOutgoingLanes()) {
-                System.out.println("  - " + lane.getId());
+                Logger.log("  - " + lane.getId());
             }
         } else {
-            System.out.println("No outgoing lanes.");
+            Logger.log("No outgoing lanes.");
         }
         
-        System.out.println("Vehicles: " + getVehicles().size());
+        Logger.log("Vehicles: " + getVehicles().size());
         if(getVehicles().size() > 0) {
-            System.out.println("Vehicles:");
+            Logger.log("Vehicles:");
             for (Vehicle vehicle : getVehicles()) {
-                System.out.println("  - " + vehicle.getId());
+                Logger.log("  - " + vehicle.getId());
             }
         } else {
-            System.out.println("No vehicles currently at this junction.");
+            Logger.log("No vehicles currently at this junction.");
         }
     }
 }

@@ -156,8 +156,17 @@ class Console {
                 
                 String testNum = args[1];
                 // A bemeneti és kimeneti fájlnevek dinamikus generálása
-                String inputFile = "test_" + testNum + ".txt";
-                String outputFile = testNum + "_test.txt";
+                int testNumber = testNum.matches("\\d+") ? Integer.parseInt(testNum) : -1;
+
+                if (testNumber < 1 || testNumber > 20) {
+                    Logger.log("> ERROR: Invalid test number: " + testNum);
+                    break;
+                }
+                if (testNumber < 10) {
+                    testNum = "0" + testNum; // Előtag hozzáadása egyjegyű számokhoz
+                }
+                String inputFile = "tests/input/test_" + testNum + ".txt";
+                String outputFile = "tests/output/" + testNum + "_test.txt";
                 
                 //Tesztelői mód bekapcsolása a futás idejére
                 Logger.testerMode = true;

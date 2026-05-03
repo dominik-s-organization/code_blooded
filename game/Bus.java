@@ -98,15 +98,15 @@ public class Bus extends Vehicle {
 
     @Override
     public void stat() {
-        System.out.println("Bus ID: " + getId());
-        System.out.println("Type: Bus");
-        System.out.println("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
-        System.out.println("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
-        System.out.println("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
-        System.out.println("Jammed Time: " + getJammedTime());
-        System.out.println("Can Slip: " + canSlip);
-        System.out.println("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
-        System.out.println("Beginning Point: " + (getBeginningPoint() != null ? getBeginningPoint().getId() : "null"));
-        System.out.println("End Point: " + (getEndPoint() != null ? getEndPoint().getId() : "null"));
+        Logger.log("Bus ID: " + getId());
+        Logger.log("Type: Bus");
+        Logger.log("Current Point: " + (getCurrentPoint() != null ? getCurrentPoint().getId() : "null"));
+        Logger.log("Last Lane: " + (getLastLane() != null ? getLastLane().getId() : "null"));
+        Logger.log("Next Lane: " + (getNextLane() != null ? getNextLane().getId() : "null"));
+        Logger.log("Jammed Time: " + getJammedTime());
+        Logger.log("Can Slip: " + canSlip);
+        Logger.log("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
+        Logger.log("Beginning Point: " + (getBeginningPoint() != null ? getBeginningPoint().getId() : "null"));
+        Logger.log("End Point: " + (getEndPoint() != null ? getEndPoint().getId() : "null"));
     }
 }

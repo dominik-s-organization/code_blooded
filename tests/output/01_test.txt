@@ -14,3 +14,4 @@ Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_01.txt
