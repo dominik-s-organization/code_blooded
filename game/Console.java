@@ -342,7 +342,7 @@ class Console {
                         Tunnel tunnel = new Tunnel();
                         tunnel.setId(game.generateId("tunnel"));
                         game.getCityMap().addPoint(tunnel);
-                        Logger.log("> OK");
+                        Logger.log("> OK, id: " + tunnel.getId());
                         break;
                     default:
                         Logger.log("> ERROR: Invalid point type: " + type);
@@ -384,7 +384,7 @@ class Console {
                 }
 
                 game.getCityMap().addLane(lane);
-                Logger.log("> OK");
+                Logger.log("> OK, id: " + lane.getId());
                 break;
             }
                             
@@ -505,7 +505,7 @@ class Console {
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
                     commandHistory.add(line); // Csak akkor adjuk hozzá, ha tényleg sikerült
-                    Logger.log("> OK");
+                    Logger.log("> OK, id: " + newVehicle.getId());
                 } else {
                     Logger.log("> ERROR: Could not create or find vehicle.");
                 }
