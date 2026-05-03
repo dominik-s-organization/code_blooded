@@ -1,0 +1,10 @@
+add_player p1 Cleaner
+buy p1 crushed_stone 5
+create_junction j1
+create_junction j2
+create_lane l1 j1 j2
+place_vehicle plower pl1 j1
+equip pl1 crushedstonehead
+move pl1 j2
+step 1
+stat l1

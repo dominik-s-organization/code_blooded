@@ -1,0 +1,10 @@
+create_point junction
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+create_lane junction_2 junction_3
+set_lane lane_1 ice true
+place_vehicle junction_1
+step
+stat car_1
+stat lane_1

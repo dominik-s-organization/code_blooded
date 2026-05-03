@@ -1,0 +1,4 @@
+> OK
+> ERROR: Insufficient funds or invalid item.
+> ERROR: Vehicle not found: p1
+> ERROR: Object with id p1 not found.

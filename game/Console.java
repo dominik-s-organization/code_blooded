@@ -22,11 +22,11 @@ class Console {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             
             boolean isGoing = true;
-            printHelp();
             while (isGoing) {
+                //printHelp();
                 String line;
                 try {
-                    System.out.print("> ");
+                    System.out.print("");
                     line = reader.readLine();
                 } catch (IOException e) {
                     // Amennyiben a beolvasás során hiba történik, hibaüzenetet küldünk[cite: 189].
@@ -234,7 +234,7 @@ class Console {
                         Logger.log("> ERROR: Insufficient funds or invalid item.");
                     }
                 }         
-            }
+            }   
             case "equip": {
                 /**
                  * Hókotró fejének lecserélése a kívánt típusra, amennyiben az a játékos eszköztárában van.
@@ -269,7 +269,7 @@ class Console {
                     for (Head h : sp.getOwner().getInventory()) {
                         // Lekérjük az inventory-ban lévő fej pontos osztálynevét (pl. "ThrowerHead" -> "throwerhead")
                         String currentHeadName = h.getClass().getSimpleName().toLowerCase();
-                        
+
                         // Ha a név tartalmazza a keresett típust (pl. a "throwerhead" tartalmazza a "thrower" szót)
                         if (currentHeadName.contains(targetType)) {
                             headToEquip = h; // Megtaláltuk a megfelelő fejet a raktárban!
@@ -280,7 +280,7 @@ class Console {
                     if (headToEquip != null) {
                         sp.changeHead(headToEquip); // Felszereljük a meglévő fejet
                         Logger.log("> OK");
-                        Logger.log("> ACTION: " + sp.getOwner().getName() + " equipped " + headToEquip + " to " + args[1]);
+                        Logger.log("> ACTION: " + sp.getOwner().getName() + " equipped " + headToEquip.getClass().getSimpleName() + " on " + sp.getId());
                     } else {
                         // Ha a ciklus végigért, és nem talált ilyen fejet a listában:
                         Logger.log("> ERROR: The owner does not have a '" + args[2] + "' in their inventory. Buy it first from the Store!");
@@ -352,10 +352,6 @@ class Console {
                 
                 Point startPoint = game.getPointById(args[1]);
                 Point endPoint = game.getPointById(args[2]);
-                if (startPoint == null ||endPoint == null) {
-                    Logger.log("> ERROR: Start or end point not found. Check the provided IDs.");
-                    break;
-                }
                 Lane lane = new Lane();
                 lane.setId(game.generateId("lane"));
                 lane.setStartPoint(startPoint);
@@ -443,14 +439,12 @@ class Console {
                  * Szintaxis: place_vehicle <position_id> [player_name]
                  */
                 if (args.length < 2) {
-                    System.out.println("> ERROR: Missing arguments for place_vehicle command. Usage: place_vehicle <position_id> [player_name]");
+                    Logger.log("> ERROR: Missing arguments. Usage: place_vehicle <position_id> [player_name]");
                     break;
                 }
-                commandHistory.add(line);
-
+                
                 String pId = args[1];
                 String playerName = args.length > 2 ? args[2] : null;
-                Player player = game.getPlayerById(playerName);
 
                 Point startingPoint = game.getPointById(pId);
                 if (startingPoint == null) {
@@ -459,32 +453,50 @@ class Console {
                 }
 
                 Vehicle newVehicle = null;
+
                 if (playerName == null) {
                     newVehicle = new Car();
                     newVehicle.setId(game.generateId("car"));
-                } else if (player.getType().equals("bus_driver")) {
-                    BusDriver busDriver = (BusDriver) player;
-                    newVehicle = busDriver.getBus();
-                    newVehicle.setId(game.generateId("bus"));
-                } else if (player.getType().equals("snow_cleaner")) {
-                    SnowCleaner snowCleaner = (SnowCleaner) player;
-                    newVehicle = snowCleaner.getSnowPlowers().get(snowCleaner.getSnowPlowers().size() - 1); // utolsó hókotró lehelyezése
-                    newVehicle.setId(game.generateId("snowplower"));
                 } else {
-                    Logger.log("> ERROR: Unknown player");
-                    break;
+                    Player player = game.getPlayerById(playerName);
+                    if (player == null) {
+                        Logger.log("> ERROR: Player not found: " + playerName);
+                        break;
+                    }
+
+                    if (player.getType().equals("bus_driver")) {
+                        BusDriver busDriver = (BusDriver) player;
+                        newVehicle = busDriver.getBus();
+                        newVehicle.setId(game.generateId("bus"));
+                    } else if (player.getType().equals("snow_cleaner")) {
+                        SnowCleaner snowCleaner = (SnowCleaner) player;
+                        if (snowCleaner.getSnowPlowers().isEmpty()) {
+                            Logger.log("> ERROR: This player has no snow plowers to place.");
+                            break;
+                        }
+                        newVehicle = snowCleaner.getSnowPlowers().get(snowCleaner.getSnowPlowers().size() - 1);
+                        newVehicle.setId(game.generateId("snow_plower"));
+                    }
                 }
 
-                // Jármű logikai elhelyezése a csomóponton és a várostérképen
                 if (newVehicle != null) {
                     newVehicle.setCurrentPoint(startingPoint);
+                    
+                    // Biztonságos sávbeállítás: csak ha van bejövő út
+                    if (!startingPoint.getIncomingLanes().isEmpty()) {
+                        newVehicle.setLastLane(startingPoint.getIncomingLanes().get(0));
+                    }
+
                     startingPoint.addVehicle(newVehicle);
                     game.getCityMap().addVehicle(newVehicle);
+                    commandHistory.add(line); // Csak akkor adjuk hozzá, ha tényleg sikerült
                     Logger.log("> OK");
+                } else {
+                    Logger.log("> ERROR: Could not create or find vehicle.");
                 }
                 break;
             }
-                            
+                                        
             case "exit": {
                 // A szimulációs program biztonságos leállítása[cite: 216].
                 return false;

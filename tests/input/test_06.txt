@@ -1,0 +1,10 @@
+add_player p1 snow_cleaner
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+set_lane lane_1 snow_level 5
+place_vehicle junction_1 p1
+equip snow_plower_1 SalterHead
+move snow_plower_1 Lane_1
+step
+stat lane_1

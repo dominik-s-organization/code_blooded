@@ -8,7 +8,7 @@ public class BusDriver extends Player {
     private int completedRoutes = 0;
     // A busz, amelyet a buszvezető vezet.
     private Bus bus;
-
+    
     // Konstruktor
     public BusDriver(String name) {
         super(name);

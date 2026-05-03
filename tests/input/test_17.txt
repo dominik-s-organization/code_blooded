@@ -1,0 +1,6 @@
+add_player p1 Cleaner
+buy p1 throwerhead
+create_junction j1
+place_vehicle plower pl1 j1
+equip pl1 throwerhead
+stat pl1

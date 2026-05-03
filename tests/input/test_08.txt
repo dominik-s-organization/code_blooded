@@ -1,0 +1,9 @@
+add_player p1 bus_driver
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+set_lane lane_1 snow_level 5
+place_vehicle bus p1
+move bus Lane_1
+step
+stat lane_1

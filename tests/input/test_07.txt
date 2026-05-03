@@ -1,0 +1,3 @@
+add_player p1 snow_cleaner
+buy p1 salt 10
+stat p1
