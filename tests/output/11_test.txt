@@ -1,9 +1,12 @@
 > OK, id: junction_1
 > OK, id: junction_2
+> OK, id: junction_3
 > OK, id: lane_1
+> OK, id: lane_2
 > OK
-> ERROR: Vehicle not found: car_1
 > OK, id: car_1
+> OK
+> ACTION: car_1 moved_to junction_2
 Lane ID: lane_1
 Start Point: junction_1
 End Point: junction_2
