@@ -68,6 +68,7 @@ public class Bus extends Vehicle {
     @Override
     public void jam() {
         super.setJammedTime(5);
+        Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
 
     /*
@@ -91,6 +92,7 @@ public class Bus extends Vehicle {
             if (point.equals(endPoint)) {
                 switchRoute();
             }
+            Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         }
     }
 

@@ -1,0 +1,19 @@
+> OK
+> OK
+> OK
+> OK
+> OK
+> OK
+> ERROR: The owner does not have a 'IceBreakerHead' in their inventory. Buy it first from the Store!
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 1
+Ice: true
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0

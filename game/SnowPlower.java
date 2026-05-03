@@ -51,6 +51,7 @@ public class SnowPlower extends Vehicle {
     @Override
     public void jam() {
         super.setJammedTime(1);
+        Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
 
     /**
@@ -71,6 +72,7 @@ public class SnowPlower extends Vehicle {
             super.setLastLane(nextLane);
             currentHead.clean(super.getLastLane(), this);
             super.setNextLane(null);
+            Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         }
     }
     

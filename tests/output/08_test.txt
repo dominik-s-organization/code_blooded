@@ -1,0 +1,18 @@
+> OK
+> OK
+> OK
+> OK
+> OK
+> ERROR: Starting point not found: bus
+Lane ID: lane_1
+Start Point: junction_1
+End Point: junction_2
+Left Lane: null
+Right Lane: null
+Is Jammed: false
+Is Underground: false
+Snow Level: 6
+Ice: false
+Broken Ice: false
+Salt Level: 0
+Crushed Stone Level: 0

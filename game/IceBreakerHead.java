@@ -18,7 +18,7 @@ public class IceBreakerHead extends Head {
         if (lane.getSnow().isIce()) {
             lane.getSnow().setIce(false);
             lane.getSnow().setBrokenIce(true);
-
+            Logger.log("> ACTION: " + lane.getId() + " state_changed IceBroken");
             snowPlower.getOwner().getPaid(25);
         }
     }

@@ -19,7 +19,7 @@ public class SalterHead extends Head {
     public void clean(Lane lane, SnowPlower snowPlower) {
         if (snowPlower.getOwner().consumeMaterial("salt")) {
             lane.getSnow().setSaltLevel(20);
-
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Salted");
             snowPlower.getOwner().getPaid(25);
         }
     }

@@ -72,6 +72,7 @@ public class Car extends Vehicle {
             super.setLastLane(nextLane);
             super.getLastLane().getSnow().passVehicle();
             super.setNextLane(null);
+            Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         }
 
         if (point.equals(work)) {
