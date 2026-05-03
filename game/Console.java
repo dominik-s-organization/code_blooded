@@ -22,11 +22,11 @@ class Console {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             
             boolean isGoing = true;
+            printHelp();
             while (isGoing) {
-                //printHelp();
                 String line;
                 try {
-                    System.out.print("");
+                    System.out.print(" > ");
                     line = reader.readLine();
                 } catch (IOException e) {
                     // Amennyiben a beolvasás során hiba történik, hibaüzenetet küldünk[cite: 189].
@@ -49,7 +49,7 @@ class Console {
         String[] args = line.trim().split("\\s+");
         String command = args[0];
 
-        if(game == null){
+        if (game == null) {
             System.out.println("> ERROR: Game instance is not initialized.");
             return false;
         }
@@ -153,7 +153,6 @@ class Console {
                     Logger.log("> ERROR: Missing test number. Usage: test <number>");
                     break;
                 }
-                commandHistory.add(line);
                 
                 String testNum = args[1];
                 // A bemeneti és kimeneti fájlnevek dinamikus generálása
@@ -233,7 +232,8 @@ class Console {
                     } else {
                         Logger.log("> ERROR: Insufficient funds or invalid item.");
                     }
-                }         
+                }
+                break;         
             }   
             case "equip": {
                 /**
@@ -352,10 +352,16 @@ class Console {
                 
                 Point startPoint = game.getPointById(args[1]);
                 Point endPoint = game.getPointById(args[2]);
+                if (startPoint == null || endPoint == null) {
+                    Logger.log("> ERROR: Start or end point not found. Check the provided IDs.");
+                    break;
+                }
                 Lane lane = new Lane();
                 lane.setId(game.generateId("lane"));
                 lane.setStartPoint(startPoint);
                 lane.setEndPoint(endPoint);
+                startPoint.addOutgoingLane(lane);
+                endPoint.addIncomingLane(lane);
                 
                 // Beállítani a legutolsó ugyanilyen sáv jobb oldali szomszádjának az új sávot
                 List<Lane> lanes = game.getCityMap().getLanes();
@@ -496,6 +502,58 @@ class Console {
                 }
                 break;
             }
+
+            case "set_car": {
+                /**
+                 * Autó otthon és munkahely pontjainak beállítása.
+                 * Szintaxis: set_car <car_id> <home_point_id> <work_point_id>
+                 */
+                if (args.length < 4) {
+                    Logger.log("> ERROR: Missing arguments for set_car command. Usage: set_car <car_id> <home_point_id> <work_point_id>");
+                    break;
+                }
+                
+                // Parancs mentése a történetbe
+                commandHistory.add(line);
+
+                String carId = args[1];
+                String homeId = args[2];
+                String workId = args[3];
+
+                Vehicle v = game.getVehicleById(carId);
+                if (v == null) {
+                    Logger.log("> ERROR: Vehicle not found: " + carId);
+                    break;
+                }
+
+                // Ellenőrizzük, hogy a jármű valóban egy autó-e
+                if (!carId.contains("car_")) {
+                    Logger.log("> ERROR: Vehicle is not a Car: " + carId);
+                    break;
+                }
+
+                Car car = (Car) v;
+
+                // Csomópontok lekérése
+                Point homePoint = game.getPointById(homeId);
+                if (homePoint == null) {
+                    Logger.log("> ERROR: Home point not found: " + homeId);
+                    break;
+                }
+
+                Point workPoint = game.getPointById(workId);
+                if (workPoint == null) {
+                    Logger.log("> ERROR: Work point not found: " + workId);
+                    break;
+                }
+
+                // Célpontok beállítása
+                car.setHome(homePoint);
+                car.setWork(workPoint);
+                Logger.log("> OK");
+
+                break;
+            }
                                         
             case "exit": {
                 // A szimulációs program biztonságos leállítása[cite: 216].
@@ -600,6 +658,9 @@ class Console {
         Logger.log("  Leírás: Elhelyez egy járművet a megadott kezdőpozíción.");
         Logger.log("  Ha adunk nem adunk meg játékosnevet, akkor egy Car típusú jármű kerül lehelyezésre,");
         Logger.log("  ha pedig megadunk, akkor a játékostól függően egy Bus vagy SnowPlower lesz lehelyezve.");
+
+        Logger.log("set_car <car_id> <home_point_id> <work_point_id>");
+        Logger.log("  Leírás: Beállítja egy autó otthon (home) és munkahely (work) csomópontját.");
 
         Logger.log("help");
         Logger.log("  Leírás: Megjeleníti a rendelkezésre álló parancsokat és azok használatát. [cite: 178, 179]");

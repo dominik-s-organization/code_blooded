@@ -129,17 +129,18 @@ public class Car extends Vehicle {
             for (Lane lane : p.getOutgoingLanes()) {
                 Point nextPoint = lane.getEndPoint();
 
-                // Csak akkor vizsgáljuk, ha még nem jártunk ott ÉS a pont járható az autónak
-                if (nextPoint != null && !visited.contains(nextPoint) && nextPoint.isReachable(this)) {
+                // Útvonaltervezésnél csak a hálózat struktúráját nézzük, isReachable nélkül!
+                // Ez megakadályozza a végtelen rekurziót (StackOverflowError).
+                if (nextPoint != null && !visited.contains(nextPoint)) {
                     visited.add(nextPoint);
                     parentMap.put(nextPoint, p); 
-                    edgeToMap.put(nextPoint, lane); // Feljegyezzük a SÁVOT is, amin idejutottunk!
+                    edgeToMap.put(nextPoint, lane); // Feljegyezzük a SÁVOT is, amin idejutottunk
                     queue.add(nextPoint);
                 }
             }
         }
 
-        // Ha a BFS nem talált utat (pl. minden út le van zárva/balesetes)
+        // Ha a BFS nem talált utat (pl. megszakadt a hálózat)
         if (foundTarget == null) {
             return null;
         }
@@ -150,8 +151,10 @@ public class Car extends Vehicle {
             step = parentMap.get(step);
         }
 
-        // Itt a varázslat: a legelső pontot már nem pontként, hanem a hozzá vezető sávként adjuk vissza
+        // Visszaadjuk az első lépéshez tartozó sávot
         Lane laneToTake = edgeToMap.get(step);
+
+        super.nextLane = laneToTake; // Beállítjuk a következő sávot, amin át akar haladni
 
         return laneToTake;
     }
