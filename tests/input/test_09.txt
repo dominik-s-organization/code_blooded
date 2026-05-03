@@ -1,11 +1,10 @@
-add_player p1 Cleaner
+add_player p1 snow_cleaner
 buy p1 salt 10
-create_junction j1
-create_junction j2
-create_lane l1 j1 j2
-set_lane l1 snow_level 5
-place_vehicle plower v1 j1
-equip v1 SalterHead
-move v1 j2
+create_point junction
+create_point junction
+create_lane junction_1 junction_2
+set_lane lane_1 snow_level 5
+place_vehicle junction_1 p1
+move snow_plower1 lane_1
 step 1
-stat l1
+stat lane_1

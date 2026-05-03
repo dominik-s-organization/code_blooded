@@ -41,7 +41,7 @@ public class SnowCleaner extends Player {
         super(name);
         snowPlowers = new ArrayList<>();
         inventory = new ArrayList<>();
-        money = 0;
+        money = 1000; // Kezdeti pénzösszeg a játékos számára, hogy venni is tudjon valamit a boltban
         saltStock = 0;
         bioKeroseneStock = 0;
         crushedStoneStock = 0;

@@ -1,0 +1,9 @@
+> OK
+> OK
+> OK
+> Game saved to test_save_01.txt
+> OK
+> OK
+> OK
+> Game loaded from test_save_01.txt
+> OK
