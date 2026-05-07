@@ -17,6 +17,14 @@ public class BusDriver extends Player {
         bus.setOwner(this);
     }
 
+    @Override
+    public void stat() {
+        Logger.log("BusDriver: " + getName());
+        Logger.log("Completed Routes: " + getCompletedRoutes());
+        Logger.log("Bus: " + getBus().getId());
+        Logger.log("");
+    }
+
     // Getterek, setterek
     public int getCompletedRoutes() {
         return completedRoutes;

@@ -13,13 +13,6 @@ public class Junction extends Point {
         super(id);
     }
 
-    protected boolean isReachableHelp(Point point, Vehicle vehicle) {
-        if (vehicle.getLastLane() == null) {
-            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
-        }
-        return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip) && !vehicle.getLastLane().getStartPoint().equals(point);
-    }
-
     @Override
     public void stat() {
         Logger.log("Junction ID: " + getId());
@@ -54,5 +47,6 @@ public class Junction extends Point {
         } else {
             Logger.log("No vehicles currently at this junction.");
         }
+        Logger.log("");
     }
 }

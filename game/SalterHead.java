@@ -23,4 +23,9 @@ public class SalterHead extends Head {
             snowPlower.getOwner().getPaid(25);
         }
     }
+
+    @Override
+    public String getType() {
+        return "SalterHead";
+    }
 }

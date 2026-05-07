@@ -4,14 +4,6 @@ package game;
  * A CrossRoads osztály egy kereszteződést reprezentál a játékban.
  */
 public class CrossRoads extends Point {
-    /*
-     * Adott jármű ráléphet-e a kereszteződést.
-     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a kereszteződésre.
-     * @return true, ha a jármű ráléphet a kereszteződésre, false egyébként.
-     */
-    public boolean isReachable(Vehicle vehicle) {
-        return true;
-    }
 
     //konstruktor
     public CrossRoads() {
@@ -20,10 +12,6 @@ public class CrossRoads extends Point {
     
     public CrossRoads(String id) {
         super(id);
-    }
-
-    protected boolean isReachableHelp(Point point, Vehicle vehicle) {
-        return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
     }
 
     @Override
@@ -60,6 +48,7 @@ public class CrossRoads extends Point {
         } else {
             Logger.log("No vehicles currently at this junction.");
         }
+        Logger.log("");
     }
 
 

@@ -96,5 +96,6 @@ public class SnowPlower extends Vehicle {
         Logger.log("Can Slip: " + canSlip);
         Logger.log("Current Head: " + (getCurrentHead() != null ? getCurrentHead().getClass().getSimpleName() : "null"));
         Logger.log("Owner: " + (getOwner() != null ? getOwner().getName() : "null"));
+        Logger.log("");
     }
 }

@@ -38,4 +38,9 @@ public abstract class Player {
     public void selectDestination(Vehicle vehicle, Lane nextLane) {
         vehicle.setNextLane(nextLane);
     }
+
+    /**
+     * Kiírja a pont állapotát és tulajdonságait a konzolra.
+     */
+    public abstract void stat();
 }

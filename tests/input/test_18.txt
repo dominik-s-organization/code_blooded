@@ -1,10 +1,22 @@
 create_point junction
 create_point junction
-create_point junction
-create_lane junction_1 junction_2
-create_lane junction_2 junction_3
+create_point tunnel
+create_lane junction_1 tunnel_1
+create_lane tunnel_1 junction_1
+create_lane tunnel_1 junction_2
 set_lane lane_1 is_underground true
-place_vehicle junction_1
-set_car car_1 junction_1 junction_3
-step 1
-stat lane_1
+set_lane lane_2 is_underground true
+add_player p1 snow_cleaner
+place_vehicle junction_1 p1
+move snow_plower_1 lane_1
+stat snow_plower_1
+step
+stat snow_plower_1
+move snow_plower_1 lane_3
+stat snow_plower_1
+step
+stat snow_plower_1
+move snow_plower_1 lane_2
+stat snow_plower_1
+step
+stat snow_plower_1

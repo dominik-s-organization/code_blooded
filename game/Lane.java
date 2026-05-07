@@ -129,5 +129,7 @@ public class Lane {
         Logger.log("Broken Ice: " + snow.isBrokenIce());
         Logger.log("Salt Level: " + snow.getSaltLevel());
         Logger.log("Crushed Stone Level: " + snow.getCrushedStoneLevel());
+        Logger.log("Vehicles Passed: " + snow.getVehiclesPassed());
+        Logger.log("");
     }
 }

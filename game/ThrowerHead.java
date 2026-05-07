@@ -24,4 +24,9 @@ public class ThrowerHead extends Head {
         Logger.log("> ACTION: " + lane.getId() + " state_changed Cleaned");
         snowPlower.getOwner().getPaid(20);
     }
+
+    @Override
+    public String getType() {
+        return "ThrowerHead";
+    }
 }

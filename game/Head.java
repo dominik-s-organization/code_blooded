@@ -10,4 +10,6 @@ public abstract class Head {
     * @param snowPlower A hóeltávolító, amelyre a fej szerelve van
     */
     public abstract void clean(Lane lane, SnowPlower snowPlower);
+
+    public abstract String getType();
 }

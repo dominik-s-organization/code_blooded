@@ -22,4 +22,9 @@ public class IceBreakerHead extends Head {
             snowPlower.getOwner().getPaid(25);
         }
     }
+
+    @Override
+    public String getType() {
+        return "IceBreakerHead";
+    }
 }

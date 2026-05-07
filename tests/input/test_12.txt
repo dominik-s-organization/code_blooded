@@ -2,10 +2,15 @@ add_player p1 snow_cleaner
 create_point junction
 create_point junction
 create_lane junction_1 junction_2
-set_lane lane_1 snow_level 5
+set_lane lane_1 snow_level 10
 place_vehicle junction_1 p1
-buy p1 Throwerhead
+add_head p1 Throwerhead
 equip snow_plower_1 Throwerhead
 move snow_plower_1 lane_1
-step 1
 stat lane_1
+stat snow_plower_1
+stat p1
+step
+stat lane_1
+stat snow_plower_1
+stat p1

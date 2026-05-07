@@ -1,3 +1,7 @@
 add_player p1 snow_cleaner
+add_resource p1 money 1000
+create_point junction
+place_vehicle junction_1 p1
+stat p1
 buy p1 salt 10
 stat p1
