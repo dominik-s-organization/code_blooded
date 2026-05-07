@@ -1,9 +1,9 @@
 > OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
-> OK
-> OK
-> OK
-> OK
+> OK, id: snow_plower_1
 > ERROR: The owner does not have a 'SalterHead' in their inventory. Buy it first from the Store!
 Lane ID: lane_1
 Start Point: junction_1
@@ -17,3 +17,5 @@ Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_06.txt
+> Test 06 completed. Saving output to tests/output/06_test.txt

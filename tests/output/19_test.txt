@@ -1,9 +1,11 @@
-> OK
-> OK
-> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > Game saved to test_save_01.txt
-> OK
-> OK
-> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > Game loaded from test_save_01.txt
 > OK
+> Game loaded from tests/input/test_19.txt
+> Test 19 completed. Saving output to tests/output/19_test.txt

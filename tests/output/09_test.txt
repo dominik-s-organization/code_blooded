@@ -1,11 +1,11 @@
 > OK
 > OK
 > ACTION: p1 bought salt
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
-> OK
-> OK
-> OK
-> OK
+> OK, id: snow_plower_1
 Lane ID: lane_1
 Start Point: junction_1
 End Point: junction_2
@@ -18,3 +18,5 @@ Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_09.txt
+> Test 09 completed. Saving output to tests/output/09_test.txt

@@ -1,7 +1,7 @@
 > OK
-> OK
-> OK
-> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
 > ERROR: Starting point not found: bus
 Lane ID: lane_1
@@ -16,3 +16,5 @@ Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_08.txt
+> Test 08 completed. Saving output to tests/output/08_test.txt

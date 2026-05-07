@@ -1,6 +1,6 @@
-> OK
-> OK
-> OK
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
 Lane ID: lane_1
 Start Point: junction_1
@@ -15,3 +15,4 @@ Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
 > Game loaded from tests/input/test_01.txt
+> Test 01 completed. Saving output to tests/output/01_test.txt

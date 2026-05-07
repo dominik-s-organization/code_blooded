@@ -1,4 +1,6 @@
 > OK
-> ERROR: Insufficient funds or invalid item.
-> ERROR: Vehicle not found: p1
+> OK
+> ACTION: p1 bought salt
 > ERROR: Object with id p1 not found.
+> Game loaded from tests/input/test_07.txt
+> Test 07 completed. Saving output to tests/output/07_test.txt

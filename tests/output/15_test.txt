@@ -1,9 +1,9 @@
+> OK, id: junction_1
+> OK, id: junction_2
+> OK, id: lane_1
 > OK
 > OK
-> OK
-> OK
-> OK
-> OK
+> OK, id: snow_plower_1
 > OK
 > ACTION: p1 equipped SweepingHead on snow_plower_1
 > OK
@@ -22,3 +22,5 @@ Ice: false
 Broken Ice: false
 Salt Level: 0
 Crushed Stone Level: 0
+> Game loaded from tests/input/test_15.txt
+> Test 15 completed. Saving output to tests/output/15_test.txt
