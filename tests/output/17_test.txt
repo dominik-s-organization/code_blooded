@@ -23,6 +23,5 @@ Jammed Time: 0
 Can Slip: false
 Current Head: ThrowerHead
 Owner: p1
-
 > Game loaded from tests/input/test_17.txt
 > Test 17 completed. Saving output to tests/output/17_test.txt
