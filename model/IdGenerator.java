@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Interfész az entitások egyedi azonosítóinak generálására.

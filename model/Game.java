@@ -1,9 +1,10 @@
-package game;
+package model;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import view_controller.GameObserver;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.
@@ -13,13 +14,27 @@ public class Game implements IdGenerator {
     private List<Player> players; // A játékosok listája.
     private Store store; // A játékban elérhető tárgyak boltja.
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
+    private List<GameObserver> observers; // A játék megfigyelői, akik értesülnek a játék állapotváltozásairól.
 
     public Game() {
         city = new CityMap();
         players = new ArrayList<>();
         store = new Store();
         idCounters = new HashMap<>();
+        observers = new ArrayList<>();
     }
+
+    public void addObserver(GameObserver observer) {
+        observers.add(observer);
+    }
+
+    // A megfigyelők értesítése a játék állapotváltozásairól.
+    // simulateStep() után hívjuk meg, hogy a nézet frissüljön a játék új állapotára.
+    public void notifyObservers() {
+        for (GameObserver observer : observers) {
+            observer.update();
+        }
+    } 
 
     public CityMap getCityMap(){
         return city;
@@ -139,7 +154,7 @@ public class Game implements IdGenerator {
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
-         
+        observers.clear(); // Törlés az előző lépés megfigyelői közül
          // Járművek mozgatása
          for (Vehicle vehicle : city.getVehicles()) {
             // Elakadt járművek kezelése

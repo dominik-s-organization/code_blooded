@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A DragonHead osztály egy sárkányfejet reprezentál a játékban.

@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Absztrakt ősosztály a felhasználókat (játékosokat) reprezentáló entitások számára.

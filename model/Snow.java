@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Egy sávon (Lane) lévő hó- és jégviszonyokat reprezentáló osztály.

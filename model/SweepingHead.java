@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A hó eltakarátására szolgáló seprőfejet reprezentáló osztály.

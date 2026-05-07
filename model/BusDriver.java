@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A BusDriver osztály a Player absztrakt osztályból származik, és egy buszvezetőt reprezentál a játékban.

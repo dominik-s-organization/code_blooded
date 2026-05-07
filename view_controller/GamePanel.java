@@ -1,8 +1,10 @@
 package view_controller;
 import model.Game;
 import java.awt.Graphics;
+import javax.swing.JPanel ;
 
-public class GamePanel {
+// A GamePanel osztály felelős a játék grafikus megjelenítéséért.
+public class GamePanel extends JPanel implements GameObserver {
     private Game game;
     private double scale;
 
@@ -11,7 +13,7 @@ public class GamePanel {
     }
 
     public void update() {
-        // Update the game panel based on the current state of the game
+        repaint();
     }
 
     public void calculateCoordinates() {

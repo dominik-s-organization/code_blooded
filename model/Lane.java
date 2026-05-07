@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A Lane osztály egy sávot reprezentál a játékban.

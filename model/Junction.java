@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A Junction osztály egy csomópontot reprezentál a játékban.

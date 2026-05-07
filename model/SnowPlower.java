@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A Takarító (SnowCleaner) játékos által irányított hókotró munkagépet reprezentáló osztály.

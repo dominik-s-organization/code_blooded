@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Busz osztály, amely a járműveket reprezentálja.

@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Absztrakt osztály a mozgó entitások (autók, buszok, hókotrók) számára.

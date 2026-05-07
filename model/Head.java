@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A Head osztály egy fejet reprezentál a játékban.

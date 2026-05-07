@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A IceBreakerHead osztály egy jégtörőfejet reprezentál a játékban.

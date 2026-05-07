@@ -2,11 +2,6 @@
 > OK, id: junction_1
 > OK, id: junction_2
 > OK, id: lane_1
-<<<<<<< HEAD
-> OK
-> OK, id: snow_plower_1
-> ERROR: The owner does not have a 'IceBreakerHead' in their inventory. Buy it first from the Store!
-=======
 > OK
 > OK, id: snow_plower_1
 > OK
@@ -40,7 +35,6 @@ Owner: p1
 
 > ACTION: lane_1 state_changed IceBroken
 > ACTION: snow_plower_1 moved_to junction_2
->>>>>>> origin
 Lane ID: lane_1
 Start Point: junction_1
 End Point: junction_2
@@ -53,8 +47,6 @@ Ice: false
 Broken Ice: true
 Salt Level: 0
 Crushed Stone Level: 0
-<<<<<<< HEAD
-=======
 Vehicles Passed: 0
 
 SnowPlower ID: snow_plower_1
@@ -67,6 +59,5 @@ Can Slip: false
 Current Head: IceBreakerHead
 Owner: p1
 
->>>>>>> origin
 > Game loaded from tests/input/test_05.txt
 > Test 05 completed. Saving output to tests/output/05_test.txt

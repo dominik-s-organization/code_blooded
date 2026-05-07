@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A sózó fejet reprezentáló osztály.

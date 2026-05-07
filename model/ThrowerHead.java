@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A hó messzire történő elszórására szolgáló hóhány fejet reprezentáló osztály.

@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * A CrossRoads osztály egy kereszteződést reprezentál a játékban.

@@ -1,4 +1,4 @@
-package game;
+package model;
 
 /**
  * Speciális csomópontot (alagutat) reprezentáló osztály az úthálózatban.
