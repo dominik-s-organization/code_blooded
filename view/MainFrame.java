@@ -9,17 +9,27 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     private Game game;
     private GamePanel gamePanel;
+    private JLabel statusLabel;
+    private JLabel scorLabel;
     private ControlPanel controlPanel;
-
-    public MainFrame() {
-        this(new Game());
-    }
 
     public MainFrame(Game game) {
         this.game = game;
 
+        game.addObserver(this);
+
         setTitle("Plow Masters");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem newGameItem = new JMenuItem("New Game");
+        JMenuItem loadGameItem = new JMenuItem("Load Game");
+        JMenuItem saveGameItem = new JMenuItem("Save Game");
+        fileMenu.add(newGameItem);
+        fileMenu.add(loadGameItem);
+
         setSize(800, 600);
         this.setLayout(new BorderLayout());
         gamePanel = new GamePanel(game);
@@ -43,4 +53,5 @@ public class MainFrame extends JFrame {
         this.game = game;
         gamePanel.setGame(game);
     }
+
 }
