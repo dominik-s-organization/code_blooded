@@ -12,5 +12,13 @@ public class MainFrame {
         game = new Game();
         gamePanel = new GamePanel();
         controlPanel = new ControlPanel();
+        game.addObserver(gamePanel);
+    }
+
+    public MainFrame(Game game) {
+        this.game = game;
+        gamePanel = new GamePanel();
+        controlPanel = new ControlPanel();
+        game.addObserver(gamePanel);
     }
 }
