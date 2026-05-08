@@ -1,4 +1,4 @@
-package view_controller;
+package controller;
 
 public interface GameObserver {
     public void update();

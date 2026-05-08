@@ -94,7 +94,7 @@ public abstract class Vehicle {
             jammedTime--;
         }
     }
-    
+
     /**
      * A jármű elakadását, balesetét vagy büntetési idejét kezelő absztrakt metódus.
      * A leszármazott osztályok a saját logikájuk szerint megvalósítják meg.

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import view_controller.GameObserver;
+
+import controller.GameObserver;
 
 /**
  * A Game osztály a játék fő osztálya, amely kezeli a játékmenetet.

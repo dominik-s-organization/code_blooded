@@ -1,8 +1,10 @@
 package model;
+import view.MainFrame;
 
 public class Main {
     public static void main(String[] args) {
-        Console console = new Console();
-        console.readConsoleParams();
+        Game game = new Game();
+        MainFrame frame = new MainFrame(game);
+        frame.setVisible(true);
     }
 }

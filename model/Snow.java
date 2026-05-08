@@ -10,7 +10,7 @@ public class Snow {
      * A hó vastagsága (szintje).
      * Értéke 0 és 30 között mozoghat. 0-14-ig a sáv még átkelhető, 15-30 között járhatatlan.
      */
-    private int level; 
+    private int snowlevel; 
     /**
      * A havon áthaladó járművek számát tárolja. Ha eléri a küszöböt, a hó jéggé alakul.
      */
@@ -36,7 +36,7 @@ public class Snow {
 
     //Konstruktor
     public Snow() {
-        this.level = 0;
+        this.snowlevel = 0;
         this.vehiclesPassed = 0;
         this.ice = false;
         this.brokenIce = false;
@@ -44,12 +44,12 @@ public class Snow {
     }
 
     // Getterek, setterek
-    public int getLevel() {
-        return level;
+    public int getSnowLevel() {
+        return snowlevel;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    public void setSnowLevel(int snowlevel) {
+        this.snowlevel = snowlevel;
     }
 
     public int getVehiclesPassed() {
@@ -97,8 +97,8 @@ public class Snow {
      * és a sáv nincs sózva.
      */
     public void raise() {
-        if (level < 30) {
-            level++;
+        if (snowlevel < 30) {
+            snowlevel++;
         }
     }
 
@@ -108,7 +108,7 @@ public class Snow {
      * @param amount a hó növekedésének mértéke
      */
     public void raiseBy(int amount) {
-        level = Math.min(level + amount, 30);
+        snowlevel = Math.min(snowlevel + amount, 30);
     }
 
     /**
@@ -116,8 +116,8 @@ public class Snow {
      */
 
     public void lower() {
-        if (level > 0){
-            level--;
+        if (snowlevel > 0){
+            snowlevel--;
         }
     }
 
@@ -125,7 +125,7 @@ public class Snow {
      * Megtisztítja a sávot a hótól és a jégtől a takarítófejek hatására.
      */
     public void clean() {
-        this.level = 0;
+        this.snowlevel = 0;
     }
 
     /**
@@ -134,7 +134,7 @@ public class Snow {
      */
     public void passVehicle() {
         vehiclesPassed++;
-        if (vehiclesPassed > 4 && level < 15) {
+        if (vehiclesPassed > 4 && snowlevel < 15) {
             setIce(true);
         }
     }

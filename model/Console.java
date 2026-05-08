@@ -424,7 +424,7 @@ class Console {
                             Logger.log("> OK");
                             break;
                         case "snow_level":
-                            laneToSet.getSnow().setLevel(Integer.parseInt(valueStr));
+                            laneToSet.getSnow().setSnowLevel(Integer.parseInt(valueStr));
                             Logger.log("> OK");
                             break;
                         case "ice":

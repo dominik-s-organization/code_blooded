@@ -24,6 +24,16 @@ public abstract class Point {
      * A pontból kiinduló sávok listája.
      */
     private List<Lane> outgoingLanes;
+    private int x;
+    private int y;
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 
     //Konstruktor
     protected Point() {
@@ -105,20 +115,20 @@ public abstract class Point {
     public boolean isReachable(Vehicle vehicle) {
         if (vehicle.getCurrentPoint().getId().contains("junction")) {
             if (vehicle.getLastLane() == null) {
-                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip);
             }
-            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip) && !vehicle.getLastLane().getStartPoint().equals(this);
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip) && !vehicle.getLastLane().getStartPoint().equals(this);
         }
 
         else if (vehicle.getCurrentPoint().getId().contains("crossroads")) {
-            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip);
         }
 
         else if (vehicle.getCurrentPoint().getId().contains("tunnel")) {
             if (vehicle.getLastLane() == null) {
-                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip);
+                return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip);
             }
-            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getLevel() < 15 || !vehicle.canSlip) && vehicle.getNextLane().isUnderground() == vehicle.getLastLane().isUnderground();
+            return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip) && vehicle.getNextLane().isUnderground() == vehicle.getLastLane().isUnderground();
         }
         return false;
     }
