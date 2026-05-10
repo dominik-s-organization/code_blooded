@@ -10,7 +10,6 @@ public class Main {
         game.getCityMap().addPoint(p2);
         Lane lane = new Lane("L1");
         game.getCityMap().addLane(lane);
-        Vehicle vehicle = new Car("V1");
         MainFrame frame = new MainFrame(game);
         frame.setVisible(true);
     }

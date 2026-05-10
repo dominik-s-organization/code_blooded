@@ -9,8 +9,6 @@ import java.awt.*;
 public class MainFrame extends JFrame {
     private Game game;
     private GamePanel gamePanel;
-    private JLabel statusLabel;
-    private JLabel scorLabel;
     private ControlPanel controlPanel;
 
     public MainFrame(Game game) {

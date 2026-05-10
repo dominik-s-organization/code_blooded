@@ -12,6 +12,7 @@ public class ControlPanel extends MouseAdapter {
     private JButton stepButton;
     private JButton moveButton;
     private JButton buyButton;
+    private JButton backtomenuButton;
     private JLabel statusLabel;
     private JTextField inputField;
     private JTextField outputField;
@@ -22,6 +23,7 @@ public class ControlPanel extends MouseAdapter {
         this.statusLabel = new JLabel("Status: Ready");
         this.inputField = new JTextField(20);
         this.outputField = new JTextField(20);
+        this.backtomenuButton = new JButton("Back to Menu");
         initButtons();
     }
 
