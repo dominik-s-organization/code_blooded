@@ -6,7 +6,6 @@ import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-
 // A MenuPanel osztály a játék főmenüjét reprezentálja, amely tartalmazza az új játék, betöltés, mentés és kilépés gombokat.
 public class MenuPanel extends JPanel {
     JButton newGameButton;
@@ -32,4 +31,12 @@ public class MenuPanel extends JPanel {
         this.setLayout(layout);
     }
 
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, g2d);
+        g2d.setColor(Color.WHITE);
+        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+    }
 }

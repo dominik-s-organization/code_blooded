@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Absztrakt ősosztály az őthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
+ * Absztrakt ősosztály az úthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
  * Felelőssége a becsatlakozó és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartása.
  */
 public abstract class Point {
@@ -33,6 +33,14 @@ public abstract class Point {
 
     public int getY() {
         return y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     //Konstruktor

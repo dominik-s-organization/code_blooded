@@ -48,6 +48,10 @@ public class MainFrame extends JFrame {
         super.setVisible(visible);
     }
 
+    public void showMenu() {
+        this.setVisible(false);
+    }
+
     public void setGame(Game game) {
         this.game = game;
         gamePanel.setGame(game);
