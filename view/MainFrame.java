@@ -16,8 +16,6 @@ public class MainFrame extends JFrame {
     public MainFrame(Game game) {
         this.game = game;
 
-        game.addObserver(this);
-
         setTitle("Plow Masters");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -27,8 +25,12 @@ public class MainFrame extends JFrame {
         JMenuItem newGameItem = new JMenuItem("New Game");
         JMenuItem loadGameItem = new JMenuItem("Load Game");
         JMenuItem saveGameItem = new JMenuItem("Save Game");
+        
         fileMenu.add(newGameItem);
         fileMenu.add(loadGameItem);
+        fileMenu.add(saveGameItem);
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
 
         setSize(800, 600);
         this.setLayout(new BorderLayout());
@@ -36,7 +38,6 @@ public class MainFrame extends JFrame {
         controlPanel = new ControlPanel(game);
 
         this.add(gamePanel, BorderLayout.CENTER);
-        this.add(controlPanel, BorderLayout.EAST);
 
         game.addObserver(gamePanel);
 

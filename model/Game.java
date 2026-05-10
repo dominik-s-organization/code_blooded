@@ -16,13 +16,19 @@ public class Game implements IdGenerator {
     private Store store; // A játékban elérhető tárgyak boltja.
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
     private List<GameObserver> observers; // A játék megfigyelői, akik értesülnek a játék állapotváltozásairól.
-
+    public List<Lane> lanes; // A játékban található sávok listája, amelyek az útvonalakat reprezentálják.
+    public List<Point> points; // A játékban található pontok listája, amelyek a sávok végpontjait reprezentálják.
+    public List<Vehicle> vehicles; // A játékban található járművek listája, amelyek a forgalmat reprezentálják.
+    
     public Game() {
         city = new CityMap();
         players = new ArrayList<>();
         store = new Store();
         idCounters = new HashMap<>();
         observers = new ArrayList<>();
+        lanes = new ArrayList<>();
+        points = new ArrayList<>();
+        vehicles = new ArrayList<>();
     }
 
     public void addObserver(GameObserver observer) {
@@ -47,6 +53,10 @@ public class Game implements IdGenerator {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
     }
 
     public Store getStore() {

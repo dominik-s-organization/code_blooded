@@ -19,14 +19,14 @@ public class ControlPanel extends MouseAdapter {
     // A ControlPanel konstruktorában inicializáljuk a játékot és a gombokat, valamint beállítjuk a gombok eseménykezelőit.
     public ControlPanel(Game game) {
         this.game = game;
-        this.setLayout(new GridLayout(0, 1,5, 5)); // Egyszerű rácsos elrendezés a gomboknak és a státusznak
-        this.setBorder(BorderFactory.createTitledBorder("Control Panel")); // Kis margó a panel körül
         this.statusLabel = new JLabel("Status: Ready");
-        initialize();
+        this.inputField = new JTextField(20);
+        this.outputField = new JTextField(20);
+        initButtons();
     }
 
     // A gombok inicializálása és eseménykezelőinek beállítása.
-    public void initialize() {
+    public void initButtons() {
         stepButton = new JButton("Step");
         moveButton = new JButton("Move");
         buyButton = new JButton("Buy");
@@ -46,17 +46,9 @@ public class ControlPanel extends MouseAdapter {
             if (input != null && !input.trim().isEmpty()) {
                 // Itt lehetne hozzáadni a vásárlási logikát, például ellenőrizni a bolt kínálatát és a játékos pénzét.
                 outputField.setText("Bought: " + input); // kiírja, hogy mit vásárolt a játékos
-                game.getStore().buy(input); // meghívja a játék buyItem metódusát a megadott inputtal
+                // game.getStore().buy(input); // meghívja a játék buyItem metódusát a megadott inputtal
             } else {
                 outputField.setText("No item entered"); // ha nem adott meg semmit, kiírja, hogy nem adott meg semmit
-            }
-        });
-
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Itt lehetne hozzáadni a logikát, hogy a játékos hova kattintott, és ennek megfelelően reagálni.
-                statusLabel.setText("Status: Clicked at (" + e.getX() + ", " + e.getY() + ")");
             }
         });
     } 

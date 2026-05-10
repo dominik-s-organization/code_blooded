@@ -71,6 +71,10 @@ public abstract class Vehicle {
         this.lastLane = lastLane;
     }
 
+    public String getTypeName() {
+        return this.getClass().getSimpleName();
+    }
+
     /**
      * Visszaadja a jármű következő célpontját, amely felé haladni próbál.
      * @return a következő sáv (Lane), amelyen a jármű át akar haladni

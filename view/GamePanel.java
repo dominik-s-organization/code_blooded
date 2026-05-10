@@ -21,7 +21,8 @@ public class GamePanel extends JPanel implements GameObserver {
         game.addObserver(this);
         this.controlPanel = new ControlPanel(game);
         this.addMouseListener(controlPanel);
-        this.setBackground(new Color(0, 0, 0)); // Set background to black
+        this.setBackground(new Color(0, 0, 0));
+        this.setPreferredSize(new Dimension(800,600)); // Set background to black
     }
 
     public void setGame(Game game) {
@@ -35,6 +36,9 @@ public class GamePanel extends JPanel implements GameObserver {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, g2d);
+        g2d.setColor(Color.BLACK);
+        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+        g2d.drawString("Simulation runs", 10, 20);
 
         for (Lane lane : game.getCityMap().getLanes()) {
             drawLane(g2d, lane);
