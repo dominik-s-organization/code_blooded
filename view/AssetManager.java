@@ -76,7 +76,7 @@ public class AssetManager {
         } else if (snowLevel <= 5) {
             return new Color(200, 200, 200); // Világos havas út
         } else if (snowLevel <= 10) {
-            return new Color(230, 230, 230); // Nagyon havas út
+            return new Color(235, 235, 235); // Nagyon havas út
         } else {
             return new Color(255, 255, 255); // Teljesen hófehér
         }
