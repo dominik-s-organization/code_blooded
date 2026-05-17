@@ -78,6 +78,11 @@ public class MainFrame extends JFrame {
             cardLayout.show(mainContainer, "GAME");
         });
 
+        // ESEMÉNYKEZELÉS: Ha rákattintanak a "Back to Menu" gombra, váltsunk vissza a MENU kártyára!
+        controlPanel.getBackToMenuButton().addActionListener(e -> {
+            showMenu(); 
+        });
+
         setVisible(true);
     }
 
