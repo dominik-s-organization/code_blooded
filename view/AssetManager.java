@@ -1,19 +1,49 @@
 package view;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.awt.Image;
 import java.awt.Color;
+import java.io.File;
+import javax.imageio.ImageIO;
 
-// Az AssertManager osztály felelős a játékban használt ikonok és színek kezeléséért.
+/**
+ * Az AssetManager osztály felelős a játékban használt grafikus erőforrások 
+ * (ikonok, képek, színek) betöltéséért és memóriában tartásáért.
+ * Ez biztosítja, hogy a képeket ne kelljen minden képkocka kirajzolásakor újra betölteni.
+ */
 public class AssetManager {
-    private static Map<String, Image> vehicleIcons;
-    private static Map<String, Color> snowColors;
-    private static Map<String, Image> itemIcons;
-    private static Map<String, Image> playerIcons;
-    private static Map<String, Image> obstacleIcons;
+    /** A járművek ikonjait tároló szótár (Map). */
+    private static Map<String, Image> vehicleIcons = new HashMap<>();
+    
+    /** A hószintekhez tartozó színeket tároló szótár. */
+    private static Map<String, Color> snowColors = new HashMap<>();
+    
+    /** A megvásárolható tárgyak ikonjait tároló szótár. */
+    private static Map<String, Image> itemIcons = new HashMap<>();
+    
+    /** A játékosok profilképeit tároló szótár. */
+    private static Map<String, Image> playerIcons = new HashMap<>();
+    
+    /** Az akadályok ikonjait tároló szótár. */
+    private static Map<String, Image> obstacleIcons = new HashMap<>();
+
+    /**
+     * Statikus inicializáló blokk, amely az osztály betöltésekor meghívja az erőforrások betöltését.
+     */
+    static {
+        loadAssets();
+    }
 
     private void loadAssets() {
-        // Itt töltsük be az ikonokat és színeket a fájlokból vagy erőforrásokból
+       try {
+            // A kulcsoknak pontosan egyezniük kell az osztálynevekkel!
+            vehicleIcons.put("Car", ImageIO.read(new File("car.png")));
+            vehicleIcons.put("Bus", ImageIO.read(new File("bus.png")));
+            vehicleIcons.put("SnowPlower", ImageIO.read(new File("snowplow.png")));
+        } catch (Exception e) {
+            System.out.println("Hiba a kepek betoltesekor: " + e.getMessage());
+        }
     }
 
     public Image getIcon(String name) {
@@ -42,15 +72,13 @@ public class AssetManager {
 
     public static Color getSnowColor(int snowLevel) {
         if (snowLevel == 0) {
-            return new Color(200, 200, 200); // világosszürke
+            return new Color(100, 100, 100); // Sötétszürke tiszta aszfalt
         } else if (snowLevel <= 5) {
-            return new Color(255, 255, 255); // fehér
+            return new Color(200, 200, 200); // Világos havas út
         } else if (snowLevel <= 10) {
-            return new Color(220, 220, 220); // világosabb szürke
-        } else if (snowLevel <= 15) {
-            return new Color(180, 180, 180); // sötétebb szürke
+            return new Color(230, 230, 230); // Nagyon havas út
         } else {
-            return new Color(150, 150, 150); // nagyon sötét szürke
+            return new Color(255, 255, 255); // Teljesen hófehér
         }
     }
 }

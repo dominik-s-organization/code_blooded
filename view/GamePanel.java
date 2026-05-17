@@ -13,9 +13,16 @@ import controller.GameObserver;
 
 // A GamePanel osztály felelős a játék grafikus megjelenítéséért.
 public class GamePanel extends JPanel implements GameObserver {
+    
+    /** Referencia a szimulációs modellre. */    
     private Game game;
     private ControlPanel controlPanel;
 
+    /**
+     * A GamePanel konstruktora. Inicializálja a panelt, beállítja a fekete hátteret,
+     * és feliratkozik a modell változásaira.
+     * @param game A Game objektum, amely a város térképét tartalmazza.
+     */
     public GamePanel(Game game) {
         this.game = game;
         game.addObserver(this);
@@ -53,6 +60,12 @@ public class GamePanel extends JPanel implements GameObserver {
         }
     }
 
+    /**
+     * Egyetlen sáv (út) kirajzolása a megadott Graphics2D objektumra.
+     * A sáv színe a rajta lévő hó mennyiségétől függ.
+     * @param g2d A rajzoló objektum.
+     * @param lane A kirajzolandó sáv.
+     */
     private void drawLane(Graphics2D g2d, Lane lane) {
         Point start = lane.getStartPoint();
         Point end = lane.getEndPoint();
