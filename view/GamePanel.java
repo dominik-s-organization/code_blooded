@@ -76,15 +76,36 @@ public class GamePanel extends JPanel implements GameObserver {
         // Itt rajzoljuk meg a sávokat a játék térképén
     }
 
+    /**
+     * Egyetlen jármű kirajzolása az aktuális pozíciójára PNG kép segítségével.
+     * @param g2d A rajzoló objektum.
+     * @param vehicle A kirajzolandó jármű.
+     */
     private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
-        AssetManager assetManager = new AssetManager();
-        Image img = assetManager.getIcon("Car"); // Például egy autó ikon
+        Point p = vehicle.getCurrentPoint();
+        if (p == null) return;
+
+        // Dinamikusan lekérjük a jármű osztálynevét ("Car", "Bus", vagy "SnowPlower")
+        String vehicleType = vehicle.getClass().getSimpleName();
+        
+        // Lekérjük a hozzá tartozó képet az AssetManager-ből
+        Image img = AssetManager.getIcon(vehicleType);
+
+        int x = p.getX();
+        int y = p.getY();
+
         if (img != null) {
-            int x = vehicle.getCurrentPoint().getX() - img.getWidth(null) / 2;
-            int y = vehicle.getCurrentPoint().getY() - img.getHeight(null) / 2;
-            g2d.drawImage(img, x, y, null);
+            // Ha megvan a kép, középre igazítva kirajzoljuk a koordinátára
+            int imgX = x - (img.getWidth(null) / 2);
+            int imgY = y - (img.getHeight(null) / 2);
+            g2d.drawImage(img, imgX, imgY, null);
+        } else {
+            // TARTALÉK (Fallback): Ha nem találja a png fájlt, rajzoljon egy piros négyzetet
+            g2d.setColor(Color.RED);
+            g2d.fillRect(x - 8, y - 8, 16, 16);
+            g2d.setColor(Color.WHITE);
+            g2d.drawString("!", x - 2, y + 4);
         }
-        // Itt rajzoljuk meg a járműveket a játék térképén
     }
 
     private void drawPoint(Graphics2D g2d, Point point) {
