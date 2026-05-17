@@ -124,7 +124,7 @@ public class Lane {
         Logger.log("Right Lane: " + (getRightLane() != null ? getRightLane().getId() : "null"));
         Logger.log("Is Jammed: " + isJammed());
         Logger.log("Is Underground: " + isUnderground());
-        Logger.log("Snow Level: " + snow.getLevel());
+        Logger.log("Snow Level: " + snow.getSnowLevel());
         Logger.log("Ice: " + snow.isIce());
         Logger.log("Broken Ice: " + snow.isBrokenIce());
         Logger.log("Salt Level: " + snow.getSaltLevel());

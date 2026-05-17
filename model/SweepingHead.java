@@ -14,7 +14,7 @@ public class SweepingHead extends Head {
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
         if (lane.getRightLane() != null) {
-            int snowAmount = lane.getSnow().getLevel();
+            int snowAmount = lane.getSnow().getSnowLevel();
             int crushedStoneAmount = lane.getSnow().getCrushedStoneLevel();
             lane.getSnow().clean();
             lane.getSnow().setCrushedStoneLevel(0);

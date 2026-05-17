@@ -71,6 +71,10 @@ public abstract class Vehicle {
         this.lastLane = lastLane;
     }
 
+    public String getTypeName() {
+        return this.getClass().getSimpleName();
+    }
+
     /**
      * Visszaadja a jármű következő célpontját, amely felé haladni próbál.
      * @return a következő sáv (Lane), amelyen a jármű át akar haladni
@@ -94,7 +98,7 @@ public abstract class Vehicle {
             jammedTime--;
         }
     }
-    
+
     /**
      * A jármű elakadását, balesetét vagy büntetési idejét kezelő absztrakt metódus.
      * A leszármazott osztályok a saját logikájuk szerint megvalósítják meg.
