@@ -165,7 +165,6 @@ public class Game implements IdGenerator {
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
-        observers.clear(); // Törlés az előző lépés megfigyelői közül
          // Járművek mozgatása
          for (Vehicle vehicle : city.getVehicles()) {
             // Elakadt járművek kezelése
@@ -200,11 +199,12 @@ public class Game implements IdGenerator {
             for (Point point : city.getPoints()) {
                 point.lookForJams();
             }
-         }
+        }
 
-         // Végül havazás
+         // Havazás
         for (Lane lane : city.getLanes()) {
             lane.raiseSnow();
         }
+        notifyObservers(); // A nézet frissítése a játék új állapotára
     }
 }
