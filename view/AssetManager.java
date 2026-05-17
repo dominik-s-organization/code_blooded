@@ -35,7 +35,7 @@ public class AssetManager {
         loadAssets();
     }
 
-    private void loadAssets() {
+    private static void loadAssets() {
        try {
             // A kulcsoknak pontosan egyezniük kell az osztálynevekkel!
             vehicleIcons.put("Car", ImageIO.read(new File("car.png")));
@@ -46,27 +46,27 @@ public class AssetManager {
         }
     }
 
-    public Image getIcon(String name) {
+    public static Image getIcon(String name) {
         return vehicleIcons.get(name);
     }
 
-    public Image setIcon(String name, Image img) {
+    public static Image setIcon(String name, Image img) {
         return vehicleIcons.put(name, img);
     }
 
-    public Color getColor(String name) {
+    public static Color getColor(String name) {
         return snowColors.get(name);
     }
 
-    public Image getItemIcon(String name) {
+    public static Image getItemIcon(String name) {
         return itemIcons.get(name);
     }
 
-    public Image getPlayerIcon(String name) {
+    public static Image getPlayerIcon(String name) {
         return playerIcons.get(name);
     }
 
-    public Image getObstacleIcon(String name) {
+    public static Image getObstacleIcon(String name) {
         return obstacleIcons.get(name);
     }
 

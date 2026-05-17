@@ -7,9 +7,10 @@ import java.awt.*;
 
 /**
  * A MainFrame osztály a játék grafikus főablakát reprezentálja.
- * Ez az osztály fogja össze a játékteret (GamePanel) és a vezérlőpultot (ControlPanel).
+ * Ez az osztály kezeli a nézetek (Főmenü és Játéktér) közötti váltást CardLayout segítségével.
  */
 public class MainFrame extends JFrame {
+    
     /** A játék üzleti logikáját (Modell) reprezentáló objektum. */
     private Game game;
     
@@ -18,10 +19,18 @@ public class MainFrame extends JFrame {
     
     /** A felhasználói interakciókat kezelő vezérlőpanel. */
     private ControlPanel controlPanel;
+    
+    /** A játék főmenüjét tartalmazó panel. */
+    private MenuPanel menuPanel;
+    
+    /** A panelek közötti váltást kezelő CardLayout elrendezés. */
+    private CardLayout cardLayout;
+    
+    /** A kártyákat (paneleket) összefogó fő konténer. */
+    private JPanel mainContainer;
 
     /**
-     * Konstruktor, amely létrehozza az ablakot, beállítja a menüt, 
-     * és elhelyezi a paneleket a képernyőn.
+     * Konstruktor, amely létrehozza az ablakot és beállítja a menü-játék váltást.
      * @param game A megjelenítendő Game objektum.
      */
     public MainFrame(Game game) {
@@ -29,32 +38,46 @@ public class MainFrame extends JFrame {
 
         setTitle("Plow Masters");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout()); // Border elrendezés beállítása
+        setSize(1000, 600);
+        setLocationRelativeTo(null); // Középre igazítja az ablakot
         
+        // Felső menüsor beállítása
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenuItem newGameItem = new JMenuItem("New Game");
-        JMenuItem loadGameItem = new JMenuItem("Load Game");
-        JMenuItem saveGameItem = new JMenuItem("Save Game");
-        
-        fileMenu.add(newGameItem);
-        fileMenu.add(loadGameItem);
-        fileMenu.add(saveGameItem);
+        JMenuItem exitItem = new JMenuItem("Exit");
+        exitItem.addActionListener(e -> System.exit(0)); // Kilépés logikája
+        fileMenu.add(exitItem);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 
-        setSize(1000, 600); // Kicsit szélesebb ablak, hogy elférjen a menü
+        // CardLayout beállítása a váltáshoz
+        cardLayout = new CardLayout();
+        mainContainer = new JPanel(cardLayout);
+
+        // 1. Kártya: Főmenü (MenuPanel)
+        menuPanel = new MenuPanel();
         
+        // 2. Kártya: Játék nézet (GamePanel + ControlPanel összefogva egy BorderLayoutban)
+        JPanel gameContainer = new JPanel(new BorderLayout());
         gamePanel = new GamePanel(game);
         controlPanel = new ControlPanel(game);
-
-        // JAVÍTVA: Mindkét panelt hozzáadjuk az ablakhoz megfelelő helyre!
-        this.add(gamePanel, BorderLayout.CENTER);
-        this.add(controlPanel, BorderLayout.EAST);
-
+        gameContainer.add(gamePanel, BorderLayout.CENTER);
+        gameContainer.add(controlPanel, BorderLayout.EAST);
+        
+        // A Modell feliratkoztatása a GamePanelre
         game.addObserver(gamePanel);
 
-        setLocationRelativeTo(null); // Középre igazítja az ablakot
+        // Kártyák hozzáadása a fő konténerhez
+        mainContainer.add(menuPanel, "MENU");
+        mainContainer.add(gameContainer, "GAME");
+
+        this.add(mainContainer);
+
+        // ESEMÉNYKEZELÉS: Ha a menüben rákattintanak a "New Game" gombra, váltsunk a GAME kártyára!
+        menuPanel.getNewGameButton().addActionListener(e -> {
+            cardLayout.show(mainContainer, "GAME");
+        });
+
         setVisible(true);
     }
 
@@ -68,10 +91,10 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Elrejti a játékablakot és megjeleníti a főmenüt.
+     * Visszaváltja a nézetet a főmenüre.
      */
     public void showMenu() {
-        this.setVisible(false);
+        cardLayout.show(mainContainer, "MENU");
     }
 
     /**
@@ -82,5 +105,4 @@ public class MainFrame extends JFrame {
         this.game = game;
         gamePanel.setGame(game);
     }
-
 }

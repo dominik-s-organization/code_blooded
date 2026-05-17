@@ -27,7 +27,6 @@ public class GamePanel extends JPanel implements GameObserver {
         this.game = game;
         game.addObserver(this);
         this.controlPanel = new ControlPanel(game);
-        this.addMouseListener(controlPanel);
         this.setBackground(new Color(0, 0, 0));
         this.setPreferredSize(new Dimension(800,600)); // Set background to black
     }

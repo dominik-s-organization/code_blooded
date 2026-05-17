@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import javax.swing.Box;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -63,5 +64,21 @@ public class MenuPanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, g2d);
         g2d.setColor(Color.WHITE);
         g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
+    }
+
+    public JButton getNewGameButton() {
+        return newGameButton;
+    }
+
+    public JButton getLoadGameButton() {
+        return loadGameButton;
+    }
+
+    public JButton getSaveGameButton() {
+        return saveGameButton;
+    }
+
+    public JButton getExitButton() {
+        return exitButton;
     }
 }
