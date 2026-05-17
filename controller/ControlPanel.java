@@ -91,13 +91,40 @@ public class ControlPanel extends JPanel {
             statusLabel.setText("Status: Moving");
         });
 
+        // --- FELOKOSÍTOTT VÁSÁRLÁS GOMB ---
         buyButton.addActionListener(e -> {
             statusLabel.setText("Status: Buying");
-            String input = JOptionPane.showInputDialog("Enter item to buy:");
-            if (input != null && !input.trim().isEmpty()) {
-                outputField.setText("Bought: " + input);
+            
+            // A boltban elérhető tárgyak és fejek listája
+            String[] availableItems = {
+                "CrushedStoneHead", 
+                "DragonHead", 
+                "IceBreakerHead", 
+                "SalterHead", 
+                "SweepingHead", 
+                "ThrowerHead",
+                "Salt", 
+                "BioKerosene",
+                "SnowPlower"
+            };
+            
+            // Legördülő menüs dialógusablak megjelenítése
+            String selectedItem = (String) JOptionPane.showInputDialog(
+                    this,                                 // Szülő komponens (hogy középen jelenjen meg)
+                    "Válassz egy tárgyat a vásárláshoz:", // Kérdés szövege
+                    "Bolt",                               // Ablak címe
+                    JOptionPane.QUESTION_MESSAGE,         // Ikon típusa
+                    null,                                 // Egyedi ikon (most nincs)
+                    availableItems,                       // A választható opciók tömbje
+                    availableItems[0]                     // Az alapértelmezetten kiválasztott elem
+            );
+
+            // Ha a játékos választott valamit (nem a Cancel-re vagy az X-re kattintott)
+            if (selectedItem != null) {
+                // Itt hívhatod meg a Modell boltját, pl: game.getStore().buy(selectedItem);
+                outputField.setText("Bought: " + selectedItem);
             } else {
-                outputField.setText("No item entered");
+                outputField.setText("Vásárlás megszakítva");
             }
         });
     }
@@ -108,5 +135,13 @@ public class ControlPanel extends JPanel {
      */
     public void handleStep() {
         game.simulateStep();
+    }
+
+    /**
+     * Visszaadja a menübe visszatérő gombot, hogy a MainFrame eseménykezelőt tudjon hozzárendelni.
+     * @return A Back to Menu gomb objektuma.
+     */
+    public JButton getBackToMenuButton() {
+        return backtomenuButton;
     }
 }

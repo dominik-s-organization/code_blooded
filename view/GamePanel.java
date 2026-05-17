@@ -27,7 +27,6 @@ public class GamePanel extends JPanel implements GameObserver {
         this.game = game;
         game.addObserver(this);
         this.controlPanel = new ControlPanel(game);
-        this.addMouseListener(controlPanel);
         this.setBackground(new Color(0, 0, 0));
         this.setPreferredSize(new Dimension(800,600)); // Set background to black
     }
@@ -37,12 +36,13 @@ public class GamePanel extends JPanel implements GameObserver {
         game.addObserver(this);
         this.controlPanel = new ControlPanel(game);
     }
-
+    
+    /*
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, g2d);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
         g2d.drawString("Simulation runs", 10, 20);
@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements GameObserver {
             drawVehicle(g2d, v);
         }
     }
+    */
 
     /**
      * Egyetlen sáv (út) kirajzolása a megadott Graphics2D objektumra.

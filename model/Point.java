@@ -168,7 +168,8 @@ public abstract class Point {
     }
 
     /**
-     * Ellenőrzi a csomóponton lévő dugókat/baleseteket.
+     * Ellenőrzi a csomóponton lévő dugókat/baleseteket, 
+     * és ha karambolt észlel, beállítja a járműveket elakadt (jam) állapotba.
      */
     public void lookForJams() {
         for (Vehicle vehicle1 : getVehicles()) {
