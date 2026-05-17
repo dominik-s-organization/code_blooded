@@ -24,30 +24,56 @@ public abstract class Point {
      * A pontból kiinduló sávok listája.
      */
     private List<Lane> outgoingLanes;
+    
+    /** A pont vízszintes (X) képernyő-koordinátája a grafikus megjelenítéshez. */
     private int x;
+    /** A pont függőleges (Y) képernyő-koordinátája a grafikus megjelenítéshez. */
     private int y;
 
+    /**
+     * Visszaadja a pont X koordinátáját.
+     * @return Az X koordináta értéke pixelben.
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Visszaadja a pont Y koordinátáját.
+     * @return Az Y koordináta értéke pixelben.
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Beállítja a pont X koordinátáját.
+     * @param x Az új X koordináta pixelben.
+     */
     public void setX(int x) {
         this.x = x;
     }
-
+    
+    /**
+     * Beállítja a pont Y koordinátáját.
+     * @param y Az új Y koordináta pixelben.
+     */
     public void setY(int y) {
         this.y = y;
     }
 
-    //Konstruktor
+    /**
+     * Paraméter nélküli konstruktor. 
+     * Meghívja a paraméteres konstruktort null értékkel.
+     */
     protected Point() {
         this(null);
     }
 
+    /**
+     * Konstruktor, amely inicializálja a pontot a megadott azonosítóval.
+     * @param id A pont egyedi azonosítója.
+     */
     protected Point(String id) {
         this.id = id;
         vehicles = new ArrayList<>();

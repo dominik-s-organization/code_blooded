@@ -6,35 +6,84 @@ import javax.swing.*;
 import java.awt.*;
 import model.Game;
 
-// A ControlPanel osztály a játék vezérlő paneljét reprezentálja, amely tartalmazza a lépés, mozgás és vásárlás gombokat.
-public class ControlPanel extends MouseAdapter {
+/**
+ * A ControlPanel osztály a játék vezérlő paneljét reprezentálja.
+ * Ez a Controller réteg része, amely tartalmazza a lépés, mozgás és vásárlás gombokat,
+ * és ezek eseményeit továbbítja a Modell felé.
+ */
+public class ControlPanel extends JPanel {
+   
+    /** Referencia a modellre a parancsok kiadásához. */
     private Game game;
+    
+    /** Gomb a szimuláció léptetéséhez. */
     private JButton stepButton;
+    
+    /** Gomb a járművek mozgatásához. */
     private JButton moveButton;
+    
+    /** Gomb a tárgyak vásárlásához. */
     private JButton buyButton;
+    
+    /** Gomb a menübe való visszatéréshez. */
     private JButton backtomenuButton;
+    
+    /** Címke az aktuális állapot kiírásához. */
     private JLabel statusLabel;
+    
+    /** Szövegmező a bemeneti adatoknak. */
     private JTextField inputField;
+    
+    /** Szövegmező a kimeneti üzeneteknek. */
     private JTextField outputField;
 
-    // A ControlPanel konstruktorában inicializáljuk a játékot és a gombokat, valamint beállítjuk a gombok eseménykezelőit.
+    /**
+     * A ControlPanel konstruktorában inicializáljuk a játékot és a gombokat, 
+     * valamint beállítjuk a panel vizuális elrendezését.
+     * @param game A szimuláció üzleti logikáját tartalmazó Game objektum.
+     */
     public ControlPanel(Game game) {
         this.game = game;
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Vertikális elrendezés
+        this.setPreferredSize(new Dimension(200, 600)); // Fix szélesség a jobb oldalon
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margók
+
         this.statusLabel = new JLabel("Status: Ready");
-        this.inputField = new JTextField(20);
-        this.outputField = new JTextField(20);
+        this.inputField = new JTextField();
+        this.outputField = new JTextField();
+        this.outputField.setEditable(false);
         this.backtomenuButton = new JButton("Back to Menu");
+        
         initButtons();
+        
+        //Az elemek hozzáadása a panelhez!
+        this.add(statusLabel);
+        this.add(Box.createRigidArea(new Dimension(0, 10))); 
+        this.add(stepButton);
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(moveButton);
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(buyButton);
+        this.add(Box.createRigidArea(new Dimension(0, 20)));
+        this.add(new JLabel("Input:"));
+        this.add(inputField);
+        this.add(new JLabel("Output:"));
+        this.add(outputField);
+        this.add(Box.createVerticalGlue()); // Térkitöltő, hogy a menü gomb alulra kerüljön
+        this.add(backtomenuButton);
     }
 
-    // A gombok inicializálása és eseménykezelőinek beállítása.
+    /**
+     * A gombok inicializálása és eseménykezelőinek (ActionListener) beállítása.
+     * Itt kötjük össze a gombnyomásokat a Modell metódusaival.
+     */
     public void initButtons() {
         stepButton = new JButton("Step");
         moveButton = new JButton("Move");
         buyButton = new JButton("Buy");
 
         stepButton.addActionListener(e -> {
-            game.simulateStep(); // lefuttatja a játék egy lépését
+            handleStep(); 
             statusLabel.setText("Status: Step taken");
         });
 
@@ -44,17 +93,19 @@ public class ControlPanel extends MouseAdapter {
 
         buyButton.addActionListener(e -> {
             statusLabel.setText("Status: Buying");
-            String input = JOptionPane.showInputDialog("Enter item to buy:"); // megkérdezi a felhasználót, hogy mit szeretne vásárolni
+            String input = JOptionPane.showInputDialog("Enter item to buy:");
             if (input != null && !input.trim().isEmpty()) {
-                // Itt lehetne hozzáadni a vásárlási logikát, például ellenőrizni a bolt kínálatát és a játékos pénzét.
-                outputField.setText("Bought: " + input); // kiírja, hogy mit vásárolt a játékos
-                // game.getStore().buy(input); // meghívja a játék buyItem metódusát a megadott inputtal
+                outputField.setText("Bought: " + input);
             } else {
-                outputField.setText("No item entered"); // ha nem adott meg semmit, kiírja, hogy nem adott meg semmit
+                outputField.setText("No item entered");
             }
         });
-    } 
+    }
     
+    /**
+     * A szimuláció egy lépésének kezelése.
+     * Meghívja a modell simulateStep metódusát.
+     */
     public void handleStep() {
         game.simulateStep();
     }
