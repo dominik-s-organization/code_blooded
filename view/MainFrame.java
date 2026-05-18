@@ -45,8 +45,12 @@ public class MainFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem backToMenuItem = new JMenuItem("Back to Menu");
+        JMenuItem newGameItem = new JMenuItem("New Game");
         exitItem.addActionListener(e -> System.exit(0)); // Kilépés logikája
         fileMenu.add(exitItem);
+        fileMenu.add(backToMenuItem);
+        fileMenu.add(newGameItem);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 

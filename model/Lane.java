@@ -15,15 +15,15 @@ public class Lane {
 
     // Konstruktor
     public Lane() {
-        this(null);
+        this(null, null, null);
     }
 
-    public Lane(String id) {
+    public Lane(String id, Point startpoint, Point endpoint) {
         this.id = id;
-        startpoint = null;
-        endpoint = null;
-        leftLane = null;
-        rightLane = null;
+        this.startpoint = startpoint;
+        this.endpoint = endpoint;
+        this.leftLane = null;
+        this.rightLane = null;
         isJammed = false;
         isUnderground = false;
         snow = new Snow();

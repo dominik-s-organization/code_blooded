@@ -11,8 +11,8 @@ public class Tunnel extends Point {
          super();
     }
 
-    public Tunnel(String id) {
-        super(id);
+    public Tunnel(String id, int x, int y) {
+        super(id, x, y);
     }
 
     @Override

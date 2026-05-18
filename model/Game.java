@@ -16,10 +16,11 @@ public class Game implements IdGenerator {
     private Store store; // A játékban elérhető tárgyak boltja.
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
     private List<GameObserver> observers; // A játék megfigyelői, akik értesülnek a játék állapotváltozásairól.
+    private Point selectedPoint; // A játékban éppen kiválasztott pont, amelyre a játékos interakciót hajt végre.
     public List<Lane> lanes; // A játékban található sávok listája, amelyek az útvonalakat reprezentálják.
     public List<Point> points; // A játékban található pontok listája, amelyek a sávok végpontjait reprezentálják.
     public List<Vehicle> vehicles; // A játékban található járművek listája, amelyek a forgalmat reprezentálják.
-    
+
     public Game() {
         city = new CityMap();
         players = new ArrayList<>();
@@ -29,14 +30,15 @@ public class Game implements IdGenerator {
         lanes = new ArrayList<>();
         points = new ArrayList<>();
         vehicles = new ArrayList<>();
+        selectedPoint = null;
     }
 
     public void initTestMap() {
         // 1. Csomópontok (Point) létrehozása konkrét X, Y koordinátákkal
-        Point p1 = new Point(100, 100); // Bal felső
-        Point p2 = new Point(500, 100); // Jobb felső
-        Point p3 = new Point(500, 400); // Jobb alsó
-        Point p4 = new Point(100, 400); // Bal alsó
+        Point p1 = new Junction("p1", 100, 100); // Bal felső
+        Point p2 = new Junction("p2", 500, 100); // Jobb felső
+        Point p3 = new Junction("p3", 500, 400); // Jobb alsó
+        Point p4 = new Junction("p4", 100, 400); // Bal alsó
 
         // Hozzáadás a térképhez
         city.addPoint(p1);
@@ -45,21 +47,18 @@ public class Game implements IdGenerator {
         city.addPoint(p4);
 
         // 2. Sávok/Utak (Lane) összekötése a pontok között
-        // Feltételezve, hogy a Lane konstruktora: Lane(Point start, Point end)
-        city.addLane(new Lane(p1, p2)); // Felső út
-        city.addLane(new Lane(p2, p3)); // Jobb oldali út
-        city.addLane(new Lane(p3, p4)); // Alsó út
-        city.addLane(new Lane(p4, p1)); // Bal oldali út
+        // Feltételezve, hogy a Lane konstruktora: Lane(String id, Point start, Point end)
+        city.addLane(new Lane("l1", p1, p2)); // Felső út
+        city.addLane(new Lane("l2", p2, p3)); // Jobb oldali út
+        city.addLane(new Lane("l3", p3, p4)); // Alsó út
+        city.addLane(new Lane("l4", p4, p1)); // Bal oldali út
 
-        // 3. Kezdő járművek elhelyezése
-        // Feltételezve, hogy a Vehicle kap egy kezdőpontot
         Vehicle car = new Car(); 
         Vehicle plow = new SnowPlower();
 
         city.addVehicle(car);
         city.addVehicle(plow);
 
-        // Értesítjük a nézetet, hogy új pálya lett betöltve, rajzolja újra magát
         this.notifyObservers();
     }
 
@@ -98,6 +97,14 @@ public class Game implements IdGenerator {
 
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public void setSelectedPoint(Point point) {
+        this.selectedPoint = point;
+    }
+
+    public Point getSelectedPoint() {
+        return this.selectedPoint;
     }
 
     @Override
