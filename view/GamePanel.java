@@ -13,10 +13,9 @@ import controller.GameObserver;
 
 // A GamePanel osztály felelős a játék grafikus megjelenítéséért.
 public class GamePanel extends JPanel implements GameObserver {
-    
-    /** Referencia a szimulációs modellre. */    
+
+    /** Referencia a szimulációs modellre. */
     private Game game;
-    private ControlPanel controlPanel;
 
     /**
      * A GamePanel konstruktora. Inicializálja a panelt, beállítja a fekete hátteret,
@@ -25,56 +24,91 @@ public class GamePanel extends JPanel implements GameObserver {
      */
     public GamePanel(Game game) {
         this.game = game;
-        game.addObserver(this);
-        this.controlPanel = new ControlPanel(game);
-        this.setBackground(new Color(0, 0, 0));
-        this.setPreferredSize(new Dimension(800,600)); // Set background to black
+        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(800, 600)); 
     }
 
+    /**
+     * Új modell beállítása a panel számára.
+     * @param game Az új modell, amit meg kell jeleníteni.
+     */
     public void setGame(Game game) {
         this.game = game;
         game.addObserver(this);
-        this.controlPanel = new ControlPanel(game);
     }
-    
-    /*
+
+    /**
+     * A JPanel felülírt kirajzoló metódusa. Ez felel a grafikai elemek képernyőre festéséért.
+     * @param g A Graphics objektum, amire rajzolhatunk.
+     */
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+        super.paintComponent(g); // Háttér törlése
         Graphics2D g2d = (Graphics2D) g;
+        
+        // Élvonal-simítás (Antialiasing) bekapcsolása a szebb vonalakért
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-        g2d.drawString("Simulation runs", 10, 20);
 
+        // Információs szöveg kirajzolása a bal felső sarokba (FEHÉRREL)
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.BOLD, 16));
+        g2d.drawString("Várostérkép", 10, 20);
+
+        // Biztonsági ellenőrzés: ha nincs modell, nem rajzolunk mást
+        if (game == null || game.getCityMap() == null) return;
+
+        // 1. Sávok (Lanes) kirajzolása
         for (Lane lane : game.getCityMap().getLanes()) {
             drawLane(g2d, lane);
         }
 
-        for(Point p : game.getCityMap().getPoints()) {
+        // 2. Csomópontok (Points) kirajzolása
+        for (Point p : game.getCityMap().getPoints()) {
             drawPoint(g2d, p);
         }
 
-        for(Vehicle v : game.getVehicles()) {
-            drawVehicle(g2d, v);
+        // 3. Járművek (Vehicles) kirajzolása
+        if (game.getCityMap().getVehicles() != null) {
+            for (Vehicle v : game.getCityMap().getVehicles()) {
+                drawVehicle(g2d, v);
+            }
         }
     }
-    */
 
     /**
      * Egyetlen sáv (út) kirajzolása a megadott Graphics2D objektumra.
-     * A sáv színe a rajta lévő hó mennyiségétől függ.
      * @param g2d A rajzoló objektum.
      * @param lane A kirajzolandó sáv.
      */
     private void drawLane(Graphics2D g2d, Lane lane) {
         Point start = lane.getStartPoint();
         Point end = lane.getEndPoint();
+        
+        if (start == null || end == null) return;
 
-        g2d.setColor(AssetManager.getSnowColor(lane.getSnow().getSnowLevel()));
-        g2d.setStroke(new java.awt.BasicStroke(3));
+        // Szín lekérése a hószint alapján
+        int snowLevel = (lane.getSnow() != null) ? lane.getSnow().getSnowLevel() : 0;
+        g2d.setColor(AssetManager.getSnowColor(snowLevel));
+        
+        // 5 pixel vastag vonal
+        g2d.setStroke(new BasicStroke(5)); 
         g2d.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
-        // Itt rajzoljuk meg a sávokat a játék térképén
+    }
+
+    /**
+     * Egyetlen csomópont kirajzolása.
+     * @param g2d A rajzoló objektum.
+     * @param point A kirajzolandó csomópont.
+     */
+    private void drawPoint(Graphics2D g2d, Point point) {
+        g2d.setColor(Color.DARK_GRAY);
+        // Egy 20x20-as kör rajzolása a pont középpontja köré
+        g2d.fillOval(point.getX() - 10, point.getY() - 10, 20, 20);
+        
+        // Azonosító kiírása a pont fölé
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(new Font("Arial", Font.PLAIN, 12));
+        g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
 
     /**
@@ -86,22 +120,25 @@ public class GamePanel extends JPanel implements GameObserver {
         Point p = vehicle.getCurrentPoint();
         if (p == null) return;
 
-        // Dinamikusan lekérjük a jármű osztálynevét ("Car", "Bus", vagy "SnowPlower")
-        String vehicleType = vehicle.getClass().getSimpleName();
-        
-        // Lekérjük a hozzá tartozó képet az AssetManager-ből
-        Image img = AssetManager.getIcon(vehicleType);
-
         int x = p.getX();
         int y = p.getY();
 
+        String vehicleType = vehicle.getClass().getSimpleName();
+        Image img = AssetManager.getIcon(vehicleType);
+
         if (img != null) {
-            // Ha megvan a kép, középre igazítva kirajzoljuk a koordinátára
-            int imgX = x - (img.getWidth(null) / 2);
-            int imgY = y - (img.getHeight(null) / 2);
-            g2d.drawImage(img, imgX, imgY, null);
+            // Méret Pixelben 
+            int imgWidth = 32; 
+            int imgHeight = 32;
+
+            // Kiszámoljuk a középpontot az új méretek alapján
+            int imgX = x - (imgWidth / 2);
+            int imgY = y - (imgHeight / 2);
+            
+            // Kirajzolás az extra szélesség és magasság paraméterekkel
+            g2d.drawImage(img, imgX, imgY, imgWidth, imgHeight, null);
         } else {
-            // TARTALÉK (Fallback): Ha nem találja a png fájlt, rajzoljon egy piros négyzetet
+            // TARTALÉK: Ha nem találja a png fájlt, rajzol egy piros négyzetet
             g2d.setColor(Color.RED);
             g2d.fillRect(x - 8, y - 8, 16, 16);
             g2d.setColor(Color.WHITE);
@@ -109,17 +146,11 @@ public class GamePanel extends JPanel implements GameObserver {
         }
     }
 
-    private void drawPoint(Graphics2D g2d, Point point) {
-        g2d.setColor(Color.darkGray);
-        g2d.fillOval(point.getX() - 5, point.getY() - 5, 10, 10);
-        // Itt rajzoljuk meg a pontokat a játék térképén
-    }
-
+    /**
+     * Az Observer minta update metódusa. Újrarajzolja a panelt.
+     */
+    @Override
     public void update() {
         this.repaint();
-    }
-
-    public void calculateCoordinates(Point playerPosition) {
-        // Calculate the coordinates for drawing the game elements
     }
 }
