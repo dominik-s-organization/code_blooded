@@ -81,6 +81,27 @@ public abstract class Point {
         outgoingLanes = new ArrayList<>();
     }
 
+    protected Point(int x, int y) {
+        this.id = null;
+        this.x = x;
+        this.y = y;
+        vehicles = new ArrayList<>();
+        incomingLanes = new ArrayList<>();
+        outgoingLanes = new ArrayList<>();
+    }
+
+    public Vehicle getVehicleById(String id) {
+        if (id == null) {
+            return null;
+        }
+        for (Vehicle vehicle : vehicles) {
+            if (id.equals(vehicle.getId())) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
     public String getId() {
         return id;
     }

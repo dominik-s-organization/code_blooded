@@ -31,7 +31,40 @@ public class Game implements IdGenerator {
         vehicles = new ArrayList<>();
     }
 
-    public void addObserver(GameObserver observer) {
+    public void initTestMap() {
+        // 1. Csomópontok (Point) létrehozása konkrét X, Y koordinátákkal
+        Point p1 = new Point(100, 100); // Bal felső
+        Point p2 = new Point(500, 100); // Jobb felső
+        Point p3 = new Point(500, 400); // Jobb alsó
+        Point p4 = new Point(100, 400); // Bal alsó
+
+        // Hozzáadás a térképhez
+        city.addPoint(p1);
+        city.addPoint(p2);
+        city.addPoint(p3);
+        city.addPoint(p4);
+
+        // 2. Sávok/Utak (Lane) összekötése a pontok között
+        // Feltételezve, hogy a Lane konstruktora: Lane(Point start, Point end)
+        city.addLane(new Lane(p1, p2)); // Felső út
+        city.addLane(new Lane(p2, p3)); // Jobb oldali út
+        city.addLane(new Lane(p3, p4)); // Alsó út
+        city.addLane(new Lane(p4, p1)); // Bal oldali út
+
+        // 3. Kezdő járművek elhelyezése
+        // Feltételezve, hogy a Vehicle kap egy kezdőpontot
+        Vehicle car = new Car(); 
+        Vehicle plow = new SnowPlower();
+
+        city.addVehicle(car);
+        city.addVehicle(plow);
+
+        // Értesítjük a nézetet, hogy új pálya lett betöltve, rajzolja újra magát
+        this.notifyObservers();
+    }
+
+     // A megfigyelő hozzáadása a játékhoz, hogy értesülhessen a játék állapotváltozásairól.
+     public void addObserver(GameObserver observer) {
         observers.add(observer);
     }
 
