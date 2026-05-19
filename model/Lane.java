@@ -15,13 +15,13 @@ public class Lane {
 
     // Konstruktor
     public Lane() {
-        this(null, null, null);
+        this(null);
     }
 
-    public Lane(String id, Point startpoint, Point endpoint) {
+    public Lane(String id) {
         this.id = id;
-        this.startpoint = startpoint;
-        this.endpoint = endpoint;
+        this.startpoint = null;
+        this.endpoint = null;
         this.leftLane = null;
         this.rightLane = null;
         isJammed = false;

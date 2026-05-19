@@ -34,33 +34,95 @@ public class Game implements IdGenerator {
     }
 
     public void initTestMap() {
-        // 1. Csomópontok (Point) létrehozása konkrét X, Y koordinátákkal
-        Point p1 = new Junction("p1", 100, 100); // Bal felső
-        Point p2 = new Junction("p2", 500, 100); // Jobb felső
-        Point p3 = new Junction("p3", 500, 400); // Jobb alsó
-        Point p4 = new Junction("p4", 100, 400); // Bal alsó
+        CityMap map = this.getCityMap(); // feltételezve, hogy a 'city' vagy 'getCityMap()' elérhető
 
-        // Hozzáadás a térképhez
-        city.addPoint(p1);
-        city.addPoint(p2);
-        city.addPoint(p3);
-        city.addPoint(p4);
+        // 1. Csomópontok (Junctions) létrehozása ID alapján (ahogy a modell kéri)
+        Junction j1 = new Junction("J1");
+        j1.setX(150); j1.setY(150);
 
-        // 2. Sávok/Utak (Lane) összekötése a pontok között
-        // Feltételezve, hogy a Lane konstruktora: Lane(String id, Point start, Point end)
-        city.addLane(new Lane("l1", p1, p2)); // Felső út
-        city.addLane(new Lane("l2", p2, p3)); // Jobb oldali út
-        city.addLane(new Lane("l3", p3, p4)); // Alsó út
-        city.addLane(new Lane("l4", p4, p1)); // Bal oldali út
+        Junction j2 = new Junction("J2");
+        j2.setX(450); j2.setY(150);
 
-        Vehicle car = new Car(); 
-        Vehicle plow = new SnowPlower();
+        Junction j3 = new Junction("J3");
+        j3.setX(650); j3.setY(300);
 
-        city.addVehicle(car);
-        city.addVehicle(plow);
+        Junction j4 = new Junction("J4");
+        j4.setX(150); j4.setY(450);
 
+        Junction j5 = new Junction("J5");
+        j5.setX(450); j5.setY(450);
+
+        // Csomópontok hozzáadása a várostérképhez
+        map.addPoint(j1);
+        map.addPoint(j2);
+        map.addPoint(j3);
+        map.addPoint(j4);
+        map.addPoint(j5);
+
+        // 2. Sávok (Lanes) létrehozása és topológiai összekötése setterekkel
+        
+        // Lane 1: J1 -> J2
+        Lane l1 = new Lane("lane_1");
+        l1.setStartPoint(j1);
+        l1.setEndPoint(j2);
+        j1.addOutgoingLane(l1);
+        j2.addIncomingLane(l1);
+        map.addLane(l1);
+
+        // Lane 2: J2 -> J3
+        Lane l2 = new Lane("lane_2");
+        l2.setStartPoint(j2);
+        l2.setEndPoint(j3);
+        j2.addOutgoingLane(l2);
+        j3.addIncomingLane(l2);
+        map.addLane(l2);
+
+        // Lane 3: J1 -> J4
+        Lane l3 = new Lane("lane_3");
+        l3.setStartPoint(j1);
+        l3.setEndPoint(j4);
+        j1.addOutgoingLane(l3);
+        j4.addIncomingLane(l3);
+        map.addLane(l3);
+
+        // Lane 4: J4 -> J5
+        Lane l4 = new Lane("lane_4");
+        l4.setStartPoint(j4);
+        l4.setEndPoint(j5);
+        j4.addOutgoingLane(l4);
+        j5.addIncomingLane(l4);
+        map.addLane(l4);
+
+        // Lane 5: J2 -> J5
+        Lane l5 = new Lane("lane_5");
+        l5.setStartPoint(j2);
+        l5.setEndPoint(j5);
+        j2.addOutgoingLane(l5);
+        j5.addIncomingLane(l5);
+        map.addLane(l5);
+
+        // 3. Kezdeti hómennyiségek beállítása a teszteléshez
+        l1.getSnow().setSnowLevel(0);  // Tiszta út
+        l2.getSnow().setSnowLevel(4);  // Enyhe hó
+        l3.getSnow().setSnowLevel(8);  // Közepes hó
+        l4.getSnow().setSnowLevel(12); // Nagy hó
+        l5.getSnow().setSnowLevel(2);  // Minimális hó
+
+        // 4. JÁRMŰVEK ÉS JÁTÉKOSOK ELHELYEZÉSE
+        SnowCleaner cleaner = new SnowCleaner("Jatekos1"); 
+        model.SnowPlower plower = cleaner.getSnowPlowers().get(0);
+
+        // Beállítjuk a hókotró kezdőpozícióját és összekötjük a csomóponttal
+        plower.setCurrentPoint(j1); 
+        j1.addVehicle(plower);
+        map.addVehicle(plower);
+        
+        this.addPlayer(cleaner); // Ha van ilyen metódus a Game-ben
+
+        // 5. OBSERVER ÉRTESÍTÉS: Szólunk a GUI-nak, hogy rajzolja ki a felépített pályát
         this.notifyObservers();
     }
+
 
      // A megfigyelő hozzáadása a játékhoz, hogy értesülhessen a játék állapotváltozásairól.
      public void addObserver(GameObserver observer) {

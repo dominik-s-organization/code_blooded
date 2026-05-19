@@ -10,8 +10,8 @@ public class CrossRoads extends Point {
         super();
     }
     
-    public CrossRoads(String id, int x, int y) {
-        super(id, x, y);
+    public CrossRoads(String id) {
+        super(id);
     }
 
     @Override

@@ -112,6 +112,5 @@ public class MainFrame extends JFrame {
      */
     public void setGame(Game game) {
         this.game = game;
-        gamePanel.setGame(game);
     }
 }

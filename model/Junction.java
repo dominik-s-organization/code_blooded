@@ -9,8 +9,8 @@ public class Junction extends Point {
         super();
     }
 
-    public Junction(String id, int x, int y) {
-        super(id, x, y);
+    public Junction(String id) {
+        super(id);
     }
 
     @Override

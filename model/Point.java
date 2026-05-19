@@ -67,19 +67,15 @@ public abstract class Point {
      * Meghívja a paraméteres konstruktort null értékkel.
      */
     public Point() {
-        this(null, 0, 0);
+        this(null);
     }
 
     /**
      * Konstruktor, amely inicializálja a pontot a megadott azonosítóval.
      * @param id A pont egyedi azonosítója.
-     * @param x A pont X koordinátája pixelben a grafikus megjelenítéshez.
-     * @param y A pont Y koordinátája pixelben a grafikus megjelen
      */
-    public Point(String id, int x, int y) {
+    public Point(String id) {
         this.id = id;
-        this.x = x;
-        this.y = y;
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
