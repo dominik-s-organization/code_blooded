@@ -1,147 +1,115 @@
 package controller;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import model.Game;
+import view.StatusPanel;
 import javax.swing.*;
 import java.awt.*;
-import model.Game;
 
 /**
- * A ControlPanel osztály a játék vezérlő paneljét reprezentálja.
- * Ez a Controller réteg része, amely tartalmazza a lépés, mozgás és vásárlás gombokat,
- * és ezek eseményeit továbbítja a Modell felé.
+ * A ControlPanel a tiszta CONTROLLER réteg.
+ * Feladata a felhasználói interakciók (gombnyomások) továbbítása a Modell felé.
  */
 public class ControlPanel extends JPanel {
-   
-    /** Referencia a modellre a parancsok kiadásához. */
     private Game game;
-    
-    /** Gomb a szimuláció léptetéséhez. */
-    private JButton stepButton;
-    
-    /** Gomb a járművek mozgatásához. */
-    private JButton moveButton;
-    
-    /** Gomb a tárgyak vásárlásához. */
-    private JButton buyButton;
-    
-    /** Gomb a menübe való visszatéréshez. */
-    private JButton backtomenuButton;
-    
-    /** Címke az aktuális állapot kiírásához. */
-    private JLabel statusLabel;
-    
-    /** Szövegmező a bemeneti adatoknak. */
-    private JTextField inputField;
-    
-    /** Szövegmező a kimeneti üzeneteknek. */
-    private JTextField outputField;
+    private StatusPanel statusPanel; // Referencia a view-ra, hogy a státuszt átírhassa
 
-    /**
-     * A ControlPanel konstruktorában inicializáljuk a játékot és a gombokat, 
-     * valamint beállítjuk a panel vizuális elrendezését.
-     * @param game A szimuláció üzleti logikáját tartalmazó Game objektum.
-     */
-    public ControlPanel(Game game) {
+    // A gombok a játék különböző parancsait reprezentálják, amelyek a játékos által kiválaszthatók.
+    private JButton stepButton, moveButton, buyButton, equipButton, backtomenuButton;
+
+    // Az input és output mezők a vezérlőpanel alján helyezkednek el, és a játékos által bevitt parancsokat, valamint a játék válaszait jelenítik meg.
+    private JTextField inputField, outputField;
+
+    // Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, valamint feliratkozik a modellre.
+    public ControlPanel(Game game, StatusPanel statusPanel) {
         this.game = game;
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS)); // Vertikális elrendezés
-        this.setPreferredSize(new Dimension(200, 600)); // Fix szélesség a jobb oldalon
-        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margók
+        this.statusPanel = statusPanel;
 
-        this.statusLabel = new JLabel("Status: Ready");
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setBackground(Color.WHITE);
+        this.setBorder(BorderFactory.createEmptyBorder(5, 15, 15, 15));
+
         this.inputField = new JTextField();
+        this.inputField.setMaximumSize(new Dimension(250, 30));
         this.outputField = new JTextField();
+        this.outputField.setMaximumSize(new Dimension(250, 30));
         this.outputField.setEditable(false);
+        
         this.backtomenuButton = new JButton("Back to Menu");
+        this.backtomenuButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         initButtons();
         
-        //Az elemek hozzáadása a panelhez!
-        this.add(statusLabel);
-        this.add(Box.createRigidArea(new Dimension(0, 10))); 
-        this.add(stepButton);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        // Gombok és mezők hozzáadása
         this.add(moveButton);
-        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(buyButton);
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
+        this.add(equipButton);
+        this.add(Box.createRigidArea(new Dimension(0, 15)));
+        this.add(stepButton);
+        
         this.add(Box.createRigidArea(new Dimension(0, 20)));
         this.add(new JLabel("Input:"));
         this.add(inputField);
         this.add(new JLabel("Output:"));
         this.add(outputField);
-        this.add(Box.createVerticalGlue()); // Térkitöltő, hogy a menü gomb alulra kerüljön
+        this.add(Box.createVerticalGlue());
         this.add(backtomenuButton);
     }
 
-    /**
-     * A gombok inicializálása és eseménykezelőinek (ActionListener) beállítása.
-     * Itt kötjük össze a gombnyomásokat a Modell metódusaival.
-     */
-    public void initButtons() {
-        stepButton = new JButton("Step");
-        moveButton = new JButton("Move");
-        buyButton = new JButton("Buy");
+    private void initButtons() {
+        stepButton = new JButton("STEP");
+        moveButton = new JButton("MOVE");
+        buyButton = new JButton("BUY");
+        equipButton = new JButton("EQUIP");
+
+        JButton[] actionButtons = {moveButton, buyButton, equipButton, stepButton};
+        for (JButton btn : actionButtons) {
+            btn.setFont(new Font("Arial", Font.BOLD, 36));
+            btn.setBackground(new Color(0, 238, 255));
+            btn.setForeground(Color.BLACK);
+            btn.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+            btn.setFocusPainted(false);
+            btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+            btn.setPreferredSize(new Dimension(240, 65));
+            btn.setMaximumSize(new Dimension(240, 65));
+        }
 
         stepButton.addActionListener(e -> {
-            handleStep(); 
-            statusLabel.setText("Status: Step taken");
+            game.simulateStep(); // Parancs a modellnek
+            statusPanel.setStatusText("Status: Step taken");
         });
 
-        moveButton.addActionListener(e -> {
-            statusLabel.setText("Status: Moving");
-        });
+        moveButton.addActionListener(e -> statusPanel.setStatusText("Status: Moving"));
+        equipButton.addActionListener(e -> statusPanel.setStatusText("Status: Equipping"));
 
-        // --- FELOKOSÍTOTT VÁSÁRLÁS GOMB ---
         buyButton.addActionListener(e -> {
-            statusLabel.setText("Status: Buying");
+            statusPanel.setStatusText("Status: Buying");
             
-            // A boltban elérhető tárgyak és fejek listája
             String[] availableItems = {
-                "CrushedStoneHead", 
-                "DragonHead", 
-                "IceBreakerHead", 
-                "SalterHead", 
-                "SweepingHead", 
-                "ThrowerHead",
-                "Salt", 
-                "BioKerosene",
-                "SnowPlower"
+                "CrushedStoneHead", "DragonHead", "IceBreakerHead", 
+                "SalterHead", "SweepingHead", "ThrowerHead",
+                "Salt", "BioKerosene", "SnowPlower"
             };
             
-            // Legördülő menüs dialógusablak megjelenítése
             String selectedItem = (String) JOptionPane.showInputDialog(
-                    this,                                 // Szülő komponens (hogy középen jelenjen meg)
-                    "Válassz egy tárgyat a vásárláshoz:", // Kérdés szövege
-                    "Bolt",                               // Ablak címe
-                    JOptionPane.QUESTION_MESSAGE,         // Ikon típusa
-                    null,                                 // Egyedi ikon (most nincs)
-                    availableItems,                       // A választható opciók tömbje
-                    availableItems[0]                     // Az alapértelmezetten kiválasztott elem
+                    this,                                 
+                    "Válassz egy tárgyat a vásárláshoz:", 
+                    "Bolt",                               
+                    JOptionPane.QUESTION_MESSAGE,         
+                    null,                                 
+                    availableItems,                       
+                    availableItems[0]                     
             );
 
-            // Ha a játékos választott valamit (nem a Cancel-re vagy az X-re kattintott)
             if (selectedItem != null) {
-                // Itt hívhatod meg a Modell boltját, pl: game.getStore().buy(selectedItem);
+                //game.buyItem(selectedItem);
                 outputField.setText("Bought: " + selectedItem);
             } else {
                 outputField.setText("Vásárlás megszakítva");
             }
         });
     }
-    
-    /**
-     * A szimuláció egy lépésének kezelése.
-     * Meghívja a modell simulateStep metódusát.
-     */
-    public void handleStep() {
-        game.simulateStep();
-    }
 
-    /**
-     * Visszaadja a menübe visszatérő gombot, hogy a MainFrame eseménykezelőt tudjon hozzárendelni.
-     * @return A Back to Menu gomb objektuma.
-     */
-    public JButton getBackToMenuButton() {
-        return backtomenuButton;
-    }
+    public JButton getBackToMenuButton() { return backtomenuButton; }
 }

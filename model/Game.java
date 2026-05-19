@@ -17,6 +17,7 @@ public class Game implements IdGenerator {
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
     private List<GameObserver> observers; // A játék megfigyelői, akik értesülnek a játék állapotváltozásairól.
     private Point selectedPoint; // A játékban éppen kiválasztott pont, amelyre a játékos interakciót hajt végre.
+    private int round; // A játék aktuális köre, amely a játék előrehaladását jelzi.
     public List<Lane> lanes; // A játékban található sávok listája, amelyek az útvonalakat reprezentálják.
     public List<Point> points; // A játékban található pontok listája, amelyek a sávok végpontjait reprezentálják.
     public List<Vehicle> vehicles; // A játékban található járművek listája, amelyek a forgalmat reprezentálják.
@@ -31,6 +32,7 @@ public class Game implements IdGenerator {
         points = new ArrayList<>();
         vehicles = new ArrayList<>();
         selectedPoint = null;
+        round = 0;
     }
 
     public void initTestMap() {
@@ -123,7 +125,6 @@ public class Game implements IdGenerator {
         this.notifyObservers();
     }
 
-
      // A megfigyelő hozzáadása a játékhoz, hogy értesülhessen a játék állapotváltozásairól.
      public void addObserver(GameObserver observer) {
         observers.add(observer);
@@ -136,6 +137,10 @@ public class Game implements IdGenerator {
             observer.update();
         }
     } 
+
+    public int getCurrentRound() {
+        return round;
+    }
 
     public CityMap getCityMap(){
         return city;
@@ -267,6 +272,8 @@ public class Game implements IdGenerator {
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
+        round++; // A körök számának növelése
+
          // Járművek mozgatása
          for (Vehicle vehicle : city.getVehicles()) {
             // Elakadt járművek kezelése

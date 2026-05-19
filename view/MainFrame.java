@@ -29,6 +29,8 @@ public class MainFrame extends JFrame {
     /** A kártyákat (paneleket) összefogó fő konténer. */
     private JPanel mainContainer;
 
+    private StatusPanel statusPanel; // A státusz panel, amely a játék állását mutatja (pénz, körök)
+
     /**
      * Konstruktor, amely létrehozza az ablakot és beállítja a menü-játék váltást.
      * @param game A megjelenítendő Game objektum.
@@ -63,11 +65,18 @@ public class MainFrame extends JFrame {
         
         // 2. Kártya: Játék nézet (GamePanel + ControlPanel összefogva egy BorderLayoutban)
         JPanel gameContainer = new JPanel(new BorderLayout());
+        JPanel rightSideBar = new JPanel();
+        rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));
+
         gamePanel = new GamePanel(game);
-        controlPanel = new ControlPanel(game);
+        statusPanel = new StatusPanel(game); // A státusz panel létrehozása és a modell átadása neki
+        controlPanel = new ControlPanel(game,statusPanel); // A vezérlőpanel létrehozása és a modell átadása neki
+
+        rightSideBar.add(statusPanel);
+        rightSideBar.add(controlPanel);
         gameContainer.add(gamePanel, BorderLayout.CENTER);
-        gameContainer.add(controlPanel, BorderLayout.EAST);
-        
+        gameContainer.add(rightSideBar, BorderLayout.EAST);
+
         // A Modell feliratkoztatása a GamePanelre
         game.addObserver(gamePanel);
 
