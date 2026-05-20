@@ -17,6 +17,7 @@ public class Game implements IdGenerator {
     private Map<String, Integer> idCounters; // Az egyedi azonosító számlálók tárolása.
     private List<GameObserver> observers; // A játék megfigyelői, akik értesülnek a játék állapotváltozásairól.
     private Point selectedPoint; // A játékban éppen kiválasztott pont, amelyre a játékos interakciót hajt végre.
+    private Player currentPlayer; // Az aktuális játékos, aki éppen soron van.
     private int round; // A játék aktuális köre, amely a játék előrehaladását jelzi.
     public List<Lane> lanes; // A játékban található sávok listája, amelyek az útvonalakat reprezentálják.
     public List<Point> points; // A játékban található pontok listája, amelyek a sávok végpontjait reprezentálják.
@@ -32,27 +33,19 @@ public class Game implements IdGenerator {
         points = new ArrayList<>();
         vehicles = new ArrayList<>();
         selectedPoint = null;
+        currentPlayer = null;
         round = 0;
     }
 
     public void initTestMap() {
-        CityMap map = this.getCityMap(); // feltételezve, hogy a 'city' vagy 'getCityMap()' elérhető
+        CityMap map = this.getCityMap();
 
-        // 1. Csomópontok (Junctions) létrehozása ID alapján (ahogy a modell kéri)
-        Junction j1 = new Junction("J1");
-        j1.setX(150); j1.setY(150);
-
-        Junction j2 = new Junction("J2");
-        j2.setX(450); j2.setY(150);
-
-        Junction j3 = new Junction("J3");
-        j3.setX(650); j3.setY(300);
-
-        Junction j4 = new Junction("J4");
-        j4.setX(150); j4.setY(450);
-
-        Junction j5 = new Junction("J5");
-        j5.setX(450); j5.setY(450);
+        // 1. Csomópontok létrehozása megfelelő ID-val, hogy az isReachable felismerje őket
+        Junction j1 = new Junction("junction_1"); j1.setX(150); j1.setY(150);
+        Junction j2 = new Junction("junction_2"); j2.setX(450); j2.setY(150);
+        Junction j3 = new Junction("junction_3"); j3.setX(650); j3.setY(300);
+        Junction j4 = new Junction("junction_4"); j4.setX(150); j4.setY(450);
+        Junction j5 = new Junction("junction_5"); j5.setX(450); j5.setY(450);
 
         // Csomópontok hozzáadása a várostérképhez
         map.addPoint(j1);
@@ -136,7 +129,11 @@ public class Game implements IdGenerator {
         for (GameObserver observer : observers) {
             observer.update();
         }
-    } 
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     public int getCurrentRound() {
         return round;
@@ -288,7 +285,7 @@ public class Game implements IdGenerator {
             }
 
              // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
-             if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
+            if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
                 Point newPoint = null;
                 for (Lane lane : vehicle.getCurrentPoint().getOutgoingLanes()) {
                     // ez azért kell, hogy hátrafele ne csússzon, kereszteződésnél jobbra balra is csúszhat
@@ -300,8 +297,8 @@ public class Game implements IdGenerator {
                 if (newPoint != null) {
                     vehicle.move(newPoint);
                 }
-             }
-         }
+            }
+        }
 
          // Karambolok keresése
          if(city.getVehicles().size() > 1) {
@@ -315,5 +312,51 @@ public class Game implements IdGenerator {
             lane.raiseSnow();
         }
         notifyObservers(); // A nézet frissítése a játék új állapotára
+    }
+
+    /**
+     * A játékos mozgási szándékának feldolgozása és előkészítése.
+     * @param currentPlayer Az éppen soron lévő játékos
+     * @param targetPoint A térképen kattintással kijelölt célpont
+     * @return true, ha sikeres volt az útvonaltervezés, false ha hiba történt.
+     */
+    public boolean move(Object currentPlayer, model.Point targetPoint) {
+        if (currentPlayer == null || targetPoint == null) return false;
+
+        model.Vehicle vehicle = null;
+
+        // 1. Jármű kikeresése a játékos típusa alapján
+        String playerType = currentPlayer.getClass().getSimpleName();
+        if (playerType.equals("SnowCleaner")) {
+            model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
+            // Ha esetleg neki is csak egy van, akkor ide is `cleaner.getSnowPlower()` jönne.
+            // Ha neki listája van, akkor marad ez:
+            if (cleaner.getSnowPlowers() != null && !cleaner.getSnowPlowers().isEmpty()) {
+                vehicle = cleaner.getSnowPlowers().get(0);
+            }
+        } else if (playerType.equals("BusDriver")) {
+            model.BusDriver driver = (model.BusDriver) currentPlayer;
+            // Mivel pontosan 1 busza van, közvetlenül elkérjük az objektumot:
+            vehicle = driver.getBus(); 
+        }
+
+        if (vehicle == null || vehicle.getCurrentPoint() == null) return false;
+
+        // 2. Megkeressük a sávot a jármű alól a célpontba
+        model.Lane nextLane = null;
+        for (model.Lane lane : city.getLanes()) {
+            if (lane.getStartPoint().equals(vehicle.getCurrentPoint()) && lane.getEndPoint().equals(targetPoint)) {
+                nextLane = lane;
+                break;
+            }
+        }
+
+        // 3. Ha megvan a sáv, rögzítjük a járműnek
+        if (nextLane != null) {
+            vehicle.setNextLane(nextLane);
+            return true;
+        }
+
+        return false; // Nincs közvetlen sáv a két pont között
     }
 }

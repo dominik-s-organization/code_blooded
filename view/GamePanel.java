@@ -24,6 +24,21 @@ public class GamePanel extends JPanel implements GameObserver {
      */
     public GamePanel(Game game) {
         this.game = game;
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                int mouseX = e.getX();
+                int mouseY = e.getY();
+
+                for(Point p : game.getCityMap().getPoints()){
+                    if(Math.hypot(p.getX() - mouseX, p.getY() - mouseY) < 25){
+                        game.setSelectedPoint(p);
+                        game.notifyObservers();
+                        return;
+                    }
+                }
+            }
+
+        });
     }
     /**
      * A JPanel felülírt kirajzoló metódusa. Ez felel a grafikai elemek képernyőre festéséért.

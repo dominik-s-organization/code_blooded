@@ -1,6 +1,7 @@
 package view;
 
 import model.Game;
+import model.Player;
 import model.SnowCleaner;
 import controller.GameObserver;
 import javax.swing.*;
@@ -54,6 +55,13 @@ public class StatusPanel extends JPanel implements GameObserver {
 
         // Körök frissítése
         player2Label.setText(game.getCurrentRound() + " rounds");
+
+        Player currenPlayer = game.getCurrentPlayer();
+        if (currenPlayer != null) {
+            setStatusText("Current Player: " + currenPlayer.getName());
+        } else {
+            setStatusText("Current Player: None");
+        }
 
         // Pénz frissítése
         if (game.getPlayers() != null && !game.getPlayers().isEmpty()) {

@@ -1,6 +1,8 @@
 package controller;
 
 import model.Game;
+import model.Player;
+import model.Vehicle;
 import view.StatusPanel;
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,8 @@ public class ControlPanel extends JPanel {
 
     // Az input és output mezők a vezérlőpanel alján helyezkednek el, és a játékos által bevitt parancsokat, valamint a játék válaszait jelenítik meg.
     private JTextField inputField, outputField;
+
+    private int activePlayerIndex = 0;
 
     // Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, valamint feliratkozik a modellre.
     public ControlPanel(Game game, StatusPanel statusPanel) {
@@ -55,6 +59,8 @@ public class ControlPanel extends JPanel {
         this.add(outputField);
         this.add(Box.createVerticalGlue());
         this.add(backtomenuButton);
+
+        refreshCurrentPlayerDisplay();
     }
 
     private void initButtons() {
@@ -76,11 +82,64 @@ public class ControlPanel extends JPanel {
         }
 
         stepButton.addActionListener(e -> {
-            game.simulateStep(); // Parancs a modellnek
-            statusPanel.setStatusText("Status: Step taken");
+            int totalPlayers = game.getPlayers().size();
+            activePlayerIndex++;
+
+            if(activePlayerIndex >= totalPlayers){
+                activePlayerIndex = 0;
+                game.simulateStep();
+                outputField.setText("Round over");
+                statusPanel.setStatusText("Status: New Round started!");
+            } else {
+                outputField.setText("Next player turn!");
+            }
+            refreshCurrentPlayerDisplay();
         });
 
-        moveButton.addActionListener(e -> statusPanel.setStatusText("Status: Moving"));
+        moveButton.addActionListener(e -> {
+            // 1. Lekérjük a soron lévő játékost
+            Object currentPlayer = game.getPlayers().get(activePlayerIndex); 
+            
+            // 2. CÉLPONT MEGHATÁROZÁSA (Szöveg vagy Kattintás)
+            model.Point targetPoint = game.getSelectedPoint(); // Alapértelmezés: a kattintott pont
+            String moveCommand = inputField.getText().trim();
+            
+            // Ha a játékos gépelt valamit (pl. "J2"), az felülírja a kattintást!
+            // Ilyenkor megkeressük ezt az ID-t a térképen lévő pontok között:
+            if (!moveCommand.isEmpty()) {
+                targetPoint = null; 
+                for (model.Point p : game.getCityMap().getPoints()) {
+                    if (p.getId().equals(moveCommand)) {
+                        targetPoint = p;
+                        break;
+                    }
+                }
+            }
+
+            // 3. VÉGREHAJTÁS (Ha sikeresen találtunk egy létező célpontot)
+            if (targetPoint != null) {
+                // Most már a megfelelő objektumokat adjuk át a Modellnek!
+                boolean success = game.move(currentPlayer, targetPoint); 
+                
+                if (success) {
+                    // Visszajelzés a felhasználónak
+                    outputField.setText("Célpont rögzítve: " + targetPoint.getId());
+                    statusPanel.setStatusText("Status: Move locked to " + targetPoint.getId() + ". Press STEP!");
+                    
+                    // Kényelmi funkció: kiürítjük a mezőt és levesszük a sárga kijelölést
+                    inputField.setText(""); 
+                    game.setSelectedPoint(null); 
+                    game.notifyObservers();
+                } else {
+                    outputField.setText("Hiba: Nincs közvetlen út a járműtől ide!");
+                }
+            } else {
+                // Ha se nem kattintott, se nem gépelt be létező pontot
+                outputField.setText("Hiba: Válassz egy pontot vagy írj be egy létező ID-t!");
+                statusPanel.setStatusText("Status: Waiting for move input");
+            }
+        });
+
         equipButton.addActionListener(e -> statusPanel.setStatusText("Status: Equipping"));
 
         buyButton.addActionListener(e -> {
@@ -109,6 +168,14 @@ public class ControlPanel extends JPanel {
                 outputField.setText("Vásárlás megszakítva");
             }
         });
+    }
+
+    private void refreshCurrentPlayerDisplay(){
+        if(game.getPlayers() != null && !game.getPlayers().isEmpty()){
+            Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+            int playerNumber = activePlayerIndex + 1;
+            statusPanel.setStatusText("Player" + playerNumber + " truns");
+        }
     }
 
     public JButton getBackToMenuButton() { return backtomenuButton; }

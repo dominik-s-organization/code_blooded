@@ -37,6 +37,13 @@ public class SnowCleaner extends Player {
      */
     private int maxCrushedStone;
 
+    public Vehicle getControlledVehicle() {
+        if (snowPlowers != null && !snowPlowers.isEmpty()) {
+            return snowPlowers.get(0); // Alapértelmezés szerint az első hókotrót irányítja
+        }
+        return null; // Nincs irányított jármű
+    }
+
     public SnowCleaner(String name) {
         super(name);
         snowPlowers = new ArrayList<>();
