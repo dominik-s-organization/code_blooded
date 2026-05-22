@@ -11,8 +11,12 @@ import java.util.List;
 import java.io.IOException;
 
 // A Console osztály felelős a parancssori interakciók kezeléséért, a parancsok értelmezéséért és végrehajtásáért.
-class Console {
-    public Game game = new Game();
+public class Console {
+    private Game game;
+
+    public Console(Game game){
+        this.game = game;
+    }
 
     public ArrayList<String> commandHistory = new ArrayList<>();
 
@@ -736,7 +740,7 @@ class Console {
         }
 
         // Betöltés előtt érdemes lehet alaphelyzetbe állítani a játékot:
-        game = new Game(); 
+        this.game.reset();
         commandHistory.clear();
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {

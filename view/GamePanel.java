@@ -89,9 +89,6 @@ public class GamePanel extends JPanel implements GameObserver {
         
         if (start == null || end == null) return;
 
-        // ALTERNATÍVA (Ha a Lane csak ID-kat ad vissza, akkor használd ezt a két sort helyette):
-        // Point start = game.findPointById(lane.getStartPointId());
-        // Point end = game.findPointById(lane.getEndPointId());
         // 5 pixel vastag vonal
         g2d.setStroke(new BasicStroke(5)); 
         g2d.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
@@ -113,8 +110,6 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
 
-    /**
-     */
     private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
         Point p = vehicle.getCurrentPoint();
         if (p == null) return;
@@ -137,7 +132,7 @@ public class GamePanel extends JPanel implements GameObserver {
             // Kirajzolás az extra szélesség és magasság paraméterekkel
             g2d.drawImage(img, imgX, imgY, imgWidth, imgHeight, null);
         } else {
-            // TARTALÉK: Ha nem találja a png fájlt, rajzol egy piros négyzetet
+            // Ha nem találja a png fájlt, rajzol egy piros négyzetet
             g2d.setColor(Color.RED);
             g2d.fillRect(x - 8, y - 8, 16, 16);
             g2d.setColor(Color.WHITE);

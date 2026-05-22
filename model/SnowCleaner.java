@@ -48,7 +48,7 @@ public class SnowCleaner extends Player {
         super(name);
         snowPlowers = new ArrayList<>();
         inventory = new ArrayList<>();
-        money = 0;
+        money = 1000;
         saltStock = 0;
         bioKeroseneStock = 0;
         crushedStoneStock = 0;
@@ -82,7 +82,7 @@ public class SnowCleaner extends Player {
     }
 
     public int getMoney() {
-        return money;
+        return this.money;
     }
 
     public void setMoney(int money) {
@@ -129,6 +129,20 @@ public class SnowCleaner extends Player {
      */
     public void getPaid(int amount) {
         this.money += amount;
+    }
+
+
+    /**
+     * Levonja a megadott összeget a játékos pénzéből, ha van elég fedezet.
+     * @param amount A levonandó összeg
+     * @return true, ha sikeres volt a fizetés, false ha nincs elég pénze.
+     */
+    public boolean spendMoney(int amount){
+        if(this.money >= amount){
+            this.money -= amount;
+            return true;
+        }
+        return false;
     }
 
     /**

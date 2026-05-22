@@ -37,84 +37,114 @@ public class Game implements IdGenerator {
         round = 0;
     }
 
-    public void initTestMap() {
+   public void initTestMap() {
         CityMap map = this.getCityMap();
 
-        // 1. Csomópontok létrehozása megfelelő ID-val, hogy az isReachable felismerje őket
-        Junction j1 = new Junction("junction_1"); j1.setX(150); j1.setY(150);
-        Junction j2 = new Junction("junction_2"); j2.setX(450); j2.setY(150);
-        Junction j3 = new Junction("junction_3"); j3.setX(650); j3.setY(300);
-        Junction j4 = new Junction("junction_4"); j4.setX(150); j4.setY(450);
-        Junction j5 = new Junction("junction_5"); j5.setX(450); j5.setY(450);
+        // ==========================================
+        // 1. CSOMÓPONTOK LÉTREHOZÁSA
+        // ID-k kisbetűs típusnevekkel
+        // ==========================================
+        
+        // J1: Kertváros (Itt laknak az autók)
+        Junction j1 = new Junction("junction_home"); j1.setX(100); j1.setY(300);
+        // C1: Fő kereszteződés (Középen)
+        CrossRoads c1 = new CrossRoads("crossroads_center"); c1.setX(400); c1.setY(300);
+        // J2: Belváros / Munkahely
+        Junction j2 = new Junction("junction_work"); j2.setX(700); j2.setY(300);
+        // T1: Alagút bejárata (Lefelé)
+        Tunnel t1 = new Tunnel("tunnel_entrance"); t1.setX(400); t1.setY(500);
 
-        // Csomópontok hozzáadása a várostérképhez
         map.addPoint(j1);
+        map.addPoint(c1);
         map.addPoint(j2);
-        map.addPoint(j3);
-        map.addPoint(j4);
-        map.addPoint(j5);
+        map.addPoint(t1);
 
-        // 2. Sávok (Lanes) létrehozása és topológiai összekötése setterekkel
+        // ==========================================
+        // 2. KÉTIRÁNYÚ SÁVOK (LANES) LÉTREHOZÁSA
+        // ==========================================
+
+        // --- Kertváros (J1) <-> Központ (C1) ---
+        Lane l_j1_c1 = new Lane("lane_home_to_center");
+        l_j1_c1.setStartPoint(j1); l_j1_c1.setEndPoint(c1);
+        j1.addOutgoingLane(l_j1_c1); c1.addIncomingLane(l_j1_c1);
+        map.addLane(l_j1_c1);
+
+        Lane l_c1_j1 = new Lane("lane_center_to_home");
+        l_c1_j1.setStartPoint(c1); l_c1_j1.setEndPoint(j1);
+        c1.addOutgoingLane(l_c1_j1); j1.addIncomingLane(l_c1_j1);
+        map.addLane(l_c1_j1);
+
+        // --- Központ (C1) <-> Belváros (J2) ---
+        Lane l_c1_j2 = new Lane("lane_center_to_work");
+        l_c1_j2.setStartPoint(c1); l_c1_j2.setEndPoint(j2);
+        c1.addOutgoingLane(l_c1_j2); j2.addIncomingLane(l_c1_j2);
+        map.addLane(l_c1_j2);
+
+        Lane l_j2_c1 = new Lane("lane_work_to_center");
+        l_j2_c1.setStartPoint(j2); l_j2_c1.setEndPoint(c1);
+        j2.addOutgoingLane(l_j2_c1); c1.addIncomingLane(l_j2_c1);
+        map.addLane(l_j2_c1);
+
+        // --- Központ (C1) <-> Alagút (T1) ---
+        Lane l_c1_t1 = new Lane("lane_center_to_tunnel");
+        l_c1_t1.setStartPoint(c1); l_c1_t1.setEndPoint(t1);
+        c1.addOutgoingLane(l_c1_t1); t1.addIncomingLane(l_c1_t1);
+        map.addLane(l_c1_t1);
+
+        Lane l_t1_c1 = new Lane("lane_tunnel_to_center");
+        l_t1_c1.setStartPoint(t1); l_t1_c1.setEndPoint(c1);
+        t1.addOutgoingLane(l_t1_c1); c1.addIncomingLane(l_t1_c1);
+        map.addLane(l_t1_c1);
+
+        // ==========================================
+        // 3. IDŐJÁRÁS ÉS ÚTVISZONYOK BEÁLLÍTÁSA
+        // ==========================================
+        l_j1_c1.getSnow().setSnowLevel(0);  // Tiszta út kifelé
+        l_c1_j2.getSnow().setSnowLevel(12); // Erősen havas út a munkahely felé
+        l_c1_t1.getSnow().setSnowLevel(2);  // Kicsi hó az alagút felé
+
+        // ==========================================
+        // 4. JÁTÉKOSOK ÉS JÁRMŰVEIK (A Modell alapján)
+        // ==========================================
         
-        // Lane 1: J1 -> J2
-        Lane l1 = new Lane("lane_1");
-        l1.setStartPoint(j1);
-        l1.setEndPoint(j2);
-        j1.addOutgoingLane(l1);
-        j2.addIncomingLane(l1);
-        map.addLane(l1);
+        // --- 1. Játékos: Hókotró ---
+        SnowCleaner cleaner = new SnowCleaner("Hokotro_Jani"); 
+        if (!cleaner.getSnowPlowers().isEmpty()) {
+            model.SnowPlower plower = cleaner.getSnowPlowers().get(0);
+            plower.setId("snow_plower_1");
+            plower.setCurrentPoint(c1); // A központból indul
+            c1.addVehicle(plower);
+            map.addVehicle(plower);
+        }
+        this.addPlayer(cleaner); // Hozzáadjuk a körmenedzserhez
 
-        // Lane 2: J2 -> J3
-        Lane l2 = new Lane("lane_2");
-        l2.setStartPoint(j2);
-        l2.setEndPoint(j3);
-        j2.addOutgoingLane(l2);
-        j3.addIncomingLane(l2);
-        map.addLane(l2);
+        // --- 2. Játékos: Buszsofőr ---
+        BusDriver busDriver = new BusDriver("Buszos_Bela");
+        if (busDriver.getBus() != null) { // Vagy getBuses().get(0)
+            Bus bus = busDriver.getBus();
+            bus.setId("bus_1");
+            bus.setCurrentPoint(j1); // A kertvárosból indul
+            j1.addVehicle(bus);
+            map.addVehicle(bus);
+        }
+        this.addPlayer(busDriver);
 
-        // Lane 3: J1 -> J4
-        Lane l3 = new Lane("lane_3");
-        l3.setStartPoint(j1);
-        l3.setEndPoint(j4);
-        j1.addOutgoingLane(l3);
-        j4.addIncomingLane(l3);
-        map.addLane(l3);
-
-        // Lane 4: J4 -> J5
-        Lane l4 = new Lane("lane_4");
-        l4.setStartPoint(j4);
-        l4.setEndPoint(j5);
-        j4.addOutgoingLane(l4);
-        j5.addIncomingLane(l4);
-        map.addLane(l4);
-
-        // Lane 5: J2 -> J5
-        Lane l5 = new Lane("lane_5");
-        l5.setStartPoint(j2);
-        l5.setEndPoint(j5);
-        j2.addOutgoingLane(l5);
-        j5.addIncomingLane(l5);
-        map.addLane(l5);
-
-        // 3. Kezdeti hómennyiségek beállítása a teszteléshez
-        l1.getSnow().setSnowLevel(0);  // Tiszta út
-        l2.getSnow().setSnowLevel(4);  // Enyhe hó
-        l3.getSnow().setSnowLevel(8);  // Közepes hó
-        l4.getSnow().setSnowLevel(12); // Nagy hó
-        l5.getSnow().setSnowLevel(2);  // Minimális hó
-
-        // 4. JÁRMŰVEK ÉS JÁTÉKOSOK ELHELYEZÉSE
-        SnowCleaner cleaner = new SnowCleaner("Jatekos1"); 
-        model.SnowPlower plower = cleaner.getSnowPlowers().get(0);
-
-        // Beállítjuk a hókotró kezdőpozícióját és összekötjük a csomóponttal
-        plower.setCurrentPoint(j1); 
-        j1.addVehicle(plower);
-        map.addVehicle(plower);
+        // ==========================================
+        // 5. AUTÓ
+        // ==========================================
         
-        this.addPlayer(cleaner); // Ha van ilyen metódus a Game-ben
+        // Az autók nem játékosok, csak járművek a térképen
+        Car car = new Car(); // Vagy ahogy a konstruktorotok kéri
+        car.setId("car_1");
+        car.setHome(j1); 
+        car.setWork(j2);
+        car.setCurrentPoint(j1); // Otthonról indul
+        j1.addVehicle(car);
+        map.addVehicle(car);
 
-        // 5. OBSERVER ÉRTESÍTÉS: Szólunk a GUI-nak, hogy rajzolja ki a felépített pályát
+        // ==========================================
+        // 6. ÉRTESÍTÉS A GUI-NAK
+        // ==========================================
         this.notifyObservers();
     }
 

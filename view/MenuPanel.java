@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
 
+import model.Console;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
 // A MenuPanel osztály a játék főmenüjét reprezentálja, amely tartalmazza az új játék, betöltés, mentés és kilépés gombokat.
@@ -27,11 +29,13 @@ public class MenuPanel extends JPanel {
     /** A játék címét megjelenítő felirat a menü tetején. */
     private JLabel titleLabel;
 
+    private Console console;
     /**
      * A MenuPanel konstruktora.
      * Inicializálja a gombokat és a címkéket, valamint beállítja a panel GridBagLayout elrendezését és háttérszínét.
      */
-   public MenuPanel() {
+   public MenuPanel(Console console) {
+        this.console = console;
         // Háttérszín beállítása feketére
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout()); // Középre igazítja a teljes menüdobozt az ablakban
@@ -50,7 +54,38 @@ public class MenuPanel extends JPanel {
         // Kilépés gomb logikája
         exitButton.addActionListener(e -> System.exit(0));
 
-        // --- DINAMIKUS MÉRETEZÉS ÉS STÍLUSOK MEGNÖVELÉSE ---
+        saveGameButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Game save");
+            int userSelection = fileChooser.showSaveDialog(this);
+
+            if(userSelection == JFileChooser.APPROVE_OPTION){
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                String command = "save" + filePath;
+                if(this.console != null){
+                    this.console.processCommand(command);
+                    System.out.println("Mentés parancs kiadva: " + command);
+                } 
+            }
+
+        });
+
+        loadGameButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Game load");
+            int userSelection = fileChooser.showOpenDialog(this);
+
+            if(userSelection == JFileChooser.APPROVE_OPTION){
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                String command = "load" + filePath;
+                if(this.console != null){
+                    this.console.processCommand(command);
+                    System.out.println("Betöltés parancs kiadva: " + command);
+                } 
+            }
+
+        });
+
         // Egységes nagy méret a gomboknak (szélesség: 250 pixel, magasság: 50 pixel)
         Dimension buttonSize = new Dimension(250, 50);
         // Nagyobb, tisztán olvasható betűtípus a gombok szövegeinek
@@ -85,16 +120,6 @@ public class MenuPanel extends JPanel {
 
         this.add(box);
     }
-    
-    /*
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setColor(Color.WHITE);
-        g2d.fillRect(0, 0, this.getWidth(), this.getHeight());
-    }*/
 
     public JButton getNewGameButton() {
         return newGameButton;

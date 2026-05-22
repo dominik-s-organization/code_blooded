@@ -3,6 +3,7 @@ package controller;
 import model.Game;
 import model.Player;
 import model.Vehicle;
+import model.Console;
 import view.StatusPanel;
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,7 @@ import java.awt.*;
 public class ControlPanel extends JPanel {
     private Game game;
     private StatusPanel statusPanel; // Referencia a view-ra, hogy a státuszt átírhassa
+    private Console console;
 
     // A gombok a játék különböző parancsait reprezentálják, amelyek a játékos által kiválaszthatók.
     private JButton stepButton, moveButton, buyButton, equipButton, backtomenuButton;
@@ -24,9 +26,10 @@ public class ControlPanel extends JPanel {
     private int activePlayerIndex = 0;
 
     // Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, valamint feliratkozik a modellre.
-    public ControlPanel(Game game, StatusPanel statusPanel) {
+    public ControlPanel(Game game, StatusPanel statusPanel, Console console) {
         this.game = game;
         this.statusPanel = statusPanel;
+        this.console = console;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.WHITE);
@@ -142,30 +145,55 @@ public class ControlPanel extends JPanel {
 
         equipButton.addActionListener(e -> statusPanel.setStatusText("Status: Equipping"));
 
-        buyButton.addActionListener(e -> {
-            statusPanel.setStatusText("Status: Buying");
+       buyButton.addActionListener(e -> {
+            System.out.println("--- BUY GOMB MEGNYOMVA ---");
             
-            String[] availableItems = {
-                "CrushedStoneHead", "DragonHead", "IceBreakerHead", 
-                "SalterHead", "SweepingHead", "ThrowerHead",
-                "Salt", "BioKerosene", "SnowPlower"
-            };
-            
-            String selectedItem = (String) JOptionPane.showInputDialog(
-                    this,                                 
-                    "Válassz egy tárgyat a vásárláshoz:", 
-                    "Bolt",                               
-                    JOptionPane.QUESTION_MESSAGE,         
-                    null,                                 
-                    availableItems,                       
-                    availableItems[0]                     
-            );
+            try {
+                String[] availableItems = {
+                    "CrushedStoneHead", "DragonHead", "IceBreakerHead", 
+                    "SalterHead", "SweepingHead", "ThrowerHead",
+                    "Salt", "BioKerosene", "SnowPlower"
+                };
+                
+                System.out.println("1. Ablak megnyitása.");
+                String selectedItem = (String) JOptionPane.showInputDialog(
+                        this, "Válassz egy tárgyat a vásárláshoz:", "Bolt", 
+                        JOptionPane.QUESTION_MESSAGE, null, availableItems, availableItems[0]
+                );
 
-            if (selectedItem != null) {
-                //game.buyItem(selectedItem);
-                outputField.setText("Bought: " + selectedItem);
-            } else {
-                outputField.setText("Vásárlás megszakítva");
+                if (selectedItem != null) {
+                    System.out.println("2. Kiválasztott tárgy: " + selectedItem);
+                    
+                    // Ellenőrizzük, van-e egyáltalán játékos
+                    if (game.getPlayers() == null || game.getPlayers().isEmpty()) {
+                        System.out.println("HIBA: Nincs egyetlen játékos sem a listában!");
+                        return;
+                    }
+                    
+                    model.Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+                    String playerName = currentPlayer.getName();
+                    System.out.println("3. Vásárló játékos: " + playerName);
+                    
+                    // Ellenőrizzük, hogy a console nem null-e, ha véletlenül nem adódott volna át rendesen
+                    if (console == null) {
+                        System.out.println("HIBA: A console változó NULL! Nem lett átadva a konstruktorban!");
+                        return;
+                    }
+                    
+                    String command = "buy " + playerName + " " + selectedItem + " 1";
+                    System.out.println("4. Generált parancs: " + command);
+                    console.processCommand(command); 
+                    
+                    System.out.println("Parancs sikeresen átadva a Console-nak!");
+                    outputField.setText("Kiadott parancs: " + command);
+                    
+                    game.notifyObservers(); 
+                } else {
+                    System.out.println("Vásárlás megszakítva.");
+                }
+            } catch (Exception ex) {
+                System.out.println("HIBA TÖRTÉNT A GOMBNYOMÁSKOR!");
+                ex.printStackTrace(); // Ez kiírja a pontos sort, ahol elszállt!
             }
         });
     }
