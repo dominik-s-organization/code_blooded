@@ -2,6 +2,7 @@ package view;
 
 import controller.ControlPanel;
 import model.Game;
+import model.Console;
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,6 +30,10 @@ public class MainFrame extends JFrame {
     /** A kártyákat (paneleket) összefogó fő konténer. */
     private JPanel mainContainer;
 
+    private Console console;
+
+    private StatusPanel statusPanel; // A státusz panel, amely a játék állását mutatja (pénz, körök)
+
     /**
      * Konstruktor, amely létrehozza az ablakot és beállítja a menü-játék váltást.
      * @param game A megjelenítendő Game objektum.
@@ -45,8 +50,12 @@ public class MainFrame extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitItem = new JMenuItem("Exit");
+        JMenuItem backToMenuItem = new JMenuItem("Back to Menu");
+        JMenuItem newGameItem = new JMenuItem("New Game");
         exitItem.addActionListener(e -> System.exit(0)); // Kilépés logikája
         fileMenu.add(exitItem);
+        fileMenu.add(backToMenuItem);
+        fileMenu.add(newGameItem);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 
@@ -55,15 +64,24 @@ public class MainFrame extends JFrame {
         mainContainer = new JPanel(cardLayout);
 
         // 1. Kártya: Főmenü (MenuPanel)
-        menuPanel = new MenuPanel();
+        menuPanel = new MenuPanel(console);
         
         // 2. Kártya: Játék nézet (GamePanel + ControlPanel összefogva egy BorderLayoutban)
         JPanel gameContainer = new JPanel(new BorderLayout());
+        JPanel rightSideBar = new JPanel();
+        rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));
+
+
+        Console console = new Console(game);
         gamePanel = new GamePanel(game);
-        controlPanel = new ControlPanel(game);
+        statusPanel = new StatusPanel(game); // A státusz panel létrehozása és a modell átadása neki
+        controlPanel = new ControlPanel(game, statusPanel, console); // A vezérlőpanel létrehozása és a modell átadása neki
+
+        rightSideBar.add(statusPanel);
+        rightSideBar.add(controlPanel);
         gameContainer.add(gamePanel, BorderLayout.CENTER);
-        gameContainer.add(controlPanel, BorderLayout.EAST);
-        
+        gameContainer.add(rightSideBar, BorderLayout.EAST);
+
         // A Modell feliratkoztatása a GamePanelre
         game.addObserver(gamePanel);
 
@@ -73,12 +91,12 @@ public class MainFrame extends JFrame {
 
         this.add(mainContainer);
 
-        // ESEMÉNYKEZELÉS: Ha a menüben rákattintanak a "New Game" gombra, váltsunk a GAME kártyára!
+        // Ha a menüben rákattintanak a "New Game" gombra, váltsunk a GAME kártyára!
         menuPanel.getNewGameButton().addActionListener(e -> {
             cardLayout.show(mainContainer, "GAME");
         });
 
-        // ESEMÉNYKEZELÉS: Ha rákattintanak a "Back to Menu" gombra, váltsunk vissza a MENU kártyára!
+        // Ha rákattintanak a "Back to Menu" gombra, váltsunk vissza a MENU kártyára!
         controlPanel.getBackToMenuButton().addActionListener(e -> {
             showMenu(); 
         });
@@ -108,6 +126,5 @@ public class MainFrame extends JFrame {
      */
     public void setGame(Game game) {
         this.game = game;
-        gamePanel.setGame(game);
     }
 }

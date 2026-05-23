@@ -20,10 +20,10 @@ public class Lane {
 
     public Lane(String id) {
         this.id = id;
-        startpoint = null;
-        endpoint = null;
-        leftLane = null;
-        rightLane = null;
+        this.startpoint = null;
+        this.endpoint = null;
+        this.leftLane = null;
+        this.rightLane = null;
         isJammed = false;
         isUnderground = false;
         snow = new Snow();

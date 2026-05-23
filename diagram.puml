@@ -1,0 +1,287 @@
+@startuml
+skinparam classAttributeIconSize 0
+hide circle
+
+package "View & Controller (GUI)" {
+  interface GameObserver {
+    +update(): void
+  }
+
+  class MainFrame {
+    -game: Game
+    -gamePanel: GamePanel
+    -controlPanel: ControlPanel
+    --
+    +initComponents(): void
+    +showMenu(): void
+    +statGame(): void
+  }
+
+  class GamePanel {
+    -game: Game
+    -scale: double
+    --
+    +paintComponent(g: Graphics): void
+    +update(): void
+    +calculateCoordinates(p: Point): void
+  }
+
+  class ControlPanel {
+    -game: Game
+    -stepButton: JButton
+    -moveButton: JButton
+    -buyButton: JButton
+    -inputField: JTextField
+    -outputField: JTextField
+    --
+    +initButtons(): void
+    +handleStep(): void
+  }
+
+  class AssetManager {
+    -vehicleIcons: Map<String, Image>
+    -snowColors: Map<String, Color>
+    -itemIcons: Map<String, Image>
+    -playerIcons: Map<String, Image>
+    -obstacleIcons: Map<String, Image>
+    --
+    +loadAssets(): void
+    +getIcon(name: String): Image
+    +getColor(name: String): Color
+    +getItemIcon(name: String): Image
+    +getPlayerIcon(name: String): Image
+    +geSnowColor(name: String): Color
+    +getObstacleIcon(name: String): Image
+  }
+}
+
+package "Model (Üzleti Logika)" {
+  class Game {
+    -city: CityMap
+    -players: List<Player>
+    -observers: List<GameObserver>
+    --
+    +addObserver(o: GameObserver): void
+    -notifyObservers(): void
+    +addPlayer(player: Player): void
+    +startGame(): void
+    +endGame(): void
+    +saveGame(): void
+    +loadGame(): void
+    +simulateStep(): void
+    +addObserver(GameObserver o): void
+    +notifyObservers(): void
+  }
+
+  class CityMap {
+    -points: List<Point>
+    -lanes: List<Lane>
+    -vehicles: List<Vehicle>
+  }
+
+  abstract class Vehicle {
+    -currentPoint: Point
+    -lastLane: Lane
+    #nextPoint: Point
+    -jammedTime: int
+    +canSlip: boolean
+    --
+    +getNextPoint(): Point
+    +jam(): void
+    +move(point: Point): void
+  }
+
+  abstract class Point {
+    -vehicles: List<Vehicle>
+    -incomingLanes: List<Lane>
+    -outgoingLanes: List<Lane>
+    -x: int
+    -y: int
+    --
+    +isReachable(vehicle: Vehicle): boolean
+    +lookForJams(): void
+  }
+
+  class Lane {
+    -startpoint: Point
+    -endpoint: Point
+    -leftLane: Lane
+    -rightLane: Lane
+    -isJammed: boolean
+    -isUnderground: boolean
+    -saltLevel: int
+    -snow: Snow
+    --
+    +change(vehicle: Vehicle): void
+  }
+  
+  class Bus {
+    -owner: BusDriver
+    -beginningPoint: Point
+    -endPoint: Point
+    --
+    +switchRoute(): void
+    +jam(): void
+    +move(point: Point): void
+  }
+
+  class BusDriver {
+    -completedRoutes: int = 0
+    -bus: Bus
+    --
+    +completeRoute(): void
+  }
+
+  class Car {
+    -home: Point
+    -work: Point
+    -moveable: boolean
+    --
+    +jam(): void
+    +move(point: Point): void
+    +getNextPoint(): Point
+  }
+
+  class CrossRoads {
+    +isReachable(vehicle: Vehicle): boolean
+    +lookForJams(): void
+  }
+
+  class CrushedStoneHead {
+    +clean(lane: Lane): void
+  }
+
+  class DragonHead {
+    +clean(lane: Lane): void
+  }
+
+  abstract class Head {
+    +clean(lane: Lane): void
+  }
+
+  class IceBreakerHead {
+    +clean(lane: Lane): void
+  }
+
+  class Junction {
+    +isReachable(vehicle: Vehicle): boolean
+    +lookForJams(): void
+  }
+
+  abstract class Player {
+    -name: String
+    --
+    +selectDestination(): Point
+  }
+
+  class SalterHead {
+    +clean(lane: Lane): void
+  }
+
+  class Snow {
+    -level: int
+    -vehiclesPassed: int
+    -ice: boolean
+    -brokenIce: boolean
+    -saltLevel: int
+    -crushedStoneLevel: int
+    --
+    +raise(): void
+    +raiseBy(amount: int): void
+    +lower(): void
+    +clean(): void
+    +passVehicle(): void
+  }
+
+  class SnowCleaner {
+    -snowPlowers: List<SnowPlower>
+    -inventory: List<Head>
+    -money: int
+    -saltStock: int
+    -bioKeroseneStock: int
+    --
+    +getPaid(osszeg: int): void
+    +consumeMaterial(tipus: String): boolean
+  }
+
+  class SnowPlower {
+    -currentHead: Head
+    -owner: SnowCleaner
+    --
+    +jam(): void
+    +move(point: Point): void
+    +changeHead(head: Head): void
+  }
+
+  class Store {
+    -inventory: Map<String, Integer>
+    --
+    +buy(item: String, quantity: int, buyer: SnowCleaner): boolean
+  }
+
+  class SweepingHead {
+    +clean(lane: Lane): void
+  }
+
+  class ThrowerHead {
+    +clean(lane: Lane): void
+  }
+
+  class Tunnel {
+    +isReachable(vehicle: Vehicle): boolean
+    +lookForJams(): void
+  }
+}
+
+' --- KAPCSOLATOK (Új grafikus kapcsolatok) ---
+GamePanel ..|> GameObserver
+Game o--> "0..*" GameObserver : notifies
+MainFrame *-- GamePanel
+MainFrame *-- ControlPanel
+MainFrame --> Game
+GamePanel --> Game
+GamePanel ..> AssetManager : uses
+ControlPanel --> Game
+
+' (A GamePanelnek rálátása van a Modell elemekre a kirajzoláshoz)
+GamePanel ..> CityMap : reads
+GamePanel ..> Point : reads
+GamePanel ..> Lane : reads
+GamePanel ..> Vehicle : reads
+
+' --- KAPCSOLATOK (Eredeti Modell kapcsolatok) ---
+Bus --|> Vehicle
+Bus -- Point
+BusDriver --|> Player
+BusDriver -- Bus
+Car --|> Vehicle
+Car -- Point
+CityMap -- Point
+CityMap -- Lane
+CityMap -- Vehicle
+CrossRoads --|> Point
+CrushedStoneHead --|> Head
+DragonHead --|> Head
+Game -- CityMap
+Game -- Player
+Head -- Lane
+IceBreakerHead --|> Head
+Junction --|> Point
+Lane -- Point
+Lane -- Snow
+Lane -- Lane
+Player -- Point
+SalterHead --|> Head
+SnowCleaner --|> Player
+SnowCleaner -- SnowPlower
+SnowCleaner -- Head
+SnowCleaner -- Store
+SnowPlower --|> Vehicle
+SnowPlower -- Head
+SnowPlower -- Point
+SweepingHead --|> Head
+ThrowerHead --|> Head
+Tunnel --|> Point
+Vehicle -- Point
+Vehicle -- Lane
+@enduml

@@ -68,68 +68,69 @@ public class Store {
      * @return true, ha a vásárlás sikeres volt, false fedezethiány esetén
      */
     public boolean buy(String itemName, int quantity, SnowCleaner buyer) {
-    ItemType item = ItemType.fromString(itemName);
-    if (item == null) {
-        return false; 
-    }
+        System.out.println("Vásárlás indítása");
+        
+        ItemType item = ItemType.fromString(itemName);
+        if (item == null) {
+            return false; 
+        }
 
-    int actualQuantity = quantity;
-    if (item == ItemType.CRUSHED_STONE) {
-        actualQuantity = Math.min(quantity, buyer.getMaxCrushedStone() - buyer.getCrushedStoneStock());
-    }
+        int actualQuantity = quantity;
+        if (item == ItemType.CRUSHED_STONE) {
+            actualQuantity = Math.min(quantity, buyer.getMaxCrushedStone() - buyer.getCrushedStoneStock());
+        }
 
-    int totalCost = actualQuantity * item.getPrice();
-    if (actualQuantity == 0 || !checkCurrency(totalCost, buyer)) {
-        return false; 
-    }
+        int totalCost = actualQuantity * item.getPrice();
+        if (actualQuantity == 0 || !checkCurrency(totalCost, buyer)) {
+            return false; 
+        }
 
-    buyer.setMoney(buyer.getMoney() - totalCost);
+        buyer.setMoney(buyer.getMoney() - totalCost);
 
-    switch (item) {
-        case SALT: {
-            buyer.setSaltStock(buyer.getSaltStock() + actualQuantity);
-            break;
-        }
-        case BIO_KEROSENE: {
-            buyer.setBioKeroseneStock(buyer.getBioKeroseneStock() + actualQuantity);
-            break;
-        }
-        case CRUSHED_STONE: {
-            buyer.setCrushedStoneStock(buyer.getCrushedStoneStock() + actualQuantity);
-            break;
-        }
-        case THROWER_HEAD: {
-            for (int i = 0; i < actualQuantity; i++) buyer.addHead(new ThrowerHead());
-            break;
-        }
-        case ICE_BREAKER_HEAD: {
-            for (int i = 0; i < actualQuantity; i++) buyer.addHead(new IceBreakerHead());
-            break;
-        }
-        case SALTER_HEAD: {
-            for (int i = 0; i < actualQuantity; i++) buyer.addHead(new SalterHead());
-            break;
-        }
-        case DRAGON_HEAD: {
-            for (int i = 0; i < actualQuantity; i++) buyer.addHead(new DragonHead());
-            break;
-        }
-        case CRUSHED_STONE_HEAD: {
-            for (int i = 0; i < actualQuantity; i++) buyer.addHead(new CrushedStoneHead());
-            break;
-        }
-        case SNOW_PLOWER: {
-            for (int i = 0; i < actualQuantity; i++) {
-                SnowPlower sp = new SnowPlower();
-                sp.setOwner(buyer);
-                buyer.getSnowPlowers().add(sp);
+        switch (item) {
+            case SALT: {
+                buyer.setSaltStock(buyer.getSaltStock() + actualQuantity);
+                break;
             }
-            break;
+            case BIO_KEROSENE: {
+                buyer.setBioKeroseneStock(buyer.getBioKeroseneStock() + actualQuantity);
+                break;
+            }
+            case CRUSHED_STONE: {
+                buyer.setCrushedStoneStock(buyer.getCrushedStoneStock() + actualQuantity);
+                break;
+            }
+            case THROWER_HEAD: {
+                for (int i = 0; i < actualQuantity; i++) buyer.addHead(new ThrowerHead());
+                break;
+            }
+            case ICE_BREAKER_HEAD: {
+                for (int i = 0; i < actualQuantity; i++) buyer.addHead(new IceBreakerHead());
+                break;
+            }
+            case SALTER_HEAD: {
+                for (int i = 0; i < actualQuantity; i++) buyer.addHead(new SalterHead());
+                break;
+            }
+            case DRAGON_HEAD: {
+                for (int i = 0; i < actualQuantity; i++) buyer.addHead(new DragonHead());
+                break;
+            }
+            case CRUSHED_STONE_HEAD: {
+                for (int i = 0; i < actualQuantity; i++) buyer.addHead(new CrushedStoneHead());
+                break;
+            }
+            case SNOW_PLOWER: {
+                for (int i = 0; i < actualQuantity; i++) {
+                    SnowPlower sp = new SnowPlower();
+                    sp.setOwner(buyer);
+                    buyer.getSnowPlowers().add(sp);
+                }
+                break;
+            }
         }
+        return true;
     }
-    
-    return true;
-}
 
     private boolean checkCurrency(int amount, SnowCleaner buyer) {
         return buyer.getMoney() >= amount;

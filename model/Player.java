@@ -22,6 +22,10 @@ public abstract class Player {
          this.name = name;
      }
 
+     public Vehicle getControlledVehicle() {
+         return null; // Alapértelmezés szerint nincs irányított jármű, ezt a leszármazott osztályok felülírhatják.
+     }
+
     /**
      * Visszaadja a játékos típusát.
      *

@@ -11,7 +11,7 @@ public abstract class Point {
     /**
      * A pont egyedi azonosítója.
      */
-    private String id;
+    protected String id;
     /**
      * A ponton (kereszteződésben) éppen tartózkodó járművek listája.
      */
@@ -26,9 +26,9 @@ public abstract class Point {
     private List<Lane> outgoingLanes;
     
     /** A pont vízszintes (X) képernyő-koordinátája a grafikus megjelenítéshez. */
-    private int x;
+    protected int x;
     /** A pont függőleges (Y) képernyő-koordinátája a grafikus megjelenítéshez. */
-    private int y;
+    protected int y;
 
     /**
      * Visszaadja a pont X koordinátáját.
@@ -66,7 +66,7 @@ public abstract class Point {
      * Paraméter nélküli konstruktor. 
      * Meghívja a paraméteres konstruktort null értékkel.
      */
-    protected Point() {
+    public Point() {
         this(null);
     }
 
@@ -74,11 +74,23 @@ public abstract class Point {
      * Konstruktor, amely inicializálja a pontot a megadott azonosítóval.
      * @param id A pont egyedi azonosítója.
      */
-    protected Point(String id) {
+    public Point(String id) {
         this.id = id;
         vehicles = new ArrayList<>();
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
+    }
+
+    public Vehicle getVehicleById(String id) {
+        if (id == null) {
+            return null;
+        }
+        for (Vehicle vehicle : vehicles) {
+            if (id.equals(vehicle.getId())) {
+                return vehicle;
+            }
+        }
+        return null;
     }
 
     public String getId() {

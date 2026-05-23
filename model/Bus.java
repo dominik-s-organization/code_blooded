@@ -29,6 +29,14 @@ public class Bus extends Vehicle {
     }
 
     // Getterek és setterek
+
+    public Vehicle getControlledVehicle() {
+        if (owner != null && owner.getBus() != null) {
+            return owner.getBus(); // Alapértelmezés szerint az tulajdonos által irányított buszt adja vissza
+        }
+        return null; // Nincs irányított jármű
+    }
+
     public Lane getNextLane() {
         return nextLane;
     }

@@ -1,19 +1,19 @@
 package view;
+
+import javax.swing.JPanel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import model.Game;
 import model.Lane;
-import model.Point;
 import model.Vehicle;
-import java.awt.*;
-
-import javax.swing.JPanel ;
-
-import view.AssetManager;
-import controller.ControlPanel;
+import model.Point;
 import controller.GameObserver;
 
 // A GamePanel osztály felelős a játék grafikus megjelenítéséért.
 public class GamePanel extends JPanel implements GameObserver {
-
     /** Referencia a szimulációs modellre. */
     private Game game;
 
@@ -24,19 +24,22 @@ public class GamePanel extends JPanel implements GameObserver {
      */
     public GamePanel(Game game) {
         this.game = game;
-        this.setBackground(Color.BLACK);
-        this.setPreferredSize(new Dimension(800, 600)); 
-    }
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                int mouseX = e.getX();
+                int mouseY = e.getY();
 
-    /**
-     * Új modell beállítása a panel számára.
-     * @param game Az új modell, amit meg kell jeleníteni.
-     */
-    public void setGame(Game game) {
-        this.game = game;
-        game.addObserver(this);
-    }
+                for(Point p : game.getCityMap().getPoints()){
+                    if(Math.hypot(p.getX() - mouseX, p.getY() - mouseY) < 25){
+                        game.setSelectedPoint(p);
+                        game.notifyObservers();
+                        return;
+                    }
+                }
+            }
 
+        });
+    }
     /**
      * A JPanel felülírt kirajzoló metódusa. Ez felel a grafikai elemek képernyőre festéséért.
      * @param g A Graphics objektum, amire rajzolhatunk.
@@ -86,10 +89,6 @@ public class GamePanel extends JPanel implements GameObserver {
         
         if (start == null || end == null) return;
 
-        // Szín lekérése a hószint alapján
-        int snowLevel = (lane.getSnow() != null) ? lane.getSnow().getSnowLevel() : 0;
-        g2d.setColor(AssetManager.getSnowColor(snowLevel));
-        
         // 5 pixel vastag vonal
         g2d.setStroke(new BasicStroke(5)); 
         g2d.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
@@ -111,11 +110,6 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
 
-    /**
-     * Egyetlen jármű kirajzolása az aktuális pozíciójára PNG kép segítségével.
-     * @param g2d A rajzoló objektum.
-     * @param vehicle A kirajzolandó jármű.
-     */
     private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
         Point p = vehicle.getCurrentPoint();
         if (p == null) return;
@@ -138,7 +132,7 @@ public class GamePanel extends JPanel implements GameObserver {
             // Kirajzolás az extra szélesség és magasság paraméterekkel
             g2d.drawImage(img, imgX, imgY, imgWidth, imgHeight, null);
         } else {
-            // TARTALÉK: Ha nem találja a png fájlt, rajzol egy piros négyzetet
+            // Ha nem találja a png fájlt, rajzol egy piros négyzetet
             g2d.setColor(Color.RED);
             g2d.fillRect(x - 8, y - 8, 16, 16);
             g2d.setColor(Color.WHITE);
