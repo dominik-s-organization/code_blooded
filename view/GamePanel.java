@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import model.Game;
 import model.Lane;
@@ -40,6 +39,7 @@ public class GamePanel extends JPanel implements GameObserver {
 
         });
     }
+    
     /**
      * A JPanel felülírt kirajzoló metódusa. Ez felel a grafikai elemek képernyőre festéséért.
      * @param g A Graphics objektum, amire rajzolhatunk.
@@ -62,7 +62,8 @@ public class GamePanel extends JPanel implements GameObserver {
 
         // 1. Sávok (Lanes) kirajzolása
         for (Lane lane : game.getCityMap().getLanes()) {
-            drawLane(g2d, lane);
+            Color laneColor = determineLaneColor(lane);
+            drawLane(g2d, lane.getStartPoint(), lane.getEndPoint(), laneColor);
         }
 
         // 2. Csomópontok (Points) kirajzolása
@@ -81,17 +82,64 @@ public class GamePanel extends JPanel implements GameObserver {
     /**
      * Egyetlen sáv (út) kirajzolása a megadott Graphics2D objektumra.
      * @param g2d A rajzoló objektum.
+     * @param startNode kezdőpont
+     * @param endNode végpont
      * @param lane A kirajzolandó sáv.
      */
-    private void drawLane(Graphics2D g2d, Lane lane) {
-        Point start = lane.getStartPoint();
-        Point end = lane.getEndPoint();
-        
-        if (start == null || end == null) return;
+    private void drawLane(Graphics2D g2d, Point startNode, Point endNode, Color roadColor) {
+        int x1 = startNode.getX();
+        int y1 = startNode.getY();
+        int x2 = endNode.getX();
+        int y2 = endNode.getY();
 
-        // 5 pixel vastag vonal
-        g2d.setStroke(new BasicStroke(5)); 
-        g2d.drawLine(start.getX(), start.getY(), end.getX(), end.getY());
+        // 1. Kiszámoljuk az irányvektort
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double length = Math.sqrt(dx * dx + dy * dy);
+
+        // 2. Kiszámoljuk a normálvektort (merőleges irány) a "jobbra tarts" elv alapján
+        // (A -dy, dx a balra, a dy, -dx a jobbra tolás a képernyő koordinátarendszerében)
+        double nx = -dy / length;
+        double ny = dx / length;
+
+        // 3. Eltolás mértéke pixelben (pl. 10 pixel)
+        int offset = 10;
+
+        // 4. Új, eltolt koordináták
+        int startX = (int) (x1 + nx * offset);
+        int startY = (int) (y1 + ny * offset);
+        int endX = (int) (x2 + nx * offset);
+        int endY = (int) (y2 + ny * offset);
+
+        // 5. Vonal (sáv) kirajzolása
+        g2d.setColor(roadColor);
+        g2d.setStroke(new BasicStroke(15)); // Sáv vastagsága
+        g2d.drawLine(startX, startY, endX, endY);
+    }
+
+    /**
+     * Eldönti, hogy milyen színű legyen a sáv az aktuális hó-, jég- és kavicsviszonyok alapján.
+     */
+    private Color determineLaneColor(Lane lane) {
+        // Ha valamiért nincs Snow objektum, visszaadjuk a tiszta aszfalt színét az AssetManager-ből
+        if (lane.getSnow() == null) {
+            return AssetManager.getSnowColor(0); 
+        }
+
+        model.Snow snow = lane.getSnow();
+
+        // 1. prioritás: Jég (A képeden látható kék csík)
+        if (snow.isIce() && !snow.isBrokenIce()) {
+            return new Color(135, 206, 235); // Világoskék (Sky Blue)
+        }
+
+        // 2. prioritás: Kavics (A képeden látható pöttyös/barna csík)
+        if (snow.getCrushedStoneLevel() > 0) {
+            return new Color(139, 69, 19); // Barna (Saddle Brown)
+        }
+
+        // 3. prioritás: Hó szintje (Itt használjuk a te dinamikus fv-edet!)
+        return AssetManager.getSnowColor(snow.getSnowLevel());
     }
 
     /**
@@ -100,12 +148,12 @@ public class GamePanel extends JPanel implements GameObserver {
      * @param point A kirajzolandó csomópont.
      */
     private void drawPoint(Graphics2D g2d, Point point) {
-        g2d.setColor(Color.DARK_GRAY);
+        g2d.setColor(Color.white);
         // Egy 20x20-as kör rajzolása a pont középpontja köré
-        g2d.fillOval(point.getX() - 10, point.getY() - 10, 20, 20);
+        g2d.fillOval(point.getX() - 20, point.getY() - 20, 50, 50);
         
         // Azonosító kiírása a pont fölé
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(Color.darkGray);
         g2d.setFont(new Font("Arial", Font.PLAIN, 12));
         g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
