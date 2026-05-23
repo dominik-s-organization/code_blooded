@@ -2,7 +2,6 @@ package controller;
 
 import model.Game;
 import model.Player;
-import model.Vehicle;
 import model.Console;
 import view.StatusPanel;
 import javax.swing.*;
@@ -97,6 +96,7 @@ public class ControlPanel extends JPanel {
                 outputField.setText("Next player turn!");
             }
             refreshCurrentPlayerDisplay();
+            game.notifyObservers();
         });
 
         moveButton.addActionListener(e -> {
