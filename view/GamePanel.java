@@ -9,6 +9,7 @@ import model.Game;
 import model.Lane;
 import model.Vehicle;
 import model.Point;
+import model.Snow;
 import controller.GameObserver;
 
 // A GamePanel osztály felelős a játék grafikus megjelenítéséért.
@@ -122,28 +123,42 @@ public class GamePanel extends JPanel implements GameObserver {
      * @param lane A vizsgált sáv
      * @return A sáv megjelenítési színe
      */
-    private Color determineLaneColor(Lane lane) {
+private Color determineLaneColor(Lane lane) {
         if (lane == null || lane.getSnow() == null) {
             return Color.DARK_GRAY; // Biztonsági alapértelmezett szín
         }
 
-        model.Snow snow = lane.getSnow();
+        Snow snow = lane.getSnow();
 
-        // 1. Prioritás: Ha jégpáncél van rajta (az autók letaposták)
-        if (snow.isIce()) {
-            return Color.CYAN; // Világoskék / Cián jelzi a csúszós jeget
+        // 1. Prioritás: Zúzottkő (kavics)
+        if (snow.getCrushedStoneLevel() > 0) {
+            return new Color(139, 115, 85); // Barna
+        }
+        // 2. Prioritás: Jégpáncél
+        else if (snow.isIce()) {
+            return Color.CYAN; // Világoskék
         } 
-        // 2. Prioritás: Ha a jégtörő fej már feltörte a jeget törmelékké
+        // 3. Prioritás: Jégtörmelék
         else if (snow.isBrokenIce()) {
-            return Color.LIGHT_GRAY; // Világosszürke jelzi a jégtörmeléket
+            return new Color(192, 192, 192); // Klasszikus szürke (Silver)
         } 
-        // 3. Prioritás: Ha sima hó van rajta
+        // 4. Prioritás: HÓ SZÍNÁTMENET
         else if (snow.getSnowLevel() > 0) {
-            return Color.WHITE; // Fehér a sima havazás
+            int level = snow.getSnowLevel();
+            
+            if (level >= 10) {
+                return Color.WHITE; // Vastag hó: Vakítóan fehér
+            } 
+            else if (level >= 5) {
+                return new Color(220, 220, 220); // Közepes hó: Törtfehér
+            } 
+            else {
+                return new Color(160, 160, 160); // Vékony hó: Szürkésfehér (átüt az aszfalt)
+            }
         } 
-        // 4. Prioritás: Ha teljesen tiszta (letakarították, vagy még nem esett hó)
+        // 5. Prioritás: Tiszta (0-s szint)
         else {
-            return Color.DARK_GRAY; // Sötétszürke a tiszta aszfalt
+            return Color.DARK_GRAY; // Tiszta aszfalt
         }
     }
 
