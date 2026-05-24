@@ -9,22 +9,51 @@ import java.awt.*;
 
 /**
  * A ControlPanel a tiszta CONTROLLER réteg.
- * Feladata a felhasználói interakciók (gombnyomások) továbbítása a Modell felé.
+ * Feladata a felhasználói interakciók (gombnyomások) továbbítása a Modell felé,
+ * és a Console parancsok generálása.
  */
 public class ControlPanel extends JPanel {
+    
+    /** A játék üzleti logikáját összefogó Game objektum. */
     private Game game;
-    private StatusPanel statusPanel; // Referencia a view-ra, hogy a státuszt átírhassa
+    
+    /** Referencia a nézet státusz paneljére, hogy a kiírást frissíteni lehessen. */
+    private StatusPanel statusPanel; 
+    
+    /** A parancsokat feldolgozó konzol objektum. */
     private Console console;
 
-    // A gombok a játék különböző parancsait reprezentálják, amelyek a játékos által kiválaszthatók.
-    private JButton stepButton, moveButton, buyButton, equipButton, backtomenuButton;
+    /** Gomb a játék léptetéséhez (kör vége). */
+    private JButton stepButton;
+    
+    /** Gomb a járművek mozgatásához. */
+    private JButton moveButton;
+    
+    /** Gomb a boltban való vásárláshoz. */
+    private JButton buyButton;
+    
+    /** Gomb a takarítófejek felszereléséhez. */
+    private JButton equipButton;
+    
+    /** Gomb a főmenübe való visszatéréshez. */
+    private JButton backtomenuButton;
 
-    // Az input és output mezők a vezérlőpanel alján helyezkednek el, és a játékos által bevitt parancsokat, valamint a játék válaszait jelenítik meg.
-    private JTextField inputField, outputField;
+    /** Szöveges beviteli mező a kézi parancsokhoz. */
+    private JTextField inputField;
+    
+    /** Szöveges kimeneti mező a rendszerüzenetek megjelenítéséhez. */
+    private JTextField outputField;
 
+    /** Az éppen soron lévő (aktív) játékos indexe a játékosok listájában. */
     private int activePlayerIndex = 0;
 
-    // Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, valamint feliratkozik a modellre.
+    /**
+     * Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, 
+     * valamint összeköti a modellt a nézettel.
+     * @param game A játék modellje.
+     * @param statusPanel A státuszt megjelenítő panel.
+     * @param console A parancsokat feldolgozó konzol.
+     */
     public ControlPanel(Game game, StatusPanel statusPanel, Console console) {
         this.game = game;
         this.statusPanel = statusPanel;
@@ -45,7 +74,6 @@ public class ControlPanel extends JPanel {
         
         initButtons();
         
-        // Gombok és mezők hozzáadása
         this.add(moveButton);
         this.add(Box.createRigidArea(new Dimension(0, 15)));
         this.add(buyButton);
@@ -65,6 +93,9 @@ public class ControlPanel extends JPanel {
         refreshCurrentPlayerDisplay();
     }
 
+    /**
+     * Inicializálja a felületen lévő gombokat és beállítja az eseménykezelőiket (ActionListener).
+     */
     private void initButtons() {
         stepButton = new JButton("STEP");
         moveButton = new JButton("MOVE");
@@ -91,24 +122,19 @@ public class ControlPanel extends JPanel {
                 activePlayerIndex = 0;
                 game.simulateStep();
                 outputField.setText("Round over");
-                statusPanel.setStatusText("Status: New Round started!");
             } else {
                 outputField.setText("Next player turn!");
             }
+            // CSAK a játékos nevét frissítjük!
             refreshCurrentPlayerDisplay();
             game.notifyObservers();
         });
 
         moveButton.addActionListener(e -> {
-            // 1. Lekérjük a soron lévő játékost
             Object currentPlayer = game.getPlayers().get(activePlayerIndex); 
-            
-            // 2. CÉLPONT MEGHATÁROZÁSA (Szöveg vagy Kattintás)
-            model.Point targetPoint = game.getSelectedPoint(); // Alapértelmezés: a kattintott pont
+            model.Point targetPoint = game.getSelectedPoint(); 
             String moveCommand = inputField.getText().trim();
             
-            // Ha a játékos gépelt valamit (pl. "J2"), az felülírja a kattintást!
-            // Ilyenkor megkeressük ezt az ID-t a térképen lévő pontok között:
             if (!moveCommand.isEmpty()) {
                 targetPoint = null; 
                 for (model.Point p : game.getCityMap().getPoints()) {
@@ -119,17 +145,11 @@ public class ControlPanel extends JPanel {
                 }
             }
 
-            // 3. VÉGREHAJTÁS (Ha sikeresen találtunk egy létező célpontot)
             if (targetPoint != null) {
-                // Most már a megfelelő objektumokat adjuk át a Modellnek!
                 boolean success = game.move(currentPlayer, targetPoint); 
                 
                 if (success) {
-                    // Visszajelzés a felhasználónak
                     outputField.setText("Célpont rögzítve: " + targetPoint.getId());
-                    statusPanel.setStatusText("Status: Move locked to " + targetPoint.getId() + ". Press STEP!");
-                    
-                    // Kényelmi funkció: kiürítjük a mezőt és levesszük a sárga kijelölést
                     inputField.setText(""); 
                     game.setSelectedPoint(null); 
                     game.notifyObservers();
@@ -137,74 +157,146 @@ public class ControlPanel extends JPanel {
                     outputField.setText("Hiba: Nincs közvetlen út a járműtől ide!");
                 }
             } else {
-                // Ha se nem kattintott, se nem gépelt be létező pontot
-                outputField.setText("Hiba: Válassz egy pontot vagy írj be egy létező ID-t!");
-                statusPanel.setStatusText("Status: Waiting for move input");
+                outputField.setText("Hiba: Válassz egy pontot vagy írj be ID-t!");
             }
         });
 
-        equipButton.addActionListener(e -> statusPanel.setStatusText("Status: Equipping"));
+        equipButton.addActionListener(e -> {
+            try {
+                if (game.getPlayers() == null || game.getPlayers().isEmpty()) {
+                    outputField.setText("HIBA: Nincs játékos!");
+                    return;
+                }
+                
+                model.Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+                
+                if (currentPlayer instanceof model.SnowCleaner) {
+                    model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
+                    java.util.List<model.Head> inventory = cleaner.getInventory();
+                    
+                    if (inventory == null || inventory.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, 
+                            "Nincs felszerelhető fej a raktáradban! (Vegyél egyet a Boltban)", 
+                            "Üres Inventory", 
+                            JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                    
+                    String[] availableHeads = new String[inventory.size()];
+                    for (int i = 0; i < inventory.size(); i++) {
+                        availableHeads[i] = inventory.get(i).getClass().getSimpleName(); 
+                    }
+                    
+                    String selectedHead = (String) JOptionPane.showInputDialog(
+                            this, "Válassz egy fejet a felszereléshez:", "Inventory (Raktár)", 
+                            JOptionPane.QUESTION_MESSAGE, null, availableHeads, availableHeads[0]
+                    );
+                    
+                    if (selectedHead != null) {
+                        if (console == null) {
+                            outputField.setText("HIBA: Console nincs inicializálva!");
+                            return;
+                        }
+                        
+                        String playerName = currentPlayer.getName();
+                        String command = "equip " + playerName + " " + selectedHead;
+                        
+                        console.processCommand(command);
+                        outputField.setText("Kiadott parancs: " + command);
+                        game.notifyObservers();
+                    } else {
+                        outputField.setText("Felszerelés megszakítva.");
+                    }
+                } else {
+                    outputField.setText("HIBA: A jelenlegi játékos nem SnowCleaner!");
+                }
+            } catch (Exception ex) {
+                outputField.setText("Hiba a felszerelés során!");
+                ex.printStackTrace();
+            }
+        });
 
-       buyButton.addActionListener(e -> {
-            System.out.println("--- BUY GOMB MEGNYOMVA ---");
-            
+        buyButton.addActionListener(e -> {
             try {
                 String[] availableItems = {
-                    "CrushedStoneHead", "DragonHead", "IceBreakerHead", 
-                    "SalterHead", "SweepingHead", "ThrowerHead",
-                    "Salt", "BioKerosene", "SnowPlower"
+                    "CrushedStoneHead (Ár: 60)", "DragonHead (Ár: 200)", "IceBreakerHead (Ár: 150)", 
+                    "SalterHead (Ár: 75)", "SweepingHead (Ár: 50)", "ThrowerHead (Ár: 120)",
+                    "Salt (Ár: 5/egység)", "BioKerosene (Ár: 10/egység)", "SnowPlower (Ár: 500)", "CrushedStone (Ár: 2/egység)"
                 };
                 
-                System.out.println("1. Ablak megnyitása.");
-                String selectedItem = (String) JOptionPane.showInputDialog(
+                String selectedItemFull = (String) JOptionPane.showInputDialog(
                         this, "Válassz egy tárgyat a vásárláshoz:", "Bolt", 
                         JOptionPane.QUESTION_MESSAGE, null, availableItems, availableItems[0]
                 );
 
-                if (selectedItem != null) {
-                    System.out.println("2. Kiválasztott tárgy: " + selectedItem);
-                    
-                    // Ellenőrizzük, van-e egyáltalán játékos
+                if (selectedItemFull != null) {
                     if (game.getPlayers() == null || game.getPlayers().isEmpty()) {
-                        System.out.println("HIBA: Nincs egyetlen játékos sem a listában!");
+                        outputField.setText("HIBA: Nincs játékos!");
                         return;
                     }
+                    
+                    String selectedItem = selectedItemFull.split(" ")[0];
                     
                     model.Player currentPlayer = game.getPlayers().get(activePlayerIndex);
                     String playerName = currentPlayer.getName();
-                    System.out.println("3. Vásárló játékos: " + playerName);
                     
-                    // Ellenőrizzük, hogy a console nem null-e, ha véletlenül nem adódott volna át rendesen
                     if (console == null) {
-                        System.out.println("HIBA: A console változó NULL! Nem lett átadva a konstruktorban!");
+                        outputField.setText("HIBA: Console nincs inicializálva!");
                         return;
                     }
                     
-                    String command = "buy " + playerName + " " + selectedItem + " 1";
-                    System.out.println("4. Generált parancs: " + command);
+                    String command;
+                    if (selectedItem.equals("Salt") || selectedItem.equals("BioKerosene") || selectedItem.equals("CrushedStone")) {
+                        String qtyStr = JOptionPane.showInputDialog(this, "Mennyit szeretnél vásárolni ebből: " + selectedItemFull + "?");
+                        if (qtyStr != null && !qtyStr.trim().isEmpty()) {
+                            try {
+                                int qty = Integer.parseInt(qtyStr);
+                                if (qty > 0) {
+                                    command = "buy " + playerName + " " + selectedItem + " " + qty;
+                                } else {
+                                    outputField.setText("Érvénytelen mennyiség!");
+                                    return;
+                                }
+                            } catch (NumberFormatException ex) {
+                                outputField.setText("Kérlek számot adj meg!");
+                                return;
+                            }
+                        } else {
+                            outputField.setText("Vásárlás megszakítva");
+                            return;
+                        }
+                    } else {
+                        command = "buy " + playerName + " " + selectedItem + " 1";
+                    }
+                    
                     console.processCommand(command); 
-                    
-                    System.out.println("Parancs sikeresen átadva a Console-nak!");
                     outputField.setText("Kiadott parancs: " + command);
-                    
                     game.notifyObservers(); 
                 } else {
-                    System.out.println("Vásárlás megszakítva.");
+                    outputField.setText("Vásárlás megszakítva.");
                 }
             } catch (Exception ex) {
-                System.out.println("HIBA TÖRTÉNT A GOMBNYOMÁSKOR!");
-                ex.printStackTrace(); // Ez kiírja a pontos sort, ahol elszállt!
+                outputField.setText("Hiba a vásárlás során!");
+                ex.printStackTrace(); 
             }
         });
     }
 
+    /**
+     * Frissíti a felületen az aktuálisan soron lévő játékos kijelzését a StatusPanel-en.
+     */
     private void refreshCurrentPlayerDisplay(){
         if(game.getPlayers() != null && !game.getPlayers().isEmpty()){
             Player currentPlayer = game.getPlayers().get(activePlayerIndex);
-            int playerNumber = activePlayerIndex + 1;
-            statusPanel.setStatusText("Player" + playerNumber + " truns");
+            statusPanel.setStatusText("Aktuális játékos: " + currentPlayer.getName());
         }
     }
 
-    public JButton getBackToMenuButton() { return backtomenuButton; }
+    /**
+     * Visszaadja a menübe visszatérő gombot a MainFrame számára.
+     * @return A Back to Menu gomb.
+     */
+    public JButton getBackToMenuButton() { 
+        return backtomenuButton; 
+    }
 }

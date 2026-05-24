@@ -56,17 +56,10 @@ public class StatusPanel extends JPanel implements GameObserver {
         // Körök frissítése
         player2Label.setText(game.getCurrentRound() + " rounds");
 
-        Player currenPlayer = game.getCurrentPlayer();
-        if (currenPlayer != null) {
-            setStatusText("Current Player: " + currenPlayer.getName());
-        } else {
-            setStatusText("Current Player: None");
-        }
-
-        // Pénz frissítése
+        // Pénz frissítése (Dinamikusan kiolvasva az első játékos nevét és vagyonát)
         if (game.getPlayers() != null && !game.getPlayers().isEmpty()) {
             SnowCleaner p1 = (SnowCleaner) game.getPlayers().get(0);
-            player1Label.setText("Player1  " + p1.getMoney() + "$");
+            player1Label.setText(p1.getName() + "  " + p1.getMoney() + "$");
         }
     }
 }
