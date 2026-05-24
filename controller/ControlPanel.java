@@ -123,7 +123,7 @@ public class ControlPanel extends JPanel {
         }
 
         // --- ÚJ JÁTÉKOS HOZZÁADÁSA LOGIKA ---
-        ddPlayerButton.addActionListener(e -> {
+        addPlayerButton.addActionListener(e -> {
             // 1. NÉV BEKÉRÉSE
             String newName = JOptionPane.showInputDialog(this, "Add meg az új játékos nevét:", "Új játékos", JOptionPane.QUESTION_MESSAGE);
             
@@ -131,11 +131,11 @@ public class ControlPanel extends JPanel {
                 
                 // 2. SZEREPKÖR VÁLASZTÁSA (Lenyitható menü)
                 String[] roles = {"SnowCleaner", "BusDriver"};
-                string selectedrole = (string) joptionpane.showinputdialog(
+                String selectedRole = (String) JOptionPane.showInputDialog(
                         this, 
-                        "válassz szerepkört a játékosnak:", 
-                        "szerepkör kiválasztása", 
-                        joptionpane.question_message, 
+                        "Válassz szerepkört a játékosnak:", 
+                        "Szerepkör kiválasztása", 
+                        JOptionPane.QUESTION_MESSAGE, 
                         null, 
                         roles, 
                         roles[0]
@@ -157,7 +157,10 @@ public class ControlPanel extends JPanel {
                     } else {
                         // Feltételezve, hogy van BusDriver osztályotok
                         model.BusDriver driver = new model.BusDriver(newName);
-                        driver.setMoney(1500);
+                        
+                        // A BusDriver osztályban nincs setMoney metódus, ezért ezt kivettük:
+                        // driver.setMoney(1500); 
+                        
                         newPlayer = driver;
                         vehicleToSpawn = driver.getBus();
                         if (vehicleToSpawn != null) {
