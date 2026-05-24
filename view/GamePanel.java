@@ -118,28 +118,33 @@ public class GamePanel extends JPanel implements GameObserver {
     }
 
     /**
-     * Eldönti, hogy milyen színű legyen a sáv az aktuális hó-, jég- és kavicsviszonyok alapján.
+     * Meghatározza egy sáv színét a rajta lévő hó és jég állapota alapján.
+     * @param lane A vizsgált sáv
+     * @return A sáv megjelenítési színe
      */
     private Color determineLaneColor(Lane lane) {
-        // Ha valamiért nincs Snow objektum, visszaadjuk a tiszta aszfalt színét az AssetManager-ből
-        if (lane.getSnow() == null) {
-            return AssetManager.getSnowColor(0); 
+        if (lane == null || lane.getSnow() == null) {
+            return Color.DARK_GRAY; // Biztonsági alapértelmezett szín
         }
 
         model.Snow snow = lane.getSnow();
 
-        // 1. prioritás: Jég (A képeden látható kék csík)
-        if (snow.isIce() && !snow.isBrokenIce()) {
-            return new Color(135, 206, 235); // Világoskék (Sky Blue)
+        // 1. Prioritás: Ha jégpáncél van rajta (az autók letaposták)
+        if (snow.isIce()) {
+            return Color.CYAN; // Világoskék / Cián jelzi a csúszós jeget
+        } 
+        // 2. Prioritás: Ha a jégtörő fej már feltörte a jeget törmelékké
+        else if (snow.isBrokenIce()) {
+            return Color.LIGHT_GRAY; // Világosszürke jelzi a jégtörmeléket
+        } 
+        // 3. Prioritás: Ha sima hó van rajta
+        else if (snow.getSnowLevel() > 0) {
+            return Color.WHITE; // Fehér a sima havazás
+        } 
+        // 4. Prioritás: Ha teljesen tiszta (letakarították, vagy még nem esett hó)
+        else {
+            return Color.DARK_GRAY; // Sötétszürke a tiszta aszfalt
         }
-
-        // 2. prioritás: Kavics (A képeden látható pöttyös/barna csík)
-        if (snow.getCrushedStoneLevel() > 0) {
-            return new Color(139, 69, 19); // Barna (Saddle Brown)
-        }
-
-        // 3. prioritás: Hó szintje (Itt használjuk a te dinamikus fv-edet!)
-        return AssetManager.getSnowColor(snow.getSnowLevel());
     }
 
     /**

@@ -30,8 +30,6 @@ public class MainFrame extends JFrame {
     /** A kártyákat (paneleket) összefogó fő konténer. */
     private JPanel mainContainer;
 
-    private Console console;
-
     private StatusPanel statusPanel; // A státusz panel, amely a játék állását mutatja (pénz, körök)
 
     /**
@@ -63,19 +61,18 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainContainer = new JPanel(cardLayout);
 
+        Console mainConsole = new Console(game);
         // 1. Kártya: Főmenü (MenuPanel)
-        menuPanel = new MenuPanel(console);
+        menuPanel = new MenuPanel(mainConsole,this);
         
         // 2. Kártya: Játék nézet (GamePanel + ControlPanel összefogva egy BorderLayoutban)
         JPanel gameContainer = new JPanel(new BorderLayout());
         JPanel rightSideBar = new JPanel();
         rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));
 
-
-        Console console = new Console(game);
         gamePanel = new GamePanel(game);
         statusPanel = new StatusPanel(game); // A státusz panel létrehozása és a modell átadása neki
-        controlPanel = new ControlPanel(game, statusPanel, console); // A vezérlőpanel létrehozása és a modell átadása neki
+        controlPanel = new ControlPanel(game, statusPanel, mainConsole); // A vezérlőpanel létrehozása és a modell átadása neki
 
         rightSideBar.add(statusPanel);
         rightSideBar.add(controlPanel);
@@ -118,6 +115,15 @@ public class MainFrame extends JFrame {
      */
     public void showMenu() {
         cardLayout.show(mainContainer, "MENU");
+    }
+
+    /**
+     * Átvált a főmenüből a játék képernyőre.
+     */
+    public void showGamePanel() {
+        if (cardLayout != null && mainContainer != null) {
+            cardLayout.show(mainContainer, "GAME"); 
+        }
     }
 
     /**

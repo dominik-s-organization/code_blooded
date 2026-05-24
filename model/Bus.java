@@ -79,6 +79,15 @@ public class Bus extends Vehicle {
         Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
 
+    @Override
+    public void interactWithLane(Lane lane) {
+        Snow snow = lane.getSnow();
+        if (snow != null && snow.getSnowLevel() > 0) {
+            snow.setIce(true); // Letapossa a havat masszív jéggé
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Iced by vehicle");
+        }
+    }
+
     /*
     *  A busz mozog egy adott pont felé.
     *  @param point A pont, amely felé a busz mozogni fog.

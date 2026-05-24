@@ -214,6 +214,9 @@ public class Game implements IdGenerator {
     @Override
     public void reset() {
         idCounters.clear();
+        this.players.clear();
+        this.city = new CityMap();
+        this.initTestMap();
     }
 
     public Vehicle getVehicleById(String id) {
@@ -314,20 +317,27 @@ public class Game implements IdGenerator {
             if (nextLane == null) { continue; }
             Point nextPoint = nextLane.getEndPoint();
             if (nextPoint != null) {
+                vehicle.interactWithLane(nextLane);
                 vehicle.move(nextPoint);
             }
 
-             // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
-            if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
+            // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
+            if (vehicle.canSlip && vehicle.getLastLane() != null && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
                 Point newPoint = null;
+                Lane slippedLane = null;
+                
                 for (Lane lane : vehicle.getCurrentPoint().getOutgoingLanes()) {
                     // ez azért kell, hogy hátrafele ne csússzon, kereszteződésnél jobbra balra is csúszhat
                     if (lane.getEndPoint().isReachable(vehicle) && !vehicle.getLastLane().getStartPoint().equals(lane.getEndPoint())) {
                         newPoint = lane.getEndPoint();
+                        slippedLane = lane;
                         break;
                     }
                 }
-                if (newPoint != null) {
+
+                if (newPoint != null && slippedLane != null) {
+                    // Ha megcsúszik, azt az utat is letapossa/letakarítja magalatt
+                    vehicle.interactWithLane(slippedLane);
                     vehicle.move(newPoint);
                 }
             }

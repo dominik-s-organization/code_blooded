@@ -89,7 +89,9 @@ public class ControlPanel extends JPanel {
 
             if(activePlayerIndex >= totalPlayers){
                 activePlayerIndex = 0;
-                game.simulateStep();
+                if(console != null){
+                    console.processCommand("step");
+                }
                 outputField.setText("Round over");
                 statusPanel.setStatusText("Status: New Round started!");
             } else {
@@ -108,7 +110,6 @@ public class ControlPanel extends JPanel {
             String moveCommand = inputField.getText().trim();
             
             // Ha a játékos gépelt valamit (pl. "J2"), az felülírja a kattintást!
-            // Ilyenkor megkeressük ezt az ID-t a térképen lévő pontok között:
             if (!moveCommand.isEmpty()) {
                 targetPoint = null; 
                 for (model.Point p : game.getCityMap().getPoints()) {
@@ -119,22 +120,60 @@ public class ControlPanel extends JPanel {
                 }
             }
 
-            // 3. VÉGREHAJTÁS (Ha sikeresen találtunk egy létező célpontot)
+            // 3. VÉGREHAJTÁS CONSOLE-ON KERESZTÜL (Így bekerül a mentésbe!)
             if (targetPoint != null) {
-                // Most már a megfelelő objektumokat adjuk át a Modellnek!
-                boolean success = game.move(currentPlayer, targetPoint); 
-                
-                if (success) {
-                    // Visszajelzés a felhasználónak
-                    outputField.setText("Célpont rögzítve: " + targetPoint.getId());
-                    statusPanel.setStatusText("Status: Move locked to " + targetPoint.getId() + ". Press STEP!");
-                    
-                    // Kényelmi funkció: kiürítjük a mezőt és levesszük a sárga kijelölést
-                    inputField.setText(""); 
-                    game.setSelectedPoint(null); 
-                    game.notifyObservers();
+                model.Vehicle vehicle = null;
+
+                // Jármű kikeresése a játékos típusa alapján
+                String playerType = currentPlayer.getClass().getSimpleName();
+                if (playerType.equals("SnowCleaner")) {
+                    model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
+                    if (cleaner.getSnowPlowers() != null && !cleaner.getSnowPlowers().isEmpty()) {
+                        vehicle = cleaner.getSnowPlowers().get(0);
+                    }
+                } else if (playerType.equals("BusDriver")) {
+                    model.BusDriver driver = (model.BusDriver) currentPlayer;
+                    vehicle = driver.getBus(); 
+                }
+
+                if (vehicle != null && vehicle.getCurrentPoint() != null) {
+                    // Megkeressük az összekötő sávot a jármű aktuális pontja és a célpont között
+                    model.Lane targetLane = null;
+                    for (model.Lane lane : game.getCityMap().getLanes()) {
+                        if (lane.getStartPoint().equals(vehicle.getCurrentPoint()) && lane.getEndPoint().equals(targetPoint)) {
+                            targetLane = lane;
+                            break;
+                        }
+                    }
+
+                    // Ha megvan a közvetlen sáv, generáljuk a parancsot a Console-nak!
+                    if (targetLane != null) {
+                        if (console == null) {
+                            System.out.println("HIBA: A console változó NULL a ControlPanelben!");
+                            outputField.setText("Hiba: Belső hiba (Console null)");
+                            return;
+                        }
+
+                        // Összerakjuk a parancsot, pl: "move snowplower_1 lane_5"
+                        String command = "move " + vehicle.getId() + " " + targetLane.getId();
+                        System.out.println("GUI generált Move parancs: " + command);
+                        
+                        // Átadjuk a Console-nak: ő elmenti a txt-be ÉS beállítja a menetirányt!
+                        console.processCommand(command); 
+
+                        // Visszajelzés a felhasználónak
+                        outputField.setText("Célpont rögzítve: " + targetPoint.getId());
+                        statusPanel.setStatusText("Status: Move locked to " + targetPoint.getId() + ". Press STEP!");
+                        
+                        // Kényelmi funkciók
+                        inputField.setText(""); 
+                        game.setSelectedPoint(null); 
+                        game.notifyObservers();
+                    } else {
+                        outputField.setText("Hiba: Nincs közvetlen út a járműtől ide!");
+                    }
                 } else {
-                    outputField.setText("Hiba: Nincs közvetlen út a járműtől ide!");
+                    outputField.setText("Hiba: Jármű nem található vagy nincs pozíciója!");
                 }
             } else {
                 // Ha se nem kattintott, se nem gépelt be létező pontot

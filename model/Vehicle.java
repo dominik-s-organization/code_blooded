@@ -116,4 +116,7 @@ public abstract class Vehicle {
      * @param point a célállomás (Point), ahova a jármű lépni próbál
      */
     public abstract void move(Point point);
+
+    // A Vehicle.java osztályban
+    public abstract void interactWithLane(Lane lane);
 }

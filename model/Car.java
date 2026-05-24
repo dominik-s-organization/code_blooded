@@ -56,6 +56,16 @@ public class Car extends Vehicle {
     }
 
     @Override
+    public void interactWithLane(Lane lane) {
+        Snow snow = lane.getSnow();
+        if (snow != null && snow.getSnowLevel() > 0) {
+            snow.setIce(true); // Letapossa a havat masszív jéggé
+            Logger.log("> ACTION: " + lane.getId() + " state_changed Iced by vehicle");
+        }
+    }
+
+
+    @Override
     /*
     * Az autó mozog egy adott pont felé.
     * @param point A pont, amely felé az autó mozogni fog.

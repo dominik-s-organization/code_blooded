@@ -27,13 +27,16 @@ public class MenuPanel extends JPanel {
     /** A játék címét megjelenítő felirat a menü tetején. */
     private JLabel titleLabel;
 
+    private MainFrame mainFrame;
+
     private Console console;
     /**
      * A MenuPanel konstruktora.
      * Inicializálja a gombokat és a címkéket, valamint beállítja a panel GridBagLayout elrendezését és háttérszínét.
      */
-   public MenuPanel(Console console) {
+   public MenuPanel(Console console, MainFrame mainframe) {
         this.console = console;
+        this.mainFrame = mainframe;
         // Háttérszín beállítása feketére
         this.setBackground(Color.BLACK);
         this.setLayout(new GridBagLayout()); // Középre igazítja a teljes menüdobozt az ablakban
@@ -58,14 +61,14 @@ public class MenuPanel extends JPanel {
             int userSelection = fileChooser.showSaveDialog(this);
 
             if(userSelection == JFileChooser.APPROVE_OPTION){
+                // ÚJRA A TELJES UTAT KÉRJÜK (getAbsolutePath)
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                String command = "save" + filePath;
+                String command = "save " + filePath;
                 if(this.console != null){
                     this.console.processCommand(command);
                     System.out.println("Mentés parancs kiadva: " + command);
                 } 
             }
-
         });
 
         loadGameButton.addActionListener(e -> {
@@ -75,13 +78,15 @@ public class MenuPanel extends JPanel {
 
             if(userSelection == JFileChooser.APPROVE_OPTION){
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                String command = "load" + filePath;
+                String command = "load " + filePath;
                 if(this.console != null){
                     this.console.processCommand(command);
                     System.out.println("Betöltés parancs kiadva: " + command);
-                } 
+                }
+                if(this.mainFrame != null){
+                    this.mainFrame.showGamePanel();
+                }
             }
-
         });
 
         // Egységes nagy méret a gomboknak (szélesség: 250 pixel, magasság: 50 pixel)
