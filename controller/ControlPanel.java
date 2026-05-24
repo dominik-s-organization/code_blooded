@@ -154,7 +154,7 @@ public class ControlPanel extends JPanel {
                             return;
                         }
 
-                        // Összerakjuk a parancsot, pl: "move snowplower_1 lane_5"
+                        // Összerakjuk a parancsot
                         String command = "move " + vehicle.getId() + " " + targetLane.getId();
                         System.out.println("GUI generált Move parancs: " + command);
                         

@@ -77,7 +77,7 @@ public class SnowPlower extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
-            currentHead.clean(super.getLastLane(), this);
+            this.interactWithLane(super.getLastLane());
             super.setNextLane(null);
             Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         } 

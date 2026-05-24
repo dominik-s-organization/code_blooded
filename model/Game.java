@@ -307,6 +307,11 @@ public class Game implements IdGenerator {
     public void simulateStep() {
         round++; // A körök számának növelése
 
+        // Havazás
+        for (Lane lane : city.getLanes()) {
+            lane.raiseSnow();
+        }
+
          // Járművek mozgatása
          for (Vehicle vehicle : city.getVehicles()) {
             // Elakadt járművek kezelése
@@ -350,10 +355,6 @@ public class Game implements IdGenerator {
             }
         }
 
-         // Havazás
-        for (Lane lane : city.getLanes()) {
-            lane.raiseSnow();
-        }
         notifyObservers(); // A nézet frissítése a játék új állapotára
     }
 

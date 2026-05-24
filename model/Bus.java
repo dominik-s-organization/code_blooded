@@ -82,9 +82,8 @@ public class Bus extends Vehicle {
     @Override
     public void interactWithLane(Lane lane) {
         Snow snow = lane.getSnow();
-        if (snow != null && snow.getSnowLevel() > 0) {
-            snow.setIce(true); // Letapossa a havat masszív jéggé
-            Logger.log("> ACTION: " + lane.getId() + " state_changed Iced by vehicle");
+        if (snow != null) {
+            snow.passVehicle();
         }
     }
 
