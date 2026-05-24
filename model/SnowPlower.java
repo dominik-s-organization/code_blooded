@@ -61,6 +61,7 @@ public class SnowPlower extends Vehicle {
      */
 @Override
     public void move(Point point) {
+        this.setCurrentPoint(point);    
         if (super.getJammedTime() > 0) {
             return; 
         }
