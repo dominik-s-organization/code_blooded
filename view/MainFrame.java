@@ -11,7 +11,7 @@ import java.awt.*;
  * Ez az osztály kezeli a nézetek (Főmenü és Játéktér) közötti váltást CardLayout segítségével.
  */
 public class MainFrame extends JFrame {
-    
+
     /** A játék üzleti logikáját (Modell) reprezentáló objektum. */
     private Game game;
     

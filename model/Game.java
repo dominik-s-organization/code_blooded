@@ -70,25 +70,6 @@ public class Game implements IdGenerator {
         // ... Ezt a részt a korábbi kódod alapján bent hagyhatod ...
     }
 
-    /**
-     * Segédmetódus a normál 2 sávos (oda-vissza) utak gyorsabb bekötéséhez.
-     * @param map A város térképe.
-     * @param p1 Kiinduló pont.
-     * @param p2 Célpont.
-     * @param baseName A sáv alap neve.
-     */
-    private void createTwoWayRoad(CityMap map, model.Point p1, model.Point p2, String baseName) {
-        Lane oda = new Lane("lane_" + baseName + "_oda");
-        oda.setStartPoint(p1); oda.setEndPoint(p2);
-        p1.addOutgoingLane(oda); p2.addIncomingLane(oda);
-        map.addLane(oda);
-
-        Lane vissza = new Lane("lane_" + baseName + "_vissza");
-        vissza.setStartPoint(p2); vissza.setEndPoint(p1);
-        p2.addOutgoingLane(vissza); p1.addIncomingLane(vissza);
-        map.addLane(vissza);
-    }
-
      /**
       * Hozzáad egy megfigyelőt (pl. a GamePanel-t) a játékhoz.
       * @param observer Az értesítendő objektum.

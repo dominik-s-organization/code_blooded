@@ -102,11 +102,15 @@ public class Bus extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
-            super.getLastLane().getSnow().passVehicle();
+            this.interactWithLane(super.getLastLane());
             super.setNextLane(null);
 
             if (point.equals(endPoint)) {
                 switchRoute();
+                if(owner != null){
+                    owner.completeRoute();
+                    Logger.log("> ACTION: " + owner.getName() + " completed a route! Total: " + owner.getCompletedRoutes());
+                }
             }
             Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         }

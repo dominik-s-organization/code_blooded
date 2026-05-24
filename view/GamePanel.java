@@ -53,9 +53,9 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Információs szöveg kirajzolása a bal felső sarokba (FEHÉRREL)
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(Color.RED);
         g2d.setFont(new Font("Arial", Font.BOLD, 16));
-        g2d.drawString("Várostérkép", 10, 20);
+        g2d.drawString("CityMap", 10, 20);
 
         // Biztonsági ellenőrzés: ha nincs modell, nem rajzolunk mást
         if (game == null || game.getCityMap() == null) return;
