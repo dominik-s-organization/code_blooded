@@ -1,7 +1,6 @@
 package view;
 
 import model.Game;
-import model.Player;
 import model.SnowCleaner;
 import controller.GameObserver;
 import javax.swing.*;

@@ -159,6 +159,11 @@ public abstract class Point {
      * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
      */
     public boolean isReachable(Vehicle vehicle) {
+        Lane nextLane = vehicle.getNextLane();
+        if (nextLane == null) {
+            return false; // Ha nincs következő sáv, nem mehet sehova!
+        }
+        
         if (vehicle.getCurrentPoint().getId().contains("junction")) {
             if (vehicle.getLastLane() == null) {
                 return vehicle.getNextLane().getStartPoint().equals(vehicle.getCurrentPoint()) && !vehicle.getNextLane().isJammed() && (vehicle.getNextLane().getSnow().getSnowLevel() < 15 || !vehicle.canSlip);

@@ -54,12 +54,20 @@ public class SnowPlower extends Vehicle {
         Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
 
+    @Override
+    public void interactWithLane(Lane lane) {
+        if (this.currentHead != null) {
+            // A currentHead meghívja a te általad írt clean metódusokat!
+            this.currentHead.clean(lane, this);
+        }
+    }
+
     /**
      * Lépteti a hókotrót a paraméterként kapott célállomás (Point) felé.
      *
      * @param point a cél csomópont, amely felé a hókotró haladni próbál
      */
-@Override
+    @Override
     public void move(Point point) {
         this.setCurrentPoint(point);    
         if (super.getJammedTime() > 0) {
@@ -70,7 +78,7 @@ public class SnowPlower extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
-            currentHead.clean(super.getLastLane(), this);
+            this.interactWithLane(super.getLastLane());
             super.setNextLane(null);
             Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         } 

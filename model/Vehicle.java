@@ -161,12 +161,8 @@ public abstract class Vehicle {
      * Frissíti a csomópontot és a sávot.
      * @param point a célállomás (Point), ahova a jármű lépni próbál
      */
-    public void move(Point point) {
-        // Frissítjük a legutóbbi sávot a következő sáv alapján
-        this.lastLane = this.nextLane;
-        // Frissítjük a pozíciót
-        this.currentPoint = point;
-        // Töröljük a következő sávot, mert a lépés megtörtént
-        this.nextLane = null;
-    }
+    public abstract void move(Point point);
+
+    // A Vehicle.java osztályban
+    public abstract void interactWithLane(Lane lane);
 }

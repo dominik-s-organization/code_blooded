@@ -9,6 +9,7 @@ import model.Game;
 import model.Lane;
 import model.Vehicle;
 import model.Point;
+import model.Snow;
 import controller.GameObserver;
 
 // A GamePanel osztály felelős a játék grafikus megjelenítéséért.
@@ -53,9 +54,9 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Információs szöveg kirajzolása a bal felső sarokba (FEHÉRREL)
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(Color.RED);
         g2d.setFont(new Font("Arial", Font.BOLD, 16));
-        g2d.drawString("Várostérkép", 10, 20);
+        g2d.drawString("CityMap", 10, 20);
 
         // Biztonsági ellenőrzés: ha nincs modell, nem rajzolunk mást
         if (game == null || game.getCityMap() == null) return;
@@ -118,28 +119,47 @@ public class GamePanel extends JPanel implements GameObserver {
     }
 
     /**
-     * Eldönti, hogy milyen színű legyen a sáv az aktuális hó-, jég- és kavicsviszonyok alapján.
+     * Meghatározza egy sáv színét a rajta lévő hó és jég állapota alapján.
+     * @param lane A vizsgált sáv
+     * @return A sáv megjelenítési színe
      */
-    private Color determineLaneColor(Lane lane) {
-        // Ha valamiért nincs Snow objektum, visszaadjuk a tiszta aszfalt színét az AssetManager-ből
-        if (lane.getSnow() == null) {
-            return AssetManager.getSnowColor(0); 
+private Color determineLaneColor(Lane lane) {
+        if (lane == null || lane.getSnow() == null) {
+            return Color.DARK_GRAY; // Biztonsági alapértelmezett szín
         }
 
-        model.Snow snow = lane.getSnow();
+        Snow snow = lane.getSnow();
 
-        // 1. prioritás: Jég (A képeden látható kék csík)
-        if (snow.isIce() && !snow.isBrokenIce()) {
-            return new Color(135, 206, 235); // Világoskék (Sky Blue)
-        }
-
-        // 2. prioritás: Kavics (A képeden látható pöttyös/barna csík)
+        // 1. Prioritás: Zúzottkő (kavics)
         if (snow.getCrushedStoneLevel() > 0) {
-            return new Color(139, 69, 19); // Barna (Saddle Brown)
+            return new Color(139, 115, 85); // Barna
         }
-
-        // 3. prioritás: Hó szintje (Itt használjuk a te dinamikus fv-edet!)
-        return AssetManager.getSnowColor(snow.getSnowLevel());
+        // 2. Prioritás: Jégpáncél
+        else if (snow.isIce()) {
+            return Color.CYAN; // Világoskék
+        } 
+        // 3. Prioritás: Jégtörmelék
+        else if (snow.isBrokenIce()) {
+            return new Color(192, 192, 192); // Klasszikus szürke (Silver)
+        } 
+        // 4. Prioritás: HÓ SZÍNÁTMENET
+        else if (snow.getSnowLevel() > 0) {
+            int level = snow.getSnowLevel();
+            
+            if (level >= 10) {
+                return Color.WHITE; // Vastag hó: Vakítóan fehér
+            } 
+            else if (level >= 5) {
+                return new Color(220, 220, 220); // Közepes hó: Törtfehér
+            } 
+            else {
+                return new Color(160, 160, 160); // Vékony hó: Szürkésfehér (átüt az aszfalt)
+            }
+        } 
+        // 5. Prioritás: Tiszta (0-s szint)
+        else {
+            return Color.DARK_GRAY; // Tiszta aszfalt
+        }
     }
 
     /**

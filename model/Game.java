@@ -70,25 +70,6 @@ public class Game implements IdGenerator {
         // ... Ezt a részt a korábbi kódod alapján bent hagyhatod ...
     }
 
-    /**
-     * Segédmetódus a normál 2 sávos (oda-vissza) utak gyorsabb bekötéséhez.
-     * @param map A város térképe.
-     * @param p1 Kiinduló pont.
-     * @param p2 Célpont.
-     * @param baseName A sáv alap neve.
-     */
-    private void createTwoWayRoad(CityMap map, model.Point p1, model.Point p2, String baseName) {
-        Lane oda = new Lane("lane_" + baseName + "_oda");
-        oda.setStartPoint(p1); oda.setEndPoint(p2);
-        p1.addOutgoingLane(oda); p2.addIncomingLane(oda);
-        map.addLane(oda);
-
-        Lane vissza = new Lane("lane_" + baseName + "_vissza");
-        vissza.setStartPoint(p2); vissza.setEndPoint(p1);
-        p2.addOutgoingLane(vissza); p1.addIncomingLane(vissza);
-        map.addLane(vissza);
-    }
-
      /**
       * Hozzáad egy megfigyelőt (pl. a GamePanel-t) a játékhoz.
       * @param observer Az értesítendő objektum.
@@ -146,6 +127,9 @@ public class Game implements IdGenerator {
     @Override
     public void reset() {
         idCounters.clear();
+        this.players.clear();
+        this.city = new CityMap();
+        this.initTestMap();
     }
 
     /**
@@ -220,41 +204,32 @@ public class Game implements IdGenerator {
     /** A játék betöltése fájlból. @param filename Fájlnév. */
     public void loadGame(String filename) { Logger.log("-> game.loadGame(" + filename + ")"); }
 
-    /**
-     * A játék egy lépésének szimulálása.
-     * Frissíti a járművek helyzetét, csökkenti a dugó idejét, és hóesést generál.
-     */
+    // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
-        round++; 
+        round++; // A körök számának növelése
 
-        for (Vehicle vehicle : city.getVehicles()) {
+        // Havazás
+        for (Lane lane : city.getLanes()) {
+            lane.raiseSnow();
+        }
+         // Járművek mozgatása
+         for (Vehicle vehicle : city.getVehicles()) {
+            // Elakadt járművek kezelése
             vehicle.decreaseJammedTime();
-            if (vehicle.getJammedTime() > 0) continue;
 
+            // mozgatás
             Lane nextLane = vehicle.getNextLane();
-            
-            // --- DIAGNOSZTIKAI KIÍRÁS ---
-            if (nextLane != null) {
-                System.out.println("DEBUG: Jármű " + vehicle.getId() + " következő útja: " + nextLane.getId());
-            } else {
-                System.out.println("DEBUG: Jármű " + vehicle.getId() + " nem kapott új célpontot.");
-            }
-            // ---------------------------
-
-            if (nextLane != null) { 
-                Point nextPoint = nextLane.getEndPoint();
-                if (nextPoint != null) {
-                    vehicle.move(nextPoint);
-                    vehicle.setLastLane(nextLane);
-                    vehicle.setNextLane(null); // Ne ragadjon be
-                }
+            if (nextLane == null) { continue; }
+            Point nextPoint = nextLane.getEndPoint();
+            if (nextPoint != null) {
+                vehicle.move(nextPoint);
             }
 
-            // Csúszás logika, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni
-            // JAVÍTÁS: getLastLane() != null vizsgálat beépítése a leállások elkerülésére
-            if (vehicle.canSlip && vehicle.getLastLane() != null && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
+             // csúszás, ha jeges volt az előző út, nincs rajta zúzottkő és tud csúszni a jármű 
+            if (vehicle.canSlip && vehicle.getLastLane().getSnow().isIce() && vehicle.getLastLane().getSnow().getCrushedStoneLevel() == 0) {
                 Point newPoint = null;
                 for (Lane lane : vehicle.getCurrentPoint().getOutgoingLanes()) {
+                    // ez azért kell, hogy hátrafele ne csússzon, kereszteződésnél jobbra balra is csúszhat
                     if (lane.getEndPoint().isReachable(vehicle) && !vehicle.getLastLane().getStartPoint().equals(lane.getEndPoint())) {
                         newPoint = lane.getEndPoint();
                         break;
@@ -266,19 +241,14 @@ public class Game implements IdGenerator {
             }
         }
 
-        // Karambolok keresése
-        if(city.getVehicles().size() > 1) {
+         // Karambolok keresése
+         if(city.getVehicles().size() > 1) {
             for (Point point : city.getPoints()) {
                 point.lookForJams();
             }
         }
 
-        // Havazás
-        for (Lane lane : city.getLanes()) {
-            lane.raiseSnow();
-        }
-        
-        notifyObservers(); // A nézet frissítése
+        notifyObservers(); // A nézet frissítése a játék új állapotára
     }
 
     /**

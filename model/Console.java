@@ -84,13 +84,15 @@ public class Console {
             }
                             
             case "load": {
-                // Konfiguráció betöltése fájlból: <fájlnév.txt>[cite: 126, 128].
                 if (args.length < 2) {
                     Logger.log("> ERROR: Missing filename.");
                 } else {
-                    loadGame(args[1]);
+                    // Kivágjuk a "load " utáni részt, így a szóközös útvonalak is jók lesznek
+                    String fullPath = line.substring(5).trim();
+                    
+                    // FIGYELEM: Sima loadGame-et hívunk, NEM game.loadGame-et!
+                    this.loadGame(fullPath); 
                     Logger.log("> OK");
-                    // A load-ot magát NEM mentjük a history-ba
                 }
                 break;
             }
@@ -201,6 +203,7 @@ public class Console {
                     Logger.log("> ERROR: Missing arguments for move command. Usage: move <vehicle_id> <lane_id>");
                     break;
                 }
+                commandHistory.add(line);
                 Vehicle v = game.getVehicleById(args[1]);
                 Lane l = game.getLaneById(args[2]);
                 if (v != null && l != null) {
@@ -310,13 +313,15 @@ public class Console {
                 break;
             }
                             
-            case "save": {
-                // Aktuális állapot kimentése: <fájlnév.txt>[cite: 157, 162].
+        case "save": {
                 if (args.length < 2) {
                     Logger.log("> ERROR: Missing filename.");
                 } else {
-                    saveGame(args[1]);
-                    // A save-et sem mentjük, mert betöltéskor nem akarunk újra menteni
+                    // Kivágjuk a "save " utáni részt, így a szóközös útvonalak is jók lesznek
+                    String fullPath = line.substring(5).trim();
+                    
+                    // FIGYELEM: Sima saveGame-et hívunk, NEM game.saveGame-et!
+                    this.saveGame(fullPath); 
                 }
                 break;
             }
@@ -750,6 +755,9 @@ public class Console {
                 processCommand(line);
             }
             Logger.log("> Game loaded from " + filename);
+            if(this.game != null){
+                this.game.notifyObservers();
+            }
         } catch (IOException e) {
             Logger.log("> ERROR: Error reading file: " + e.getMessage());
         }

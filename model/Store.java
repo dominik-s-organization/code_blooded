@@ -14,13 +14,13 @@ public class Store {
      */
     public enum ItemType {
         SALT(1),
-        BIO_KEROSENE(3),
         CRUSHED_STONE(2),
+        BIO_KEROSENE(3),
         THROWER_HEAD(180),
         ICE_BREAKER_HEAD(200),
+        CRUSHED_STONE_HEAD(300),
         SALTER_HEAD(350),
         DRAGON_HEAD(400),
-        CRUSHED_STONE_HEAD(300),
         SNOW_PLOWER(1000);
 
         private final int price;

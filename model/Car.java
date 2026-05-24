@@ -56,6 +56,14 @@ public class Car extends Vehicle {
     }
 
     @Override
+    public void interactWithLane(Lane lane) {
+        Snow snow = lane.getSnow();
+        if (snow != null) {
+            snow.passVehicle();
+        }
+    }
+
+    @Override
     /*
     * Az autó mozog egy adott pont felé.
     * @param point A pont, amely felé az autó mozogni fog.
@@ -70,7 +78,7 @@ public class Car extends Vehicle {
             super.setCurrentPoint(point);
             super.getCurrentPoint().addVehicle(this);
             super.setLastLane(nextLane);
-            super.getLastLane().getSnow().passVehicle();
+            this.interactWithLane(super.getLastLane());
             super.setNextLane(null);
             Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         }

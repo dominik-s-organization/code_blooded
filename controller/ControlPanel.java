@@ -6,7 +6,6 @@ import model.Console;
 import view.StatusPanel;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 /**
  * A ControlPanel a tiszta CONTROLLER réteg.
@@ -203,7 +202,9 @@ public class ControlPanel extends JPanel {
 
             if(activePlayerIndex >= totalPlayers){
                 activePlayerIndex = 0;
-                game.simulateStep();
+                if(console != null){
+                    console.processCommand("step");
+                }
                 outputField.setText("Round over");
             } else {
                 outputField.setText("Next player turn!");
@@ -213,12 +214,15 @@ public class ControlPanel extends JPanel {
         });
 
         moveButton.addActionListener(e -> {
-            if (game.getPlayers().isEmpty()) return;
-            
+            // 1. Lekérjük a soron lévő játékost
             Object currentPlayer = game.getPlayers().get(activePlayerIndex); 
-            model.Point targetPoint = game.getSelectedPoint(); 
+            
+            // 2. CÉLPONT MEGHATÁROZÁSA (Szöveg vagy Kattintás)
+            model.Point targetPoint = game.getSelectedPoint(); // Alapértelmezés: a kattintott pont
             String moveCommand = inputField.getText().trim();
             
+            // Ha a játékos gépelt valamit (pl. "J2"), az felülírja a kattintást!
+            // Ilyenkor megkeressük ezt az ID-t a térképen lévő pontok között:
             if (!moveCommand.isEmpty()) {
                 targetPoint = null; 
                 for (model.Point p : game.getCityMap().getPoints()) {
@@ -229,11 +233,17 @@ public class ControlPanel extends JPanel {
                 }
             }
 
+            // 3. VÉGREHAJTÁS (Ha sikeresen találtunk egy létező célpontot)
             if (targetPoint != null) {
+                // Most már a megfelelő objektumokat adjuk át a Modellnek!
                 boolean success = game.move(currentPlayer, targetPoint); 
                 
                 if (success) {
+                    // Visszajelzés a felhasználónak
                     outputField.setText("Célpont rögzítve: " + targetPoint.getId());
+                    statusPanel.setStatusText("Status: Move locked to " + targetPoint.getId() + ". Press STEP!");
+                    
+                    // Kényelmi funkció: kiürítjük a mezőt és levesszük a sárga kijelölést
                     inputField.setText(""); 
                     game.setSelectedPoint(null); 
                     game.notifyObservers();
@@ -241,7 +251,9 @@ public class ControlPanel extends JPanel {
                     outputField.setText("Hiba: Nincs közvetlen út a járműtől ide!");
                 }
             } else {
-                outputField.setText("Hiba: Válassz egy pontot vagy írj be ID-t!");
+                // Ha se nem kattintott, se nem gépelt be létező pontot
+                outputField.setText("Hiba: Válassz egy pontot vagy írj be egy létező ID-t!");
+                statusPanel.setStatusText("Status: Waiting for move input");
             }
         });
 
@@ -295,9 +307,9 @@ public class ControlPanel extends JPanel {
         buyButton.addActionListener(e -> {
             try {
                 String[] availableItems = {
-                    "CrushedStoneHead (Ár: 60)", "DragonHead (Ár: 200)", "IceBreakerHead (Ár: 150)", 
-                    "SalterHead (Ár: 75)", "SweepingHead (Ár: 50)", "ThrowerHead (Ár: 120)",
-                    "Salt (Ár: 5/egység)", "BioKerosene (Ár: 10/egység)", "SnowPlower (Ár: 500)", "CrushedStone (Ár: 2/egység)"
+                    "Salt (Ár: 1/egység)", "CrushedStone (Ár: 2/egység)", "BioKerosene (Ár: 3/egység)",
+                    "ThrowerHead (Ár: 180)", "IceBreakerHead (Ár: 200)", "CrushedStoneHead (Ár: 300)", 
+                    "SalterHead (Ár: 350)", "DragonHead (Ár: 400)", "SnowPlower (Ár: 1000)"
                 };
                 
                 String selectedItemFull = (String) JOptionPane.showInputDialog(
