@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A tesztel�si �s norm�l kimeneteket kezel� k�zponti napl�z� oszt�ly.
+ * A tesztelési és normál kimeneteket kezelő központi naplózó osztály.
  */
 public class Logger {
     /** 
-     * Tesztel�i m�d kapcsol�ja. Ha true, ki�rja a konzolra is az �zeneteket.
-     * Alap�rtelmezetten kikapcsolva tartjuk.
+     * Tesztelői mód kapcsolója. Ha true, kiírja a konzolra is az üzeneteket.
+     * Alapértelmezetten kikapcsolva tartjuk.
      */
     public static boolean testerMode = false;
     
-    /** A kimenetek mem�ri�ban t�rolt list�ja a f�jlba ment�shez. */
+    /** A kimenetek memóriában tárolt listája a fájlba mentéshez. */
     public static List<String> outputHistory = new ArrayList<>();
 
     /**
-     * K�zponti ki�r� met�dus.
-     * Mindig elt�rolja az �zenetet a list�ban, de csak tesztel�i m�dban �rja ki a konzolra.
-     * @param message a ki�rand� �zenet
+     * Központi kiíró metódus.
+     * Mindig eltárolja az üzenetet a listában, de csak tesztelői módban írja ki a konzolra.
+     * @param message a kiírandó üzenet
      */
     public static void log(String message) {
         outputHistory.add(message);
@@ -29,15 +29,15 @@ public class Logger {
     }
     
     /**
-     * T�rli az eddigi napl�zott kimeneteket (hasznos lehet a 'load' parancsn�l).
+     * Törli az eddigi naplózott kimeneteket.
      */
     public static void clear() {
         outputHistory.clear();
     }
 
     /**
-     * Kimenti a napl�zott kimeneteket a megadott f�jlba (pl. tesztel�shez).
-     * @param filename a l�trehozand� txt f�jl neve
+     * Kimenti a naplózott kimeneteket a megadott fájlba.
+     * @param filename a létrehozandó txt fájl neve
      */
     public static void save(String filename) {
         try (java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.FileWriter(filename))) {

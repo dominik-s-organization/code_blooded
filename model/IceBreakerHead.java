@@ -1,7 +1,7 @@
 package model;
 
 /**
- * A IceBreakerHead osztály egy jégtörőfejet reprezentál a játékban.
+ * Az IceBreakerHead osztály egy jégtörőfejet reprezentál a játékban.
  */
 public class IceBreakerHead extends Head {
     //Konstruktor

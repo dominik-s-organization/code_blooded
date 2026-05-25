@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements GameObserver {
      */
     public GamePanel(Game game) {
         this.game = game;
+        game.addObserver(this);
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e){
                 int mouseX = e.getX();
@@ -123,7 +124,7 @@ public class GamePanel extends JPanel implements GameObserver {
      * @param lane A vizsgált sáv
      * @return A sáv megjelenítési színe
      */
-private Color determineLaneColor(Lane lane) {
+    private Color determineLaneColor(Lane lane) {
         if (lane == null || lane.getSnow() == null) {
             return Color.DARK_GRAY; // Biztonsági alapértelmezett szín
         }
