@@ -179,8 +179,8 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
 
-    private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
-        Point p = vehicle.getCurrentPoint();
+private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
+        model.Point p = vehicle.getCurrentPoint();
         if (p == null) return;
 
         int x = p.getX();
@@ -206,6 +206,33 @@ public class GamePanel extends JPanel implements GameObserver {
             g2d.fillRect(x - 8, y - 8, 16, 16);
             g2d.setColor(Color.WHITE);
             g2d.drawString("!", x - 2, y + 4);
+        }
+
+        // AZONOSÍTÓ KIÍRÁSA A JÁRMŰ ALÁ
+        String id = vehicle.getId();
+        if (id != null) {
+            Font originalFont = g2d.getFont();
+            g2d.setFont(new Font("Arial", Font.BOLD, 11)); // Kicsi, de jól olvasható betű
+            
+            // A szöveg Y koordinátája: a kép alja (y+16) alá tesszük egy kicsivel
+            int textY = y + 28; 
+            
+            // Hogy kb. középen legyen a szöveg (egy 5-6 karakteres ID esetén ez pont jó)
+            int textX = x - 18; 
+            
+            // 1. Fehér kontúr rajzolása, hogy az utakon is tökéletesen olvasható legyen
+            g2d.setColor(Color.WHITE);
+            g2d.drawString(id, textX + 1, textY + 1);
+            g2d.drawString(id, textX - 1, textY - 1);
+            g2d.drawString(id, textX + 1, textY - 1);
+            g2d.drawString(id, textX - 1, textY + 1);
+            
+            // 2. A fekete azonosító szöveg
+            g2d.setColor(Color.RED);
+            g2d.drawString(id, textX, textY);
+            
+            // Visszaállítjuk az eredeti betűtípust
+            g2d.setFont(originalFont);
         }
     }
 

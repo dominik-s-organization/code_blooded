@@ -94,6 +94,26 @@ public class Game implements IdGenerator {
         return this.players.get(this.activePlayerIndex);
     }
 
+     /**
+      * Előlépteti a játékot a következő játékosra, és ha mindenki lépett, új kört indít.
+      */
+    public boolean nextPlayerTurn() {
+        if (players == null || players.isEmpty()) return false;
+        
+        activePlayerIndex++; // Ugrik a következő játékosra
+        
+        // Ha mindenki lépett, visszaugrik az elsőre, és jelezzük (TRUE), hogy kör vége!
+        if (activePlayerIndex >= players.size()) {
+            activePlayerIndex = 0;
+            notifyObservers();
+            return true; 
+        }
+        
+        notifyObservers();
+        return false; // Még van hátra játékos a körben
+    }
+
+
     /** @return A jelenlegi körszám. */
     public int getCurrentRound() { return currentRound; }
 
@@ -183,27 +203,6 @@ public class Game implements IdGenerator {
             this.players = new ArrayList<>();
         }
         this.players.add(player);
-    }
-
-     /**
-      * Előlépteti a játékot a következő játékosra, és ha mindenki lépett, új kört indít.
-      */
-    public void nextPlayerTurn() {
-        if (this.players == null || this.players.isEmpty()) return;
-        
-        // Növeljük az indexet (Jön a következő!)
-        this.activePlayerIndex++;
-        
-        // Ha mindenki lépett, visszaugrunk a legelsőre, és új kör indul
-        if (this.activePlayerIndex >= this.players.size()) {
-            this.activePlayerIndex = 0;
-            this.currentRound++; 
-        }
-        
-        System.out.println("=> KOR VALTAS! Uj aktiv jatekos index: " + this.activePlayerIndex);
-        
-        // Szólunk a GUI-nak (a StatusPanel-nek), hogy frissítsen!
-        notifyObservers(); 
     }
 
     /**

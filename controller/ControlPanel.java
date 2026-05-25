@@ -193,15 +193,18 @@ public class ControlPanel extends JPanel {
                 return;
             }
             
-            // 1. Lefuttatjuk a fizikát és a kör végi eseményeket a Modellben
-            if(console != null){
-                console.processCommand("step");
+            // 1. Szólunk a Modellnek, hogy váltson játékost, és megkérdezzük: Vége a körnek?
+            boolean isRoundOver = game.nextPlayerTurn(); 
+            
+            // 2. CSAK AKKOR futtatjuk a szimulációt (csak akkor mozognak az autók), ha mindenki lépett!
+            if (isRoundOver) {
+                if(console != null){
+                    console.processCommand("step");
+                }
+                outputField.setText("Kör vége! A világ szimulálva, új kör indul.");
+            } else {
+                outputField.setText("Lépés rögzítve! Jön a következő játékos.");
             }
-            
-            // 2. Szólunk a Modellnek, hogy váltson játékost!
-            game.nextPlayerTurn(); 
-            
-            outputField.setText("Lépés megtörtént! Jön a következő játékos.");
         });
 
         moveButton.addActionListener(e -> {
