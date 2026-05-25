@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Absztrakt ősosztály a felhasználókat (játékosokat) reprezentáló entitások számára.
  * Közös felületet biztosít a játékosok döntéshozatalához a körök során, 
  * illetve az általuk irányított járművek eléréséhez.
  */
-public abstract class Player {
+public abstract class Player implements Serializable {
     
     /** A játékos azonosítója vagy megjelenítendő neve. */
     private String name;

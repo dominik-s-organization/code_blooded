@@ -198,11 +198,43 @@ public class Game implements IdGenerator {
     /** A játék leállítása. */
     public void endGame() { Logger.log("-> game.endGame()"); }
 
-    /** A játék mentése fájlba. @param filename Fájlnév. */
-    public void saveGame(String filename) { Logger.log("-> game.saveGame(" + filename + ")"); }
+    /** A játék mentése bináris fájlba. */
+    public void saveGame(String filename) {
+        try (java.io.ObjectOutputStream oos = new java.io.ObjectOutputStream(new java.io.FileOutputStream(filename))) {
+            // Lementjük a játék főbb állapotait
+            oos.writeObject(this.city);
+            oos.writeObject(this.players);
+            oos.writeObject(this.store);
+            oos.writeObject(this.idCounters);
+            Logger.log("> Game successfully saved to " + filename);
+        } catch (Exception e) {
+            Logger.log("> ERROR: Could not save the game. " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
-    /** A játék betöltése fájlból. @param filename Fájlnév. */
-    public void loadGame(String filename) { Logger.log("-> game.loadGame(" + filename + ")"); }
+    /** A játék betöltése bináris fájlból. */
+    public void loadGame(String filename) {
+        java.io.File file = new java.io.File(filename);
+        if (!file.exists()) {
+            Logger.log("> ERROR: File not found: " + filename);
+            return;
+        }
+
+        try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream(filename))) {
+            // Visszaolvassuk és felülírjuk a jelenlegi állapotot
+            this.city = (model.CityMap) ois.readObject();
+            this.players = (java.util.List<model.Player>) ois.readObject();
+            
+            // Szólunk a GUI-nak, hogy teljesen újrarajzolhat mindent az új adatokkal!
+            this.notifyObservers();
+            
+            Logger.log("> Game successfully loaded from " + filename);
+        } catch (Exception e) {
+            Logger.log("> ERROR: Could not load the game. " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {

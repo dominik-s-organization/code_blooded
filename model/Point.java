@@ -2,12 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * Absztrakt ősosztály az úthálózat topológiai pontjainak (pl. csomópontok, kereszteződésekre) reprezentálására.
  * Felelőssége a becsatlakozó és kimenő sávok, valamint az adott ponton tartózkodó járművek nyilvántartása.
  */
-public abstract class Point {
+public abstract class Point implements Serializable {
     /**
      * A pont egyedi azonosítója.
      */

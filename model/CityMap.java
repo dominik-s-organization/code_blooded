@@ -2,12 +2,13 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * A CityMap osztály egy város térképét reprezentálja,
  * amely tartalmazza a pontokat, útvonalakat és járműveket.
  */
-public class CityMap {
+public class CityMap implements Serializable {
     // A város térképén található pontok listája.
     private List<Point> points;
     // A város térképén található sávok listája, amelyek az útvonalakat reprezentálják.
