@@ -1,7 +1,6 @@
 package view;
 
 import model.Game;
-import model.SnowCleaner;
 import controller.GameObserver;
 import javax.swing.*;
 import java.awt.*;
@@ -12,8 +11,8 @@ import java.awt.*;
  */
 public class StatusPanel extends JPanel implements GameObserver {
     private Game game;
-    private JLabel player1Label;
-    private JLabel player2Label;
+    private JLabel activePlayerLabel;
+    private JLabel roundLabel;
     private JLabel statusLabel;
 
     public StatusPanel(Game game) {
@@ -24,20 +23,20 @@ public class StatusPanel extends JPanel implements GameObserver {
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createEmptyBorder(15, 15, 5, 15));
 
-        player1Label = new JLabel("Player1  1500$");
-        player1Label.setFont(new Font("Arial", Font.BOLD, 22));
-        player1Label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        activePlayerLabel = new JLabel("Active Player: Player1");
+        activePlayerLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        activePlayerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        player2Label = new JLabel("0 rounds");
-        player2Label.setFont(new Font("Arial", Font.BOLD, 22));
-        player2Label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        roundLabel = new JLabel("0 rounds");
+        roundLabel.setFont(new Font("Arial", Font.BOLD, 22));
+        roundLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         statusLabel = new JLabel("Status: Ready");
         statusLabel.setFont(new Font("Arial", Font.ITALIC, 12));
         statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        this.add(player1Label);
-        this.add(player2Label);
+        this.add(activePlayerLabel);
+        this.add(roundLabel);
         this.add(Box.createRigidArea(new Dimension(0, 5)));
         this.add(statusLabel);
 
@@ -53,12 +52,13 @@ public class StatusPanel extends JPanel implements GameObserver {
         if (game == null) return;
 
         // Körök frissítése
-        player2Label.setText(game.getCurrentRound() + " rounds");
+        roundLabel.setText(game.getCurrentRound() + " rounds");
+        model.Player activePlayer = game.getCurrentPlayer();
 
-        // Pénz frissítése (Dinamikusan kiolvasva az első játékos nevét és vagyonát)
-        if (game.getPlayers() != null && !game.getPlayers().isEmpty()) {
-            SnowCleaner p1 = (SnowCleaner) game.getPlayers().get(0);
-            player1Label.setText(p1.getName() + "  " + p1.getMoney() + "$");
+        // Pénz és név frissítése
+        if (activePlayer != null) {
+            activePlayerLabel.setText(activePlayer.getMainInfo());
+            statusLabel.setText(activePlayer.getSubStatusInfo());
         }
     }
 }

@@ -47,9 +47,6 @@ public class ControlPanel extends JPanel {
     /** Szöveges kimeneti mező a rendszerüzenetek megjelenítéséhez. */
     private JTextField outputField;
 
-    /** Az éppen soron lévő (aktív) játékos indexe a játékosok listájában. */
-    private int activePlayerIndex = 0;
-
     /**
      * Konstruktor, amely inicializálja a vezérlőpanelt, beállítja a gombokat és a mezőket, 
      * valamint összeköti a modellt a nézettel.
@@ -183,7 +180,6 @@ public class ControlPanel extends JPanel {
                     outputField.setText("Új játékos: " + newName + " (" + selectedRole + ")");
                     
                     if (game.getPlayers().size() == 1) {
-                        activePlayerIndex = 0;
                         refreshCurrentPlayerDisplay();
                     }
                     game.notifyObservers();
@@ -197,25 +193,21 @@ public class ControlPanel extends JPanel {
                 return;
             }
             
-            int totalPlayers = game.getPlayers().size();
-            activePlayerIndex++;
-
-            if(activePlayerIndex >= totalPlayers){
-                activePlayerIndex = 0;
-                if(console != null){
-                    console.processCommand("step");
-                }
-                outputField.setText("Round over");
-            } else {
-                outputField.setText("Next player turn!");
+            // 1. Lefuttatjuk a fizikát és a kör végi eseményeket a Modellben
+            if(console != null){
+                console.processCommand("step");
             }
-            refreshCurrentPlayerDisplay();
-            game.notifyObservers();
+            
+            // 2. Szólunk a Modellnek, hogy váltson játékost!
+            game.nextPlayerTurn(); 
+            
+            outputField.setText("Lépés megtörtént! Jön a következő játékos.");
         });
 
         moveButton.addActionListener(e -> {
             // 1. Lekérjük a soron lévő játékost
-            Object currentPlayer = game.getPlayers().get(activePlayerIndex); 
+            model.Player currentPlayer = game.getCurrentPlayer();
+            if (currentPlayer == null) return;
             
             // 2. CÉLPONT MEGHATÁROZÁSA (Szöveg vagy Kattintás)
             model.Point targetPoint = game.getSelectedPoint(); // Alapértelmezés: a kattintott pont
@@ -264,7 +256,8 @@ public class ControlPanel extends JPanel {
                     return;
                 }
                 
-                model.Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+                model.Player currentPlayer = game.getCurrentPlayer();
+                if (currentPlayer == null) return;
                 
                 if (currentPlayer instanceof model.SnowCleaner) {
                     model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
@@ -330,7 +323,8 @@ public class ControlPanel extends JPanel {
                     }
                     
                     String selectedItem = selectedItemFull.split(" ")[0];
-                    model.Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+                    model.Player currentPlayer = game.getCurrentPlayer();
+                    if (currentPlayer == null) return;
                     String playerName = currentPlayer.getName();
                     
                     if (console == null) return;
@@ -375,7 +369,8 @@ public class ControlPanel extends JPanel {
      */
     private void refreshCurrentPlayerDisplay(){
         if(game.getPlayers() != null && !game.getPlayers().isEmpty()){
-            Player currentPlayer = game.getPlayers().get(activePlayerIndex);
+            model.Player currentPlayer = game.getCurrentPlayer();
+            if (currentPlayer == null) return;
             statusPanel.setStatusText("Aktuális játékos: " + currentPlayer.getName());
         }
     }

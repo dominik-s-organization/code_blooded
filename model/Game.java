@@ -30,12 +30,11 @@ public class Game implements IdGenerator {
     
     /** A grafikus felületen éppen kiválasztott (kattintott) pont. */
     private Point selectedPoint; 
-    
-    /** Az aktuális játékos, aki éppen soron van. */
-    private Player currentPlayer; 
+
+    private int activePlayerIndex = 0; // Az aktuális játékos indexe a players listában
     
     /** A játék aktuális köre. */
-    private int round; 
+    private int currentRound; 
     
     /** A játékban található összes sáv (útvonal) listája. */
     public List<Lane> lanes; 
@@ -59,15 +58,7 @@ public class Game implements IdGenerator {
         points = new ArrayList<>();
         vehicles = new ArrayList<>();
         selectedPoint = null;
-        currentPlayer = null;
-        round = 0;
-    }
-
-    /**
-     * Létrehoz egy egyszerű, statikus teszttérképet (A MapGenerator mellett ritkábban használt).
-     */
-    public void initTestMap() {
-        // ... Ezt a részt a korábbi kódod alapján bent hagyhatod ...
+        currentRound = 0;
     }
 
      /**
@@ -88,10 +79,23 @@ public class Game implements IdGenerator {
     }
 
     /** @return Az éppen soron lévő játékos. */
-    public Player getCurrentPlayer() { return currentPlayer; }
+    public Player getCurrentPlayer() {
+        // Ha a lista üres, vagy null, logikusan nincs aktív játékos
+        if (this.players == null || this.players.isEmpty()) {
+            return null; 
+        }
+        
+        // Biztonsági védelem: ha az index valamiért túlcsordulna, visszatekerjük 0-ra
+        if (this.activePlayerIndex >= this.players.size()) {
+            this.activePlayerIndex = 0;
+        }
+        
+        // Visszaadjuk a soron lévő játékost
+        return this.players.get(this.activePlayerIndex);
+    }
 
     /** @return A jelenlegi körszám. */
-    public int getCurrentRound() { return round; }
+    public int getCurrentRound() { return currentRound; }
 
     /** @return A város térképét tároló objektum. */
     public CityMap getCityMap() { return city; }
@@ -129,7 +133,6 @@ public class Game implements IdGenerator {
         idCounters.clear();
         this.players.clear();
         this.city = new CityMap();
-        this.initTestMap();
     }
 
     /**
@@ -176,7 +179,31 @@ public class Game implements IdGenerator {
      * @param player Az új játékos.
      */
     public void addPlayer(Player player) {
+        if(this.players == null){
+            this.players = new ArrayList<>();
+        }
         this.players.add(player);
+    }
+
+     /**
+      * Előlépteti a játékot a következő játékosra, és ha mindenki lépett, új kört indít.
+      */
+    public void nextPlayerTurn() {
+        if (this.players == null || this.players.isEmpty()) return;
+        
+        // Növeljük az indexet (Jön a következő!)
+        this.activePlayerIndex++;
+        
+        // Ha mindenki lépett, visszaugrunk a legelsőre, és új kör indul
+        if (this.activePlayerIndex >= this.players.size()) {
+            this.activePlayerIndex = 0;
+            this.currentRound++; 
+        }
+        
+        System.out.println("=> KOR VALTAS! Uj aktiv jatekos index: " + this.activePlayerIndex);
+        
+        // Szólunk a GUI-nak (a StatusPanel-nek), hogy frissítsen!
+        notifyObservers(); 
     }
 
     /**
@@ -223,10 +250,11 @@ public class Game implements IdGenerator {
 
         try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream(filename))) {
             // Visszaolvassuk és felülírjuk a jelenlegi állapotot
-            this.city = (model.CityMap) ois.readObject();
-            this.players = (java.util.List<model.Player>) ois.readObject();
-            
-            // Szólunk a GUI-nak, hogy teljesen újrarajzolhat mindent az új adatokkal!
+            this.city = (CityMap) ois.readObject();
+            this.players = (List<model.Player>) ois.readObject();
+            this.store = (Store) ois.readObject();
+            this.idCounters = (Map<String, Integer>) ois.readObject();
+            // Újrarajzolás
             this.notifyObservers();
             
             Logger.log("> Game successfully loaded from " + filename);
@@ -238,7 +266,7 @@ public class Game implements IdGenerator {
 
     // A játék egy lépésének szimulálása, amely frissíti a járművek helyzetét és kezeli az ütközéseket.
     public void simulateStep() {
-        round++; // A körök számának növelése
+        currentRound++; // A körök számának növelése
 
         // Havazás
         for (Lane lane : city.getLanes()) {

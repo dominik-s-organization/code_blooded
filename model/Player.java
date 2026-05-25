@@ -61,6 +61,16 @@ public abstract class Player implements Serializable {
         vehicle.setNextLane(nextLane);
     }
 
+    // Visszaadja a játékos fő információját string formátumban, amely megjeleníthető a GUI-n.
+    public String getMainInfo(){
+        return this.getName();
+    }
+
+    // Visszaadja a játékos további információit string formátumban, amely megjeleníthető a GUI-n.
+    public String getSubStatusInfo(){
+        return "Status: Ready";
+    }
+
     /**
      * Kiírja a játékos állapotát és tulajdonságait a konzolra.
      */

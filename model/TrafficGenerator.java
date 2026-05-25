@@ -36,7 +36,7 @@ public class TrafficGenerator {
             map.addVehicle(car);
         }
 
-        // --- BUSZOK LÉTREHOZÁSA ---
+        // --- BUSZOK ÉS SOFŐRÖK LÉTREHOZÁSA ---
         for (int i = 1; i <= busCount; i++) {
             Point stationA = allPoints.get(rand.nextInt(allPoints.size()));
             Point stationB;
@@ -44,7 +44,19 @@ public class TrafficGenerator {
                 stationB = allPoints.get(rand.nextInt(allPoints.size()));
             } while (stationB.equals(stationA));
 
-            Bus bus = new Bus("bus_" + i);
+            // Létrehozzuk a Játékost (Buszsofőrt)
+            BusDriver busDriver = new BusDriver("Busdriver_" + i);
+
+            // Lekérjük a sofőrhöz tartozó buszt (vagy adunk neki egyet)
+            Bus bus = busDriver.getBus();
+            if (bus == null) { // Biztonsági ellenőrzés, ha a BusDriver nem hozná létre automatikusan
+                bus = new Bus("bus_" + i);
+                busDriver.setBus(bus); // Asszociáljuk a buszt a sofőrrel
+            } else {
+                bus.setId("bus_" + i);
+            }
+
+            // Beállítjuk a busz útvonalát
             bus.setBeginningPoint(stationA);
             bus.setEndPoint(stationB);
             
@@ -52,6 +64,8 @@ public class TrafficGenerator {
             bus.setCurrentPoint(stationA);
             stationA.addVehicle(bus);
             map.addVehicle(bus);
+
+            game.addPlayer(busDriver);
         }
     }
 }
