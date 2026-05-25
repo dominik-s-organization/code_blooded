@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * A CrushedStoneHead osztály egy zuzalék szotó fejet reprezentál a játékban.
+ */
 public class CrushedStoneHead extends Head {
     
     public CrushedStoneHead() {

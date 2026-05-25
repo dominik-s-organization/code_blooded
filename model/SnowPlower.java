@@ -56,9 +56,15 @@ public class SnowPlower extends Vehicle {
 
     @Override
     public void interactWithLane(Lane lane) {
+        if(lane == null) return;
+
         if (this.currentHead != null) {
-            // A currentHead meghívja a te általad írt clean metódusokat!
             this.currentHead.clean(lane, this);
+        } else{
+            Snow snow = lane.getSnow();
+            if(snow != null){
+                snow.passVehicle();
+            }
         }
     }
 
@@ -69,7 +75,6 @@ public class SnowPlower extends Vehicle {
      */
     @Override
     public void move(Point point) {
-        this.setCurrentPoint(point);    
         if (super.getJammedTime() > 0) {
             return; 
         }

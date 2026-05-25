@@ -54,7 +54,7 @@ public class SnowCleaner extends Player {
         crushedStoneStock = 0;
         maxCrushedStone = 100;
 
-        SnowPlower sp = new SnowPlower();
+        SnowPlower sp = new SnowPlower("plower_" + name);
         snowPlowers.add(sp);
         sp.setOwner(this);
         inventory.add(sp.getCurrentHead());

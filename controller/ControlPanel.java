@@ -289,9 +289,15 @@ public class ControlPanel extends JPanel {
                     
                     if (selectedHead != null) {
                         if (console == null) return;
+
+                        java.util.List<model.SnowPlower> plowers = cleaner.getSnowPlowers();
+                        if (plowers == null || plowers.isEmpty()) {
+                            outputField.setText("Hiba: A játékosnak nincs hókotrója!");
+                            return;
+                        }
                         
-                        String playerName = currentPlayer.getName();
-                        String command = "equip " + playerName + " " + selectedHead;
+                        String vehicleId = plowers.get(0).getId();
+                        String command = "equip " + vehicleId + " " + selectedHead;
                         console.processCommand(command);
                         
                         outputField.setText("Kiadott parancs: " + command);
