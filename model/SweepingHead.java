@@ -7,9 +7,11 @@ package model;
  */
 public class SweepingHead extends Head {
     /**
-     * Megtisztítja az adott sávot, a havat a szomszédos sávra áthelyezve.
-     *
-     * @param lane a sáv, amelyet a seprőfej letakarít
+     * Megtisztítja az adott sávot úgy, hogy a havat (és az abban lévő zúzottkövet)
+     * a jobboldali szomszédos sávra tolja át. Ha nincs jobboldali sáv, a hó eltűnik.
+     * A folyamatért a játékos 10$ fizetséget kap.
+     * @param lane A sáv, amelyet a seprőfej letakarít.
+     * @param snowPlower A jármű, amely végrehajtja az akciót.
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {

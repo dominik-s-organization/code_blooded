@@ -1,15 +1,19 @@
 package model;
 
 /**
- * A BusDriver osztály a Player absztrakt osztályból származik, és egy buszvezetőt reprezentál a játékban.
+ * A BusDriver osztály a Player absztrakt osztályból származik, és egy tömegközlekedési
+ * sofőrt reprezentál a játékban. Felelős a saját buszának irányításáért és az
+ * útvonalak sikeres teljesítésének nyilvántartásáért.
  */
 public class BusDriver extends Player {
     // A buszvezető által teljesített útvonalak száma.
     private int completedRoutes = 0;
     // A busz, amelyet a buszvezető vezet.
     private Bus bus;
-    
-    // Konstruktor
+    /**
+     * Konstruktor, amely inicializálja a sofőrt, és hozzárendel egy új buszt.
+     * @param name A buszsofőr neve.
+     */
     public BusDriver(String name) {
         super(name);
         completedRoutes = 0;
@@ -42,7 +46,11 @@ public class BusDriver extends Player {
     public String getType() {
         return "bus_driver";
     }
-
+    /**
+     * Visszaadja a grafikus felület számára a buszsofőr legfontosabb információit,
+     * beleértve a nevét és az aktuális célállomását (végállomás).
+     * @return A formázott fő információ szövege.
+     */
     @Override
     public String getMainInfo() {
         String destination = "Ismeretlen";
@@ -56,13 +64,19 @@ public class BusDriver extends Player {
         
         return this.getName() + " -> Dest: " + destination;
     }
-
+    /**
+     * Visszaadja a grafikus felület számára az extra státusz információkat,
+     * jelen esetben a sikeresen befejezett járatok számát.
+     * @return A teljesített utak száma szövegesen.
+     */
     @Override
     public String getSubStatusInfo() {
         return "Teljesített utak: " + this.completedRoutes;
     }
-
-    // A buszvezető teljesíti az útvonalat, és növeli a teljesített útvonalak számát.
+    /**
+     * A buszvezető teljesít egy útvonalat (végállomástól végállomásig ér).
+     * Ez a metódus megnöveli a teljesített járatok számlálóját.
+     */
     public void completeRoute() {
         completedRoutes++;
     }

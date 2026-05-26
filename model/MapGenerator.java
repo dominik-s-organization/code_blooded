@@ -11,8 +11,14 @@ import java.util.Random;
 public class MapGenerator {
     // Sáv egyedi azonosítója
     private static int laneIdCounter = 1;
-
-    // CityMap generáló függvény
+    /**
+     * Generál egy véletlenszerű, összefüggő várostérképet a megadott dimenziók alapján.
+     * A metódus polimorf módon hoz létre normál csomópontokat (Junction), 
+     * kereszteződéseket (CrossRoads) és alagutakat (Tunnel).
+     * @param game A fő játék objektum, amelyhez a térkép tartozik.
+     * @param rows A virtuális generálási rács sorainak száma.
+     * @param cols A virtuális generálási rács oszlopainak száma.
+     */
     public static void generateRandomMap(Game game, int rows, int cols) {
         CityMap map = game.getCityMap();
         Random rand = new Random();
@@ -92,7 +98,14 @@ public class MapGenerator {
         }
     }
 
-    // Sáv készítő függvény mely Point paramétereket vár 
+    /**
+     * Létrehoz egy egyirányú sávot két csomópont között, és hozzáadja a térképhez.
+     * Emellett véletlenszerű mennyiségű havat is generál a friss sávra.
+     * @param map A várostérkép objektum.
+     * @param from A kiindulási csomópont.
+     * @param to A cél csomópont.
+     * @param rand A véletlenszám-generátor objektum.
+     */
     private static void createOneWayLane(CityMap map, Point from, Point to, Random rand) {
         Lane lane = new Lane("lane_" + laneIdCounter++);
         lane.setStartPoint(from);
@@ -107,8 +120,12 @@ public class MapGenerator {
         
         map.addLane(lane);
     }
-
-    // JAVÍTÁS: Point paramétereket vár Junction helyett!
+    /**
+     * Ellenőrzi, hogy két pont között létezik-e már közvetlen kimenő összeköttetés (sáv).
+     * @param p1 A kiindulási pont.
+     * @param p2 A vizsgált célpont.
+     * @return Igaz (true), ha van közvetlen út p1-ből p2-be, különben hamis (false).
+     */
     private static boolean isConnected(Point p1, Point p2) {
         for (Lane lane : p1.getOutgoingLanes()) {
             if (lane.getEndPoint().equals(p2)) return true;

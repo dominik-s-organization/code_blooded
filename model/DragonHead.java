@@ -2,17 +2,22 @@ package model;
 
 /**
  * A DragonHead osztály egy sárkányfejet reprezentál a játékban.
+ * Ez a prémium fej gázturbina segítségével azonnal, fizikai érintkezés nélkül 
+ * elolvasztja a havat és a jeget. Működéséhez BioKerozin szükséges.
  */
 public class DragonHead extends Head {
-    //Konstruktor
+    /**
+     * Alapértelmezett konstruktor a sárkányfej inicializálásához.
+     */
     public DragonHead() {
         super();
     }
-
-    /*
-    * A sárkányfej tisztít egy adott sávot.
-    * @param lane A sáv, amelyet a sárkányfej tisztítani fog.
-    */
+    /**
+     * A sárkányfej megtisztít egy adott sávot, azonnal eltüntetve a havat és a jeget.
+     * A művelethez "BioKerosene" nyersanyagot fogyaszt a játékos készletéből.
+     * @param lane A sáv, amelyet a sárkányfej tisztítani fog.
+     * @param snowPlower A jármű, ami végrehajtja a műveletet.
+     */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
         System.out.println("Cleaned.");

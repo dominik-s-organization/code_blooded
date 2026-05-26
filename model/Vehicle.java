@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 
 /**
- * Absztrakt osztály a mozgó entitások (autók, buszok, hókotrók) számára.
+ * Absztrakt ősosztály a mozgó entitások (autók, buszok, hókotrók) számára.
  * Felelőssége az aktuális pozíció és az elakadási idő nyilvántartása,
  * valamint a mozgás és elakadás alapvető műveleteinek definiálása.
  */
@@ -21,7 +21,7 @@ public abstract class Vehicle implements Serializable {
     /** A jármű következő célállomása (sávja), amelyen a jármű át akar haladni. */
     protected Lane nextLane;
     
-    /** * A várakozási vagy elakadási idő (körökben mérve). 
+    /** A várakozási vagy elakadási idő (körökben mérve). 
      * Amíg ez az érték nagyobb nullánál, a jármű nem tud mozogni.
      */
     private int jammedTime;
@@ -154,17 +154,18 @@ public abstract class Vehicle implements Serializable {
      */
     public abstract void stat();
 
+   
     /**
-     * A járművet a megadott célállomás (pont) felé mozgatja.
+     * A járművet a megadott célállomás (pont) felé mozgatja az úthálózaton.
+     * Frissíti a jármű tartózkodási helyét és az általa bejárt sávokat.
      * @param point A célállomás (Point), ahova a jármű lépni próbál.
-     */
-    /**
-     * A járművet a megadott célállomás (pont) felé mozgatja.
-     * Frissíti a csomópontot és a sávot.
-     * @param point a célállomás (Point), ahova a jármű lépni próbál
      */
     public abstract void move(Point point);
 
-    // A Vehicle.java osztályban
+    /**
+     * A jármű interakcióba lép az útszakasszal (sávval), amelyen éppen áthalad.
+     * (Például letapossa a havat, vagy a hókotró esetében letakarítja azt).
+     * @param lane A sáv (Lane), amellyel a jármű interakcióba lép.
+     */
     public abstract void interactWithLane(Lane lane);
 }

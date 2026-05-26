@@ -36,14 +36,20 @@ public class SnowCleaner extends Player {
      * A töröttő készlet maximális mennyisége
      */
     private int maxCrushedStone;
-
+    /**
+     * Visszaadja a játékos által éppen irányított járművet (az első hókotróját).
+     * @return Az irányított Vehicle objektum, vagy null, ha nincs járműve.
+     */
     public Vehicle getControlledVehicle() {
         if (snowPlowers != null && !snowPlowers.isEmpty()) {
             return snowPlowers.get(0); // Alapértelmezés szerint az első hókotrót irányítja
         }
         return null; // Nincs irányított jármű
     }
-
+    /**
+     * Konstruktor, amely inicializálja a játékos nevét, kezdőtőkéjét, és ad neki egy alap hókotrót.
+     * @param name A takarító játékos neve.
+     */
     public SnowCleaner(String name) {
         super(name);
         snowPlowers = new ArrayList<>();
@@ -124,7 +130,6 @@ public class SnowCleaner extends Player {
 
     /**
      * Pénzösszeget ír jövő a játékos egyenlegén (pl. sikeres takarítás után).
-     *
      * @param amount a jóváíandó pénzösszeg
      */
     public void getPaid(int amount) {
@@ -147,8 +152,7 @@ public class SnowCleaner extends Player {
 
     /**
      * Csökkenti a megadott típusú nyersanyag készletét a fogyasztás során.
-     *
-     * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene")
+     * @param type a felhasznált nyersanyag típusa (pl. "salt" vagy "biokerosene, zúzottkő")
      * @return true, ha van elegendő készlet a fogyasztáshoz, és sikeresen levonták, false ha nincs elég készlet
      */
     public boolean consumeMaterial(String type) {

@@ -12,8 +12,10 @@ public class SalterHead extends Head {
     }
     /**
      * Végrehajtja a sózást a megadott sávon.
-     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos só-készletét.
-     * @param lane a sáv, amelyen a sózó fej kifejti a hatását
+     * Növeli a sáv só-szintjét, miközben csökkenti a tulajdonos (SnowCleaner) só-készletét.
+     * JAVÍTVA: A nyersanyag neve illeszkedik a boltban vásárolhatóhoz ("Salt").
+     * @param lane A sáv, amelyen a sózó fej kifejti a hatását.
+     * @param snowPlower A jármű, amely végrehajtja az akciót.
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {

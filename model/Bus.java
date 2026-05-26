@@ -18,8 +18,10 @@ public class Bus extends Vehicle {
         endPoint = null;
         canSlip = true;
     }
-
-    //paraméteres konstruktor
+    /**
+     * Konstruktor, amely beállítja a busz egyedi azonosítóját.
+     * @param id A busz azonosítója.
+     */
     public Bus(String id) {
         super(id);
         owner = null;
@@ -27,9 +29,10 @@ public class Bus extends Vehicle {
         endPoint = null;
         canSlip = true;
     }
-
-    // Getterek és setterek
-
+    /**
+     * Visszaadja a tulajdonos (BusDriver) által irányított járművet.
+     * @return A busz objektuma, ha van tulajdonosa, különben null.
+     */
     public Vehicle getControlledVehicle() {
         if (owner != null && owner.getBus() != null) {
             return owner.getBus(); // Alapértelmezés szerint az tulajdonos által irányított buszt adja vissza
@@ -64,21 +67,28 @@ public class Bus extends Vehicle {
     public void setEndPoint(Point endPoint) {
         this.endPoint = endPoint;
     }
-
-    // Megcseréli a kezdőpontot és a végpontot, így a busz visszafordulhat a kiindulási helyére.
+    /**
+     * Megcseréli a kezdőpontot és a végpontot. Amikor a busz eléri a végállomást,
+     * ez a metódus biztosítja, hogy a jármű visszaforduljon az eredeti kiindulási helyére.
+     */
     public void switchRoute() {
         Point temp = beginningPoint;
         beginningPoint = endPoint;
         endPoint = temp;
     }
-
-    // Ha ütközés történik, a busz megáll a forgalomban.
+    /**
+     * A busz elakadását (ütközését) kezeli.
+     * Ha a busz balesetet szenved, 5 körre megáll a forgalomban.
+     */
     @Override
     public void jam() {
         super.setJammedTime(5);
         Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
-
+    /**
+     * A busz interakcióba lép a sávval (pl. letapossa a havat jéggé).
+     * @param lane A sáv, amelyen a busz áthalad.
+     */
     @Override
     public void interactWithLane(Lane lane) {
         Snow snow = lane.getSnow();
@@ -87,9 +97,10 @@ public class Bus extends Vehicle {
         }
     }
 
-    /*
-    *  A busz mozog egy adott pont felé.
-    *  @param point A pont, amely felé a busz mozogni fog.
+    /**
+     * A busz fizikai mozgatása a kijelölt csomópont felé.
+     * Ha eléri a végpontját, automatikusan megfordul, és jelzi a sofőrnek a sikeres utat.
+     * @param point A pont, amely felé a busz mozogni fog.
      */
     @Override
     public void move(Point point) {

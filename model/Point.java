@@ -81,7 +81,11 @@ public abstract class Point implements Serializable {
         incomingLanes = new ArrayList<>();
         outgoingLanes = new ArrayList<>();
     }
-
+    /**
+     * ID alapján megkeres és visszaad egy, a csomóponton tartózkodó járművet.
+     * @param id A keresett jármű azonosítója.
+     * @return A jármű objektum, vagy null ha nem található.
+     */
     public Vehicle getVehicleById(String id) {
         if (id == null) {
             return null;
@@ -118,7 +122,6 @@ public abstract class Point implements Serializable {
 
     /**
      * Hozzáad egy járművet a ponthoz (amikor a jármű rálép).
-     *
      * @param vehicle a hozzáadandó jármű
      */
     public void addVehicle(Vehicle vehicle) {
@@ -127,7 +130,6 @@ public abstract class Point implements Serializable {
 
     /**
      * Eltávolít egy járművet a pontról (amikor a jármű továbbhalad).
-     *
      * @param vehicle az eltávolítandó jármű
      */
     public void removeVehicle(Vehicle vehicle) {
@@ -136,28 +138,19 @@ public abstract class Point implements Serializable {
         }
     }
 
-    /**
-     * Beállít egy beérkező sávot a ponthoz.
-     *
-     * @param lane a beérkező sáv
-     */
     public void addIncomingLane(Lane lane) {
         incomingLanes.add(lane);
     }
 
-    /**
-     * Beállít egy kimenő sávot a ponthoz.
-     *
-     * @param lane a kimenő sáv
-     */
     public void addOutgoingLane(Lane lane) {
         outgoingLanes.add(lane);
     }
-
-    /*
-     * Ellenőrzi, hogy a jármű ráléphet-e a csomópontra.
-     * @param vehicle, a kérdéses jármű, amely megpróbál rálépni a csomópontra.
-     * @return true, ha a jármű ráléphet a csomópontra, false egyébként.
+    /**
+     * Logikai ellenőrzés, amely megvizsgálja, hogy a jármű fizikailag ráléphet-e erre a csomópontra.
+     * Számításba veszi a csomópont típusát (Junction, Crossroads, Tunnel), a dugókat,
+     * a hó magasságát (max 15), és az alagutak szintbeli kötöttségeit.
+     * @param vehicle A kérdéses jármű, amely megpróbál rálépni a csomópontra.
+     * @return Igaz (true), ha a jármű ráléphet a csomópontra, különben hamis (false).
      */
     public boolean isReachable(Vehicle vehicle) {
         Lane nextLane = vehicle.getNextLane();
@@ -186,8 +179,9 @@ public abstract class Point implements Serializable {
     }
 
     /**
-     * Ellenőrzi a csomóponton lévő dugókat/baleseteket, 
-     * és ha karambolt észlel, beállítja a járműveket elakadt (jam) állapotba.
+     * Ellenőrzi a csomóponton lévő dugókat/baleseteket. 
+     * Ha két különböző jármű ugyanarról a sávból érkezve próbál egyszerre áthaladni,
+     * karambolt észlel, és mindkét járművet elakadt (jam) állapotba helyezi.
      */
     public void lookForJams() {
         for (Vehicle vehicle1 : getVehicles()) {

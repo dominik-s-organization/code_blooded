@@ -8,7 +8,8 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
- * A Car osztály a Vehicle absztrakt osztályból származik, és egy autót reprezentál a játékban.
+ * A Car osztály a Vehicle absztrakt osztályból származik, és egy civil autót reprezentál a játékban.
+ * Képes önállóan útvonalat tervezni az otthona és a munkahelye között.
  */
 public class Car extends Vehicle {
     private Point home; // Az autó otthona, ahová vissza akar jutni.
@@ -23,7 +24,10 @@ public class Car extends Vehicle {
         isHeadingHome = false;
         canSlip = true;
     }
-
+    /**
+     * Konstruktor, amely beállítja az autó egyedi azonosítóját.
+     * @param id Az autó azonosítója.
+     */
     public Car(String id) {
         super(id);
         home = null;
@@ -48,13 +52,19 @@ public class Car extends Vehicle {
     public void setWork(Point work) {
         this.work = work;
     }
-
+    /**
+     * Az autó elakadását (balesetét) kezeli. Ütközés esetén az autó
+     * 10 körre megáll a forgalomban.
+     */
     @Override
-    // Ha ütközés történik, az autó megáll a forgalomban.
     public void jam() {
         super.setJammedTime(10);
     }
-
+    /**
+     * Az autó interakcióba lép az útszakasszal, amelyen áthalad.
+     * Növeli a sávon áthaladt járművek számát, ami jégképződéshez vezethet.
+     * @param lane A sáv, amelyen a jármű áthalad.
+     */
     @Override
     public void interactWithLane(Lane lane) {
         Snow snow = lane.getSnow();
@@ -62,12 +72,12 @@ public class Car extends Vehicle {
             snow.passVehicle();
         }
     }
-
+    /**
+     * Az autó mozgatása a paraméterként megadott célcsomópont felé.
+     * Frissíti a jármű helyzetét, és ha elérte a célját (otthon/munka), megfordítja az irányt.
+     * @param point A célcsomópont, amelyre az autó lép.
+     */
     @Override
-    /*
-    * Az autó mozog egy adott pont felé.
-    * @param point A pont, amely felé az autó mozogni fog.
-    */
     public void move(Point point) {
         if (super.getJammedTime() > 0) {
             return; // Ha a busz elakadt, nem mozoghat.
@@ -90,11 +100,11 @@ public class Car extends Vehicle {
             isHeadingHome = false;
         }
     }
-
-    /*
-    * Kiszámolja és visszaadja a következő sávot, amelyen az autó át akar haladni.
-    * @return A következő sáv (Lane), amelyen az autó át akar haladni.
-    */
+    /**
+     * Szélességi keresés (BFS) algoritmussal kiszámolja és visszaadja a legrövidebb
+     * út első sávját a jelenlegi cél (otthon vagy munkahely) felé.
+     * @return A következő sáv (Lane), amelyen az autónak haladnia kell.
+     */
     public Lane getNextLane() {
          Point current = this.getCurrentPoint();
 

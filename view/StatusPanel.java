@@ -6,18 +6,23 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * A StatusPanel kizárólag a játék állásának (pénz, körök) megjelenítéséért felelős.
- * Ez a tiszta VIEW réteg része, amely frissül a Modell változásakor.
+ * A StatusPanel kizárólag a játék állásának (játékos neve, vagyona, körök száma) 
+ * megjelenítéséért felelős. Ez a tiszta VIEW réteg része, amely az Observer 
+ * mintának köszönhetően automatikusan frissül a Modell változásakor.
  */
 public class StatusPanel extends JPanel implements GameObserver {
     private Game game;
     private JLabel activePlayerLabel;
     private JLabel roundLabel;
     private JLabel statusLabel;
-
+    /**
+     * A StatusPanel konstruktora. Inicializálja a címkéket, beállítja a tipográfiát
+     * és azonnal feliratkozik a Modell változásaira.
+     * @param game A Game objektum, amelyből a panel kiolvassa a státuszokat.
+     */
     public StatusPanel(Game game) {
         this.game = game;
-        game.addObserver(this); // Feliratkozás a modellre
+        game.addObserver(this); 
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBackground(Color.WHITE);
@@ -42,20 +47,24 @@ public class StatusPanel extends JPanel implements GameObserver {
 
         update(); // Első frissítés
     }
-
+    /**
+     * Manuálisan frissíti a státusz szövegét (pl. interakció visszajelzések).
+     * @param text A kiírandó státusz szöveg.
+     */
     public void setStatusText(String text) {
         statusLabel.setText(text);
     }
-
+    /**
+     * Az Observer minta metódusa. Ha a Game osztály jelzi, hogy változás történt 
+     * (pl. kör vége vagy játékosváltás), ez a metódus frissíti a kijelzőt.
+     */
     @Override
     public void update() {
         if (game == null) return;
 
-        // Körök frissítése
         roundLabel.setText(game.getCurrentRound() + " rounds");
         model.Player activePlayer = game.getCurrentPlayer();
 
-        // Pénz és név frissítése
         if (activePlayer != null) {
             activePlayerLabel.setText(activePlayer.getMainInfo());
             statusLabel.setText(activePlayer.getSubStatusInfo());

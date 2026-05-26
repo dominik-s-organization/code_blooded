@@ -2,7 +2,11 @@ package model;
 
 import view.MainFrame;
 import java.util.Random;
-
+/**
+ * A Plow Masters játék fő belépési pontja.
+ * Felelős a játék motorjának (Game) inicializálásáért, a térkép legenerálásáért,
+ * a kezdeti időjárási viszonyok beállításáért, a forgalom elindításáért és a GUI megjelenítéséért.
+ */
 public class Main {
     public static void main(String[] args) {
         // ==========================================================

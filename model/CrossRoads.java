@@ -1,19 +1,28 @@
 package model;
 
 /**
- * A CrossRoads osztály egy kereszteződést reprezentál a játékban.
+ * A CrossRoads osztály egy összetett kereszteződést reprezentál a játékban.
+ * A normál csomópontokhoz (Junction) képest bonyolultabb forgalmi helyzeteket
+ * is képes kezelni az úthálózatban.
  */
 public class CrossRoads extends Point {
-
-    //konstruktor
+    /**
+     * Alapértelmezett konstruktor egy névtelen kereszteződés létrehozásához.
+     */
     public CrossRoads() {
         super();
     }
-    
+    /**
+     * Konstruktor, amely egyedi azonosítóval hoz létre egy kereszteződést.
+     * @param id A kereszteződés egyedi szöveges azonosítója (pl. "CR1").
+     */
     public CrossRoads(String id) {
         super(id);
     }
-
+    /**
+     * Részletes statisztikát és állapotjelentést ír ki a kereszteződésről a konzolra,
+     * listázva a bejövő és kimenő sávokat, valamint a rajta tartózkodó járműveket.
+     */
     @Override
     public void stat() {
         Logger.log("CrossRoads ID: " + getId());
@@ -52,7 +61,11 @@ public class CrossRoads extends Point {
     }
 
 
-
+    /**
+     * Megvizsgálja, hogy kialakult-e közlekedési dugó (túl sok jármű) a kereszteződésben.
+     */
     @Override
-    public void lookForJams() {}
+    public void lookForJams() {
+        // A leszármazott osztály specifikus ütközés-keresési logikája
+    }
 }

@@ -42,58 +42,57 @@ public class MainFrame extends JFrame {
         setTitle("Plow Masters");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1000, 600);
-        setLocationRelativeTo(null); // Középre igazítja az ablakot
+        setLocationRelativeTo(null);
         
-        // Felső menüsor beállítása
+
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         JMenuItem exitItem = new JMenuItem("Exit");
         JMenuItem backToMenuItem = new JMenuItem("Back to Menu");
         JMenuItem newGameItem = new JMenuItem("New Game");
-        exitItem.addActionListener(e -> System.exit(0)); // Kilépés logikája
+        exitItem.addActionListener(e -> System.exit(0));
         fileMenu.add(exitItem);
         fileMenu.add(backToMenuItem);
         fileMenu.add(newGameItem);
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 
-        // CardLayout beállítása a váltáshoz
+
         cardLayout = new CardLayout();
         mainContainer = new JPanel(cardLayout);
 
         Console mainConsole = new Console(game);
-        // 1. Kártya: Főmenü (MenuPanel)
+
         menuPanel = new MenuPanel(mainConsole,this);
-        
-        // 2. Kártya: Játék nézet (GamePanel + ControlPanel összefogva egy BorderLayoutban)
+
         JPanel gameContainer = new JPanel(new BorderLayout());
         JPanel rightSideBar = new JPanel();
         rightSideBar.setLayout(new BoxLayout(rightSideBar, BoxLayout.Y_AXIS));
 
         gamePanel = new GamePanel(game);
-        statusPanel = new StatusPanel(game); // A státusz panel létrehozása és a modell átadása neki
-        controlPanel = new ControlPanel(game, statusPanel, mainConsole); // A vezérlőpanel létrehozása és a modell átadása neki
+        statusPanel = new StatusPanel(game); 
+        controlPanel = new ControlPanel(game, statusPanel, mainConsole);
 
         rightSideBar.add(statusPanel);
         rightSideBar.add(controlPanel);
         gameContainer.add(gamePanel, BorderLayout.CENTER);
         gameContainer.add(rightSideBar, BorderLayout.EAST);
 
-        // A Modell feliratkoztatása a GamePanelre
+        
         game.addObserver(gamePanel);
 
-        // Kártyák hozzáadása a fő konténerhez
+       
         mainContainer.add(menuPanel, "MENU");
         mainContainer.add(gameContainer, "GAME");
 
         this.add(mainContainer);
 
-        // Ha a menüben rákattintanak a "New Game" gombra, váltsunk a GAME kártyára!
+       
         menuPanel.getNewGameButton().addActionListener(e -> {
             cardLayout.show(mainContainer, "GAME");
         });
 
-        // Ha rákattintanak a "Back to Menu" gombra, váltsunk vissza a MENU kártyára!
+       
         controlPanel.getBackToMenuButton().addActionListener(e -> {
             showMenu(); 
         });

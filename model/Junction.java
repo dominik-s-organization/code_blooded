@@ -1,14 +1,19 @@
 package model;
 
 /**
- * A Junction osztály egy csomópontot reprezentál a játékban.
+ * A Junction osztály egy alapvető csomópontot reprezentál a várostérképen.
+ * A járművek (Vehicle) ezeken a csomópontokon keresztül tudnak áthaladni 
+ * egyik sávból (Lane) a másikba.
  */
 public class Junction extends Point {
     //Konstruktor
     public Junction() {
         super();
     }
-
+    /**
+     * Konstruktor, amely egyedi azonosítóval hoz létre egy csomópontot.
+     * @param id A csomópont egyedi szöveges azonosítója (pl. "junction_5").
+     */
     public Junction(String id) {
         super(id);
     }
