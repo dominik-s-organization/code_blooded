@@ -12,14 +12,18 @@ import model.Point;
 import model.Snow;
 import controller.GameObserver;
 
-// A GamePanel osztály felelős a játék grafikus megjelenítéséért.
+/**
+ * A GamePanel osztály felelős a játék teljes grafikus megjelenítéséért (térkép, járművek, hó).
+ * Ez a nézet reagál a felhasználói kattintásokra, és az Observer mintán 
+ * keresztül automatikusan frissül, ha a Modell (Game) állapota megváltozik.
+ */
 public class GamePanel extends JPanel implements GameObserver {
     /** Referencia a szimulációs modellre. */
     private Game game;
 
     /**
-     * A GamePanel konstruktora. Inicializálja a panelt, beállítja a fekete hátteret,
-     * és feliratkozik a modell változásaira.
+     * A GamePanel konstruktora. Inicializálja a panelt, beállítja az egér kattintás-figyelőt,
+     * és feliratkozik a modell (Game) változásaira.
      * @param game A Game objektum, amely a város térképét tartalmazza.
      */
     public GamePanel(Game game) {
@@ -41,7 +45,6 @@ public class GamePanel extends JPanel implements GameObserver {
 
         });
     }
-    
     /**
      * A JPanel felülírt kirajzoló metódusa. Ez felel a grafikai elemek képernyőre festéséért.
      * @param g A Graphics objektum, amire rajzolhatunk.
@@ -84,9 +87,9 @@ public class GamePanel extends JPanel implements GameObserver {
     /**
      * Egyetlen sáv (út) kirajzolása a megadott Graphics2D objektumra.
      * @param g2d A rajzoló objektum.
-     * @param startNode kezdőpont
-     * @param endNode végpont
-     * @param lane A kirajzolandó sáv.
+     * @param startNode A sáv kezdőpontja.
+     * @param endNode A sáv végpontja.
+     * @param roadColor A sáv kirajzolási színe.
      */
     private void drawLane(Graphics2D g2d, Point startNode, Point endNode, Color roadColor) {
         int x1 = startNode.getX();
@@ -94,28 +97,21 @@ public class GamePanel extends JPanel implements GameObserver {
         int x2 = endNode.getX();
         int y2 = endNode.getY();
 
-        // 1. Kiszámoljuk az irányvektort
         double dx = x2 - x1;
         double dy = y2 - y1;
         double length = Math.sqrt(dx * dx + dy * dy);
 
-        // 2. Kiszámoljuk a normálvektort (merőleges irány) a "jobbra tarts" elv alapján
-        // (A -dy, dx a balra, a dy, -dx a jobbra tolás a képernyő koordinátarendszerében)
         double nx = -dy / length;
         double ny = dx / length;
-
-        // 3. Eltolás mértéke pixelben (pl. 10 pixel)
         int offset = 10;
 
-        // 4. Új, eltolt koordináták
         int startX = (int) (x1 + nx * offset);
         int startY = (int) (y1 + ny * offset);
         int endX = (int) (x2 + nx * offset);
         int endY = (int) (y2 + ny * offset);
 
-        // 5. Vonal (sáv) kirajzolása
         g2d.setColor(roadColor);
-        g2d.setStroke(new BasicStroke(15)); // Sáv vastagsága
+        g2d.setStroke(new BasicStroke(15));
         g2d.drawLine(startX, startY, endX, endY);
     }
 
@@ -180,7 +176,7 @@ public class GamePanel extends JPanel implements GameObserver {
     }
 
     /**
-     * Egyetlen jármű kirajzolása.
+     * Egyetlen jármű kirajzolása az ahhoz tartozó textúrával.
      * @param g2d A rajzoló objektum.
      * @param vehicle A kirajzolandó jármű.
      */

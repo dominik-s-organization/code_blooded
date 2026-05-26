@@ -9,7 +9,11 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 
-// A MenuPanel osztály a játék főmenüjét reprezentálja, amely tartalmazza az új játék, betöltés, mentés és kilépés gombokat.
+/**
+ * A MenuPanel osztály a játék főmenüjét reprezentálja.
+ * Ez a nézet tartalmazza az új játék indításához, a korábbi állások betöltéséhez, 
+ * a mentéshez, valamint a kilépéshez szükséges grafikus elemeket (gombokat).
+ */
 public class MenuPanel extends JPanel {
     
     /** Gomb egy teljesen új szimuláció elindításához. */
@@ -30,10 +34,13 @@ public class MenuPanel extends JPanel {
     private MainFrame mainFrame;
 
     private Console console;
-    /**
-     * A MenuPanel konstruktora.
-     * Inicializálja a gombokat és a címkéket, valamint beállítja a panel GridBagLayout elrendezését és háttérszínét.
-     */
+   /**
+    * A MenuPanel konstruktora.
+    * Inicializálja a gombokat és a címkéket, beállítja az eseménykezelőket,
+    * valamint konfigurálja a panel GridBagLayout elrendezését és hátterét.
+    * @param console A konzol objektum a mentési parancsok feldolgozásához.
+    * @param mainframe A főablak referenciája a nézetek közötti váltáshoz.
+    *//
    public MenuPanel(Console console, MainFrame mainframe) {
         this.console = console;
         this.mainFrame = mainframe;

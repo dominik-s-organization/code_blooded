@@ -10,11 +10,17 @@ public class Tunnel extends Point {
     public Tunnel() {
          super();
     }
-
+    /**
+     * Konstruktor, amely egyedi azonosítóval hoz létre egy alagutat.
+     * @param id Az alagút egyedi szöveges azonosítója.
+     */
     public Tunnel(String id) {
         super(id);
     }
-
+    /**
+     * Részletes statisztikát ír ki az alagút aktuális állapotáról a konzolra,
+     * listázva a bejövő és kimenő sávokat, valamint a benne tartózkodó járműveket.
+     */
     @Override
     public void stat() {
         Logger.log("Tunnel ID: " + getId());

@@ -13,11 +13,13 @@ public class SnowPlower extends Vehicle {
      * A hókotrót irányító és birtokló játékos (takarító).
      */
     private SnowCleaner owner;
-
-    //Konstruktor
+    /**
+     * Konstruktor a jármű egyedi azonosítójának beállításával.
+     * @param id A hókotró azonosítója.
+     */
     public SnowPlower() {
         super();
-        currentHead = new SweepingHead(); // Alapértelmezett fej, amely seprést végez
+        currentHead = new SweepingHead(); 
         owner = null;
     }
 
@@ -46,14 +48,19 @@ public class SnowPlower extends Vehicle {
         this.owner = owner;
     }
     /**
-     * A hókotró elakadását (pl. ütközés vagy járhatatlan út miatt) kezelő metódus.
+     * A hókotró elakadását (pl. baleset) kezelő metódus.
+     * Karambol esetén a gép 1 körből kimarad.
      */
     @Override
     public void jam() {
         super.setJammedTime(1);
         Logger.log("> ACTION: " + this.getId() + " jammed_at " + this.getCurrentPoint().getId());
     }
-
+    /**
+     * A jármű interakcióba lép a sávval. Ha van felszerelt feje, akkor végrehajtja 
+     * a takarítási folyamatot az adott útszakaszon.
+     * @param lane A sáv, amellyel a jármű kapcsolatba lép.
+     */
     @Override
     public void interactWithLane(Lane lane) {
         if(lane == null) return;
@@ -69,9 +76,9 @@ public class SnowPlower extends Vehicle {
     }
 
     /**
-     * Lépteti a hókotrót a paraméterként kapott célállomás (Point) felé.
-     *
-     * @param point a cél csomópont, amely felé a hókotró haladni próbál
+     * Fizikailag lépteti a hókotrót a paraméterként kapott célállomás (Point) felé.
+     * Levonja az előző sávból és rögzíti a következőn, miközben meghívja az interakciót (takarítást).
+     * @param point A cél csomópont, amely felé a hókotró halad.
      */
     @Override
     public void move(Point point) {
@@ -88,11 +95,9 @@ public class SnowPlower extends Vehicle {
             Logger.log("> ACTION: " + this.getId() + " moved_to " + point.getId());
         } 
     }
-    
     /**
-     * Lecseréli a hókotróra jelenleg felszerelt takarítófejet egy újra.
-     *
-     * @param head az új takarítófej (Head), amelyet a gépre szerelnek
+     * Lecseréli a hókotróra jelenleg felszerelt takarítófejet egy újra az Inventory-ból.
+     * @param head Az új takarítófej (Head), amelyet a gépre szerelnek.
      */
     public void changeHead(Head head) {
         this.currentHead = head;

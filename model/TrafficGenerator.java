@@ -8,7 +8,13 @@ import java.util.Random;
  * elhelyezéséért és célállomásaik (otthon, munkahely) kiosztásáért.
  */
 public class TrafficGenerator {
-
+    /**
+     * Legenerálja a megadott számú autót és buszt, majd véletlenszerűen elhelyezi
+     * őket a várostérképen, érvényes útvonalakkal együtt.
+     * * @param game A játék fő objektuma, amely tartalmazza a térképet (CityMap).
+     * @param carCount A legenerálandó autók (Car) száma.
+     * @param busCount A legenerálandó buszok (Bus) száma.
+     */
     public static void spawnVehicles(Game game, int carCount, int busCount) {
         CityMap map = game.getCityMap();
         List<Point> allPoints = map.getPoints();

@@ -106,7 +106,6 @@ public class Snow implements Serializable {
 
     /**
      * Adott mennyiséggel növeli a hó vastagságát (maximum 30-ig).
-     *
      * @param amount a hó növekedésének mértéke
      */
     public void raiseBy(int amount) {

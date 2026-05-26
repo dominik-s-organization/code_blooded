@@ -240,6 +240,7 @@ public class Game implements IdGenerator {
     }
 
     /** A játék betöltése bináris fájlból. */
+    @SuppressWarnings("unchecked")
     public void loadGame(String filename) {
         java.io.File file = new java.io.File(filename);
         if (!file.exists()) {

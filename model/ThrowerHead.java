@@ -11,10 +11,11 @@ public class ThrowerHead extends Head {
         super();
     }
     /**
-     * Megtisztítja az adott sávot, a havat messzire hajtva, csökkentve a hőrteget.
-     *
-     * @param lane a sáv, amelyet a hóyny fej letakarít
-     */    
+     * Megtisztítja az adott sávot, a havat messzire hajtva, így nullázva a sáv hórétegét.
+     * A zúzottkövet is elfújja a folyamat során.
+     * @param lane A sáv, amelyet a hóhányó fej letakarít.
+     * @param snowPlower A jármű, amely végrehajtja a műveletet.
+     */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {
         Logger.log("-> throwerHead.clean(lane, snowPlower)");

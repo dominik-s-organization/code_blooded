@@ -7,7 +7,7 @@ public interface IdGenerator {
     
     /**
      * Létrehoz egy új, egyedi azonosítót a megadott prefix alapján.
-     * * @param prefix Az entitás típusa vagy neve (pl. "lane", "plower", "junction")
+     * @param prefix Az entitás típusa vagy neve (pl. "lane", "plower", "junction")
      * @return Az egyedi azonosító string (pl. "lane_1")
      */
     String generateId(String prefix);

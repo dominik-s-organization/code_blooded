@@ -3,7 +3,9 @@ package model;
 import java.io.Serializable;
 
 /**
- * A Lane osztály egy sávot reprezentál a játékban.
+ * A Lane osztály egy egyirányú sávot (útszakaszt) reprezentál a játékban.
+ * Nyilvántartja a sáv kezdő- és végpontját, a szomszédos sávokat, 
+ * valamint a rajta lévő hó-, jég- és forgalmi viszonyokat.
  */
 public class Lane implements Serializable {
     private String id; // A sáv egyedi azonosítója.
@@ -14,12 +16,17 @@ public class Lane implements Serializable {
     private boolean isJammed; // jelzi, hogy a sávon van-e dugó
     private boolean isUnderground; // jelzi, hogy a sáv föld alatt van-e (aluljáró)
     private Snow snow;
-
-    // Konstruktor
+    /**
+     * Alapértelmezett konstruktor egy azonosító nélküli, üres sáv létrehozásához.
+     */
     public Lane() {
         this(null);
     }
-
+    /**
+     * Konstruktor, amely egyedi azonosítóval hoz létre egy új sávot.
+     * Alapértelmezés szerint inicializálja az üres hó-objektumot is.
+     * @param id A sáv egyedi szöveges azonosítója (pl. "lane_1").
+     */
     public Lane(String id) {
         this.id = id;
         this.startpoint = null;
@@ -97,8 +104,10 @@ public class Lane implements Serializable {
         this.snow = snow;
     }
 
-    /*
-     * Növeli a hó szintjét a sávon a megfelelő módon
+    /**
+     * Időjárási hatás szimulálása: havazás vagy az előzőleg kiszórt anyagok hatásának érvényesítése.
+     * Ha az út sózva van, a hó és a jég olvad (a só szintje csökken).
+     * Ellenkező esetben a kavics szintje csökken (belesüllyed a hóba), a hó szintje pedig nő.
      */
     public void raiseSnow() {        
         if (snow.getSaltLevel() > 0) {

@@ -1,16 +1,18 @@
 package model;
 
 /**
- * A CrushedStoneHead osztály egy zuzalék szotó fejet reprezentál a játékban.
+ * A CrushedStoneHead osztály egy zúzottkő-szóró fejet reprezentál a játékban.
+ * Célja, hogy a csúszós (jeges) utakra kavicsot szórjon, megakadályozva a járművek megcsúszását.
  */
 public class CrushedStoneHead extends Head {
-    
+
     public CrushedStoneHead() {
         super();
     }
-    /*
-     * A zúzottkőfej tisztít egy adott sávot.
-     * @param lane A sáv, amelyet a zúzottkőfej tisztítani fog.
+    /**
+     * A zúzottkőfej kezeli az adott sávot, nyersanyagot használva zúzottkövet szór szét.
+     * @param lane A sáv, amelyet a zúzottkőfej kezel.
+     * @param snowPlower A műveletet végrehajtó hókotró.
      */
     @Override
     public void clean(Lane lane, SnowPlower snowPlower) {

@@ -5,8 +5,9 @@ import java.util.List;
 import java.io.Serializable;
 
 /**
- * A CityMap osztály egy város térképét reprezentálja,
- * amely tartalmazza a pontokat, útvonalakat és járműveket.
+ * A CityMap osztály a teljes város hálózatát és állapotát reprezentálja.
+ * Felelős a csomópontok (Point), a sávok (Lane) és a járművek (Vehicle)
+ * nyilvántartásáért a szimuláció során.
  */
 public class CityMap implements Serializable {
     // A város térképén található pontok listája.
@@ -16,13 +17,20 @@ public class CityMap implements Serializable {
     // A város térképén található járművek listája, amelyek a forgalmat reprezentálják.
     private List<Vehicle> vehicles;
 
-    //Konstruktorok
+    /**
+     * Alapértelmezett konstruktor, amely üres listákkal inicializálja a térképet.
+     */
     public CityMap() {
         points = new ArrayList<>();
         lanes = new ArrayList<>();
         vehicles = new ArrayList<>();
     }
-
+    /**
+     * Paraméteres konstruktor meglévő elemekből álló térkép létrehozásához.
+     * @param points Csomópontok listája.
+     * @param lanes Sávok listája.
+     * @param vehicles Járművek listája.
+     */
     public CityMap(List<Point> points, List<Lane> lanes, List<Vehicle> vehicles) {
         this.points = points;
         this.lanes = lanes;
@@ -32,7 +40,6 @@ public class CityMap implements Serializable {
     public int getPointCount() {
         return points.size();
     }
-
     public int getLaneCount() {
         return lanes.size();
     }
@@ -41,7 +48,6 @@ public class CityMap implements Serializable {
         return vehicles.size();
     }
 
-    // Getterek, setterek
     public List<Point> getPoints() { 
         return points; 
     }
