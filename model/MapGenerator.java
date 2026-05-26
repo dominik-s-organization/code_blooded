@@ -9,14 +9,15 @@ import java.util.Random;
  * KÖTELEZŐEN ÖSSZEFÜGGŐ gráfot generál, ahol az utak egyirányúak.
  */
 public class MapGenerator {
-
+    // Sáv egyedi azonosítója
     private static int laneIdCounter = 1;
 
+    // CityMap generáló függvény
     public static void generateRandomMap(Game game, int rows, int cols) {
         CityMap map = game.getCityMap();
         Random rand = new Random();
 
-        // 1. JAVÍTÁS: A rács immár az ősosztályt (Point) használja!
+        // 1. A rács immár az ősosztályt Point-ot használja
         Point[][] grid = new Point[rows][cols];
         List<int[]> existingNodes = new ArrayList<>();
 
@@ -75,7 +76,7 @@ public class MapGenerator {
         // 3. Extra utak (hurkok) hozzáadása
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                // JAVÍTÁS: Itt is Point a típus, nem Junction!
+                // Itt is Point a típus, nem Junction!
                 Point current = grid[r][c]; 
                 if (current == null) continue;
 
@@ -91,7 +92,7 @@ public class MapGenerator {
         }
     }
 
-    // JAVÍTÁS: Point paramétereket vár Junction helyett!
+    // Sáv készítő függvény mely Point paramétereket vár 
     private static void createOneWayLane(CityMap map, Point from, Point to, Random rand) {
         Lane lane = new Lane("lane_" + laneIdCounter++);
         lane.setStartPoint(from);
@@ -99,7 +100,7 @@ public class MapGenerator {
         from.addOutgoingLane(lane);
         to.addIncomingLane(lane);
         
-        // Opcionális: Véletlenszerű hó a frissen generált sávokon
+        //Véletlenszerű hó a frissen generált sávokon
         if (lane.getSnow() != null) {
             lane.getSnow().setSnowLevel(rand.nextInt(15));
         }

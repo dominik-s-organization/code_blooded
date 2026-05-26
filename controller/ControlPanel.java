@@ -151,16 +151,34 @@ public class ControlPanel extends JPanel {
                             vehicleToSpawn.setId("plower_" + newName);
                         }
                     } else {
-                        // Feltételezve, hogy van BusDriver osztályotok
+                        // BusDriver logika
                         model.BusDriver driver = new model.BusDriver(newName);
-                        
-                        // A BusDriver osztályban nincs setMoney metódus, ezért ezt kivettük:
-                        // driver.setMoney(1500); 
-                        
                         newPlayer = driver;
-                        vehicleToSpawn = driver.getBus();
-                        if (vehicleToSpawn != null) {
-                            vehicleToSpawn.setId("bus_" + newName);
+                        
+                        // KÖZVETLENÜL Bus típusként kérjük le a járművet az elején
+                        model.Bus bus = driver.getBus();
+                        vehicleToSpawn = bus; // Az ősosztályos változóba is betesszük a későbbi lerakáshoz
+                        
+                        if (bus != null) {
+                            bus.setId("bus_" + newName);
+                            
+                            // --- Úticél és Kezdőpont beállítása (instanceof és kasztolás nélkül!) ---
+                            java.util.List<model.Point> points = game.getCityMap().getPoints();
+                            
+                            if (points != null && points.size() > 1) {
+                                java.util.Random rand = new java.util.Random();
+                                
+                                // Sorsolunk egy kezdőpontot
+                                model.Point start = points.get(rand.nextInt(points.size()));
+                                bus.setBeginningPoint(start);
+                                
+                                // Sorsolunk egy végállomást, ami NEM egyenlő a kezdőponttal
+                                model.Point end;
+                                do {
+                                    end = points.get(rand.nextInt(points.size()));
+                                } while (end.equals(start));
+                                bus.setEndPoint(end);
+                            }
                         }
                     }
 

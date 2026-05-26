@@ -179,7 +179,12 @@ public class GamePanel extends JPanel implements GameObserver {
         g2d.drawString(point.getId(), point.getX() - 10, point.getY() - 15);
     }
 
-private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
+    /**
+     * Egyetlen jármű kirajzolása.
+     * @param g2d A rajzoló objektum.
+     * @param vehicle A kirajzolandó jármű.
+     */
+    private void drawVehicle(Graphics2D g2d, Vehicle vehicle) {
         model.Point p = vehicle.getCurrentPoint();
         if (p == null) return;
 
