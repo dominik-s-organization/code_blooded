@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Map;
  * Felelős a megvásárolható eszköz és nyersanyagok árainak nyilvántartásáért,
  * valamint a vásárlási tranzakciók lebonyolításáért.
  */
-public class Store {
+public class Store implements Serializable {
     
     /**
      * A boltban megvásárolható tárgyakat és azok árait tartalmazó beágyazott felsorolás (enum).

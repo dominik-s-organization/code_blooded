@@ -41,8 +41,8 @@ public class Main {
         // ==========================================================
         // 4. JÁRMŰVEK ELHELYEZÉSE
         // ==========================================================
-        // Autók és Buszok automatikus elhelyezése a TrafficGenerator-ral
-        TrafficGenerator.spawnVehicles(game, 3, 2); // 3 autó, 2 busz
+        // Autók és Buszok automatikus elhelyezése a TrafficGenerator-ral, a busz opcionális
+        TrafficGenerator.spawnVehicles(game, 3, 0); // 3 autó, 0 busz
 
         // Játékos (Hókotró) elhelyezése
         SnowCleaner cleaner = new SnowCleaner("Jatekos1"); 
