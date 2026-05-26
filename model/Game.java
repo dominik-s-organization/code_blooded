@@ -45,6 +45,35 @@ public class Game implements IdGenerator {
     /** A játékban található összes jármű listája. */
     public List<Vehicle> vehicles; 
 
+    // Új változó a többi változó (pl. activePlayerIndex) alá
+    private int activeVehicleIndex = 0;
+
+    public int getActiveVehicleIndex() {
+        return activeVehicleIndex;
+    }
+
+    /**
+     * Visszaadja az éppen soron lévő játékos aktuálisan lépő járművét.
+     */
+    public Vehicle getActiveVehicle() {
+        Player currentPlayer = getCurrentPlayer();
+        if (currentPlayer == null) return null;
+        
+        if (currentPlayer.getType().equals("snow_cleaner")) {
+            SnowCleaner cleaner = (SnowCleaner) currentPlayer;
+            if (cleaner.getSnowPlowers() != null && !cleaner.getSnowPlowers().isEmpty()) {
+                // Biztonsági ellenőrzés, ha pl. eladna egyet a jövőben
+                if (activeVehicleIndex >= cleaner.getSnowPlowers().size()) {
+                    activeVehicleIndex = 0;
+                }
+                return cleaner.getSnowPlowers().get(activeVehicleIndex);
+            }
+        } else if (currentPlayer.getType().equals("bus_driver")) {
+            return ((BusDriver) currentPlayer).getBus();
+        }
+        return null;
+    }
+
     /**
      * A Game osztály konstruktora, inicializálja az üres listákat és számlálókat.
      */
@@ -101,9 +130,23 @@ public class Game implements IdGenerator {
     public boolean nextPlayerTurn() {
         if (players == null || players.isEmpty()) return false;
         
-        activePlayerIndex++; // Ugrik a következő játékosra
+        Player currentPlayer = getCurrentPlayer();
         
-        // Ha mindenki lépett, visszaugrik az elsőre, és jelezzük (TRUE), hogy kör vége!
+        // 1. Megnézzük, van-e még járműve az aktuális játékosnak, amivel nem lépett
+        if (currentPlayer.getType().equals("snow_cleaner")) {
+            SnowCleaner cleaner = (SnowCleaner) currentPlayer;
+            if (cleaner.getSnowPlowers() != null && activeVehicleIndex + 1 < cleaner.getSnowPlowers().size()) {
+                activeVehicleIndex++; // Ugrás a következő hókotróra
+                notifyObservers();
+                return false; // A játékos köre még nem ért véget
+            }
+        }
+        
+        // 2. Ha nincs több jármű, jöhet a következő játékos
+        activeVehicleIndex = 0; // Visszaállítjuk a jármű indexet
+        activePlayerIndex++; 
+        
+        // 3. Ha mindenki lépett, új kör indul
         if (activePlayerIndex >= players.size()) {
             activePlayerIndex = 0;
             notifyObservers();
@@ -111,7 +154,7 @@ public class Game implements IdGenerator {
         }
         
         notifyObservers();
-        return false; // Még van hátra játékos a körben
+        return false;
     }
 
 
@@ -321,38 +364,26 @@ public class Game implements IdGenerator {
     public boolean move(Object currentPlayer, model.Point targetPoint) {
         if (currentPlayer == null || targetPoint == null) return false;
 
-        model.Vehicle vehicle = null;
-
-        // 1. Jármű kikeresése a játékos típusa alapján
-        String playerType = currentPlayer.getClass().getSimpleName();
-        if (playerType.equals("SnowCleaner")) {
-            model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
-            if (cleaner.getSnowPlowers() != null && !cleaner.getSnowPlowers().isEmpty()) {
-                vehicle = cleaner.getSnowPlowers().get(0);
-            }
-        } else if (playerType.equals("BusDriver")) {
-            model.BusDriver driver = (model.BusDriver) currentPlayer;
-            vehicle = driver.getBus(); 
-        }
+        // A régi if-else típusvizsgálat és a get(0) helyett egyszerűen lekérjük az aktív járművet:
+        model.Vehicle vehicle = getActiveVehicle(); 
 
         if (vehicle == null || vehicle.getCurrentPoint() == null) return false;
 
-        // 2. Megkeressük a megfelelő sávot, KIZÁRÓLAG a jelenlegi pontból kiindulók között (JAVÍTÁS!)
+        // Megkeressük a megfelelő sávot
         model.Lane nextLane = null;
         for (model.Lane lane : vehicle.getCurrentPoint().getOutgoingLanes()) {
             if (lane.getEndPoint().equals(targetPoint)) {
                 nextLane = lane;
-                break; // Megtaláltuk a megfelelő irányú utat!
+                break; 
             }
         }
 
-        // 3. Ha megvan a sáv, rögzítjük a járműnek a következő STEP-hez
         if (nextLane != null) {
             vehicle.setNextLane(nextLane);
             return true;
         }
 
-        return false; // Nincs közvetlen sáv a két pont között a megfelelő irányba
+        return false; 
     }
     
     /**

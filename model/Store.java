@@ -134,6 +134,7 @@ public class Store implements Serializable {
             case SNOW_PLOWER: {
                 for (int i = 0; i < actualQuantity; i++) {
                     SnowPlower sp = new SnowPlower();
+                    sp.setId("plower_" + buyer.getName() + "_" + (buyer.getSnowPlowers().size() + 1));
                     sp.setOwner(buyer);
                     buyer.getSnowPlowers().add(sp);
                     cityMap.addVehicle(sp);

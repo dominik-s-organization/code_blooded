@@ -223,6 +223,8 @@ public class ControlPanel extends JPanel {
             } else {
                 outputField.setText("Lépés rögzítve! Jön a következő játékos.");
             }
+
+            refreshCurrentPlayerDisplay();
         });
 
         moveButton.addActionListener(e -> {
@@ -280,7 +282,7 @@ public class ControlPanel extends JPanel {
                 model.Player currentPlayer = game.getCurrentPlayer();
                 if (currentPlayer == null) return;
                 
-                if (currentPlayer instanceof model.SnowCleaner) {
+                if (currentPlayer.getType().equals("snow_cleaner")) {
                     model.SnowCleaner cleaner = (model.SnowCleaner) currentPlayer;
                     java.util.List<model.Head> inventory = cleaner.getInventory();
                     
@@ -304,16 +306,17 @@ public class ControlPanel extends JPanel {
                     if (selectedHead != null) {
                         if (console == null) return;
 
-                        java.util.List<model.SnowPlower> plowers = cleaner.getSnowPlowers();
-                        if (plowers == null || plowers.isEmpty()) {
-                            outputField.setText("Hiba: A játékosnak nincs hókotrója!");
+                        // A fix listázás helyett lekérjük a Game-től az éppen soron lévő aktív járművet
+                        model.Vehicle activeVehicle = game.getActiveVehicle();
+                        if (activeVehicle == null) {
+                            outputField.setText("Hiba: Nincs aktív jármű!");
                             return;
                         }
-                        
-                        String vehicleId = plowers.get(0).getId();
+    
+                        String vehicleId = activeVehicle.getId();
                         String command = "equip " + vehicleId + " " + selectedHead;
                         console.processCommand(command);
-                        
+    
                         outputField.setText("Kiadott parancs: " + command);
                         game.notifyObservers();
                     }
@@ -392,7 +395,16 @@ public class ControlPanel extends JPanel {
         if(game.getPlayers() != null && !game.getPlayers().isEmpty()){
             model.Player currentPlayer = game.getCurrentPlayer();
             if (currentPlayer == null) return;
-            statusPanel.setStatusText("Aktuális játékos: " + currentPlayer.getName());
+            
+            String vehicleInfo = "";
+            if (currentPlayer instanceof model.SnowCleaner) {
+                model.Vehicle activeVehicle = game.getActiveVehicle();
+                if (activeVehicle != null) {
+                    vehicleInfo = " (Jármű: " + activeVehicle.getId() + ")";
+                }
+            }
+            
+            statusPanel.setStatusText("Aktuális játékos: " + currentPlayer.getName() + vehicleInfo);
         }
     }
 

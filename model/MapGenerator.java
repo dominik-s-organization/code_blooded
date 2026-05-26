@@ -11,19 +11,11 @@ import java.util.Random;
 public class MapGenerator {
     // Sáv egyedi azonosítója
     private static int laneIdCounter = 1;
-    /**
-     * Generál egy véletlenszerű, összefüggő várostérképet a megadott dimenziók alapján.
-     * A metódus polimorf módon hoz létre normál csomópontokat (Junction), 
-     * kereszteződéseket (CrossRoads) és alagutakat (Tunnel).
-     * @param game A fő játék objektum, amelyhez a térkép tartozik.
-     * @param rows A virtuális generálási rács sorainak száma.
-     * @param cols A virtuális generálási rács oszlopainak száma.
-     */
+
     public static void generateRandomMap(Game game, int rows, int cols) {
         CityMap map = game.getCityMap();
         Random rand = new Random();
 
-        // 1. A rács immár az ősosztályt Point-ot használja
         Point[][] grid = new Point[rows][cols];
         List<int[]> existingNodes = new ArrayList<>();
 
@@ -36,7 +28,6 @@ public class MapGenerator {
         if (targetNodes == 0) targetNodes = 1;
         int junctionIdCounter = 1;
 
-        // 2. Kezdőpont generálása (Ez is Point változóba megy)
         Point startNode = new Junction("junction_" + junctionIdCounter++);
         startNode.setX(startX);
         startNode.setY(startY);
@@ -58,7 +49,6 @@ public class MapGenerator {
                 Point newNode;
                 int typeChance = rand.nextInt(100); 
                 
-                // === POLIMORF SORSOLÁS ===
                 if (typeChance < 15) {
                     newNode = new Tunnel("tunnel_" + junctionIdCounter++);
                 } else if (typeChance < 30) {
@@ -73,7 +63,6 @@ public class MapGenerator {
                 map.addPoint(newNode);
                 existingNodes.add(new int[]{nr, nc});
                 
-                // Utak bekötése (Itt a grid[r][c] is már Point)
                 createOneWayLane(map, grid[r][c], newNode, rand);
                 createOneWayLane(map, newNode, grid[r][c], rand);
             }
@@ -82,7 +71,6 @@ public class MapGenerator {
         // 3. Extra utak (hurkok) hozzáadása
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                // Itt is Point a típus, nem Junction!
                 Point current = grid[r][c]; 
                 if (current == null) continue;
 
@@ -96,16 +84,90 @@ public class MapGenerator {
                 }
             }
         }
+
+        // =========================================================================
+        // 4. CSOMÓPONTOK TÍPUSÁNAK JAVÍTÁSA A VALÓDI TOPOLÓGIA ALAPJÁN
+        // =========================================================================
+        List<Point> finalPoints = new ArrayList<>();
+        for (Point p : map.getPoints()) {
+            // Az alagutak különlegesek, azokat nem módosítjuk
+            if (p instanceof Tunnel) {
+                finalPoints.add(p);
+                continue; 
+            }
+
+            // Megszámoljuk az egyedi szomszédokat
+            List<Point> neighbors = new ArrayList<>();
+            for (Lane l : p.getOutgoingLanes()) {
+                if (!neighbors.contains(l.getEndPoint())) {
+                    neighbors.add(l.getEndPoint());
+                }
+            }
+            for (Lane l : p.getIncomingLanes()) {
+                if (!neighbors.contains(l.getStartPoint())) {
+                    neighbors.add(l.getStartPoint());
+                }
+            }
+
+            int degree = neighbors.size();
+            boolean isStraight = false;
+
+            // Ha pontosan 2 szomszédja van, ellenőrizzük, hogy egy vonalban vannak-e
+            if (degree == 2) {
+                Point n1 = neighbors.get(0);
+                Point n2 = neighbors.get(1);
+                
+                // Akkor egyenes az út, ha a három pont azonos X vagy azonos Y tengelyen fekszik
+                if ((n1.getX() == p.getX() && n2.getX() == p.getX()) ||
+                    (n1.getY() == p.getY() && n2.getY() == p.getY())) {
+                    isStraight = true;
+                }
+            }
+
+            // Kereszteződés kell, ha: zsákutca (1), sarok (2 de nem egyenes), vagy valódi kereszteződés (3, 4)
+            boolean shouldBeCrossRoads = (degree != 2) || (degree == 2 && !isStraight);
+
+            if (shouldBeCrossRoads && p instanceof Junction) {
+                // Csere CrossRoads-ra
+                String newId = p.getId().replace("junction", "crossroads");
+                CrossRoads cr = new CrossRoads(newId);
+                transferNodeData(p, cr);
+                finalPoints.add(cr);
+            } else if (!shouldBeCrossRoads && p instanceof CrossRoads) {
+                // Csere Junction-re
+                String newId = p.getId().replace("crossroads", "junction");
+                Junction j = new Junction(newId);
+                transferNodeData(p, j);
+                finalPoints.add(j);
+            } else {
+                finalPoints.add(p); // Nem kell cserélni, marad ami volt
+            }
+        }
+        
+        // Frissítjük a térképet a kijavított pontokkal
+        map.setPoints(finalPoints);
     }
 
     /**
-     * Létrehoz egy egyirányú sávot két csomópont között, és hozzáadja a térképhez.
-     * Emellett véletlenszerű mennyiségű havat is generál a friss sávra.
-     * @param map A várostérkép objektum.
-     * @param from A kiindulási csomópont.
-     * @param to A cél csomópont.
-     * @param rand A véletlenszám-generátor objektum.
+     * Segédfüggvény: Átmásolja a koordinátákat és a sávokat egy régi csomópontról egy újra,
+     * és frissíti a rákötött sávok hivatkozásait is.
      */
+    private static void transferNodeData(Point oldNode, Point newNode) {
+        newNode.setX(oldNode.getX());
+        newNode.setY(oldNode.getY());
+        
+        newNode.getIncomingLanes().addAll(oldNode.getIncomingLanes());
+        newNode.getOutgoingLanes().addAll(oldNode.getOutgoingLanes());
+        
+        // Frissítjük a hivatkozásokat a sávokban, hogy immár az új csomópontra mutassanak!
+        for (Lane l : newNode.getIncomingLanes()) {
+            l.setEndPoint(newNode);
+        }
+        for (Lane l : newNode.getOutgoingLanes()) {
+            l.setStartPoint(newNode);
+        }
+    }
+
     private static void createOneWayLane(CityMap map, Point from, Point to, Random rand) {
         Lane lane = new Lane("lane_" + laneIdCounter++);
         lane.setStartPoint(from);
@@ -113,19 +175,13 @@ public class MapGenerator {
         from.addOutgoingLane(lane);
         to.addIncomingLane(lane);
         
-        //Véletlenszerű hó a frissen generált sávokon
         if (lane.getSnow() != null) {
             lane.getSnow().setSnowLevel(rand.nextInt(15));
         }
         
         map.addLane(lane);
     }
-    /**
-     * Ellenőrzi, hogy két pont között létezik-e már közvetlen kimenő összeköttetés (sáv).
-     * @param p1 A kiindulási pont.
-     * @param p2 A vizsgált célpont.
-     * @return Igaz (true), ha van közvetlen út p1-ből p2-be, különben hamis (false).
-     */
+
     private static boolean isConnected(Point p1, Point p2) {
         for (Lane lane : p1.getOutgoingLanes()) {
             if (lane.getEndPoint().equals(p2)) return true;
