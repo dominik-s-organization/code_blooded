@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Egy sávon (Lane) lévő hó- és jégviszonyokat reprezentáló osztály.
  * Felelős a hó vastagságának, letaposottságának, a jégképződésnek és a kiszórt só 
  * mennyiségének nyilvántartásáért és logikájának kezeléséért.
  */
-public class Snow {
+public class Snow implements Serializable {
     /**
      * A hó vastagsága (szintje).
      * Értéke 0 és 30 között mozoghat. 0-14-ig a sáv még átkelhető, 15-30 között járhatatlan.

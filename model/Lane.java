@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * A Lane osztály egy sávot reprezentál a játékban.
  */
-public class Lane {
+public class Lane implements Serializable {
     private String id; // A sáv egyedi azonosítója.
     private Point startpoint; // sáv kezdőpontja, ami lehet egy Junction vagy egy CrossRoads
     private Point endpoint; // sáv végpontja, ami lehet egy Junction vagy egy CrossRoads

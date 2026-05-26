@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * A Head osztály egy fejet reprezentál a játékban.
  */
-public abstract class Head {
+public abstract class Head implements Serializable {
     /*
     * A fej tisztít egy adott sávot.
     * @param lane A sáv, amelyet a sárkányfej tisztítani fog.

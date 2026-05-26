@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Absztrakt ősosztály a felhasználókat (játékosokat) reprezentáló entitások számára.
  * Közös felületet biztosít a játékosok döntéshozatalához a körök során, 
  * illetve az általuk irányított járművek eléréséhez.
  */
-public abstract class Player {
+public abstract class Player implements Serializable {
     
     /** A játékos azonosítója vagy megjelenítendő neve. */
     private String name;
@@ -57,6 +59,16 @@ public abstract class Player {
      */
     public void selectDestination(Vehicle vehicle, Lane nextLane) {
         vehicle.setNextLane(nextLane);
+    }
+
+    // Visszaadja a játékos fő információját string formátumban, amely megjeleníthető a GUI-n.
+    public String getMainInfo(){
+        return this.getName();
+    }
+
+    // Visszaadja a játékos további információit string formátumban, amely megjeleníthető a GUI-n.
+    public String getSubStatusInfo(){
+        return "Status: Ready";
     }
 
     /**

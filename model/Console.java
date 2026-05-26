@@ -82,21 +82,7 @@ public class Console {
                 Logger.log("> ERROR: Maximum player limit reached.");
                 break;
             }
-                            
-            case "load": {
-                if (args.length < 2) {
-                    Logger.log("> ERROR: Missing filename.");
-                } else {
-                    // Kivágjuk a "load " utáni részt, így a szóközös útvonalak is jók lesznek
-                    String fullPath = line.substring(5).trim();
-                    
-                    // FIGYELEM: Sima loadGame-et hívunk, NEM game.loadGame-et!
-                    this.loadGame(fullPath); 
-                    Logger.log("> OK");
-                }
-                break;
-            }
-                            
+
             case "step": {
                 // Léptetés végrehajtása (Game.simulateStep()): [n][cite: 129, 131, 136].
                 if (args.length > 2) {
@@ -312,8 +298,22 @@ public class Console {
                 }
                 break;
             }
-                            
-        case "save": {
+
+            case "load": {
+                if (args.length < 2) {
+                    Logger.log("> ERROR: Missing filename.");
+                } else {
+                    // Kivágjuk a "load " utáni részt, így a szóközös útvonalak is jók lesznek
+                    String fullPath = line.substring(5).trim();
+                    
+                    // FIGYELEM: Sima loadGame-et hívunk, NEM game.loadGame-et!
+                    this.loadGame(fullPath); 
+                    Logger.log("> OK");
+                }
+                break;
+            }
+
+            case "save": {
                 if (args.length < 2) {
                     Logger.log("> ERROR: Missing filename.");
                 } else {
@@ -464,7 +464,6 @@ public class Console {
                 }
                 break;
             }
-                            
 
             case "place_vehicle": {
                 /**
@@ -727,40 +726,16 @@ public class Console {
     }
 
     public void saveGame(String filename) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
-            for (String cmd : commandHistory) {
-                writer.println(cmd);
-            }
-            Logger.log("> Game saved to " + filename);
-        } catch (IOException e) {
-            Logger.log("> ERROR: Could not save to file: " + e.getMessage());
-        }
+        // A Console csak delegálja a feladatot a Modellnek
+        this.game.saveGame(filename);
     }
     
     public void loadGame(String filename) {
-        File file = new File(filename);
-        if (!file.exists()) {
-            Logger.log("> ERROR: File not found: " + filename);
-            return;
-        }
-
-        // Betöltés előtt érdemes lehet alaphelyzetbe állítani a játékot:
-        this.game.reset();
-        commandHistory.clear();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                // A fájlból olvasott parancsokat végrehajtjuk, így rekonstruálva a játék állapotát.
-                processCommand(line);
-            }
-            Logger.log("> Game loaded from " + filename);
-            if(this.game != null){
-                this.game.notifyObservers();
-            }
-        } catch (IOException e) {
-            Logger.log("> ERROR: Error reading file: " + e.getMessage());
-        }
+        // Mivel új állást töltünk be, a régi parancstörténetet is töröljük
+        commandHistory.clear(); 
+        
+        // Delegáljuk a betöltést a Modellnek
+        this.game.loadGame(filename);
     }
 
     /**

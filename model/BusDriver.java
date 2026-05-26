@@ -43,6 +43,25 @@ public class BusDriver extends Player {
         return "bus_driver";
     }
 
+    @Override
+    public String getMainInfo() {
+        String destination = "Ismeretlen";
+        
+        if (this.getBus() != null) {
+            // Itt lekérjük a busz jelenlegi célpontját (végállomását)
+            if (this.getBus().getEndPoint() != null) {
+                destination = this.getBus().getEndPoint().getId();
+            }
+        }
+        
+        return this.getName() + " -> Dest: " + destination;
+    }
+
+    @Override
+    public String getSubStatusInfo() {
+        return "Teljesített utak: " + this.completedRoutes;
+    }
+
     // A buszvezető teljesíti az útvonalat, és növeli a teljesített útvonalak számát.
     public void completeRoute() {
         completedRoutes++;

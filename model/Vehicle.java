@@ -1,11 +1,13 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Absztrakt osztály a mozgó entitások (autók, buszok, hókotrók) számára.
  * Felelőssége az aktuális pozíció és az elakadási idő nyilvántartása,
  * valamint a mozgás és elakadás alapvető műveleteinek definiálása.
  */
-public abstract class Vehicle { 
+public abstract class Vehicle implements Serializable {
     
     /** A jármű egyedi azonosítója a játékban. */
     private String id;

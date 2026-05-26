@@ -175,6 +175,16 @@ public class SnowCleaner extends Player {
     }
 
     @Override
+    public String getMainInfo() {
+        return this.getName() + " - Money: " + this.getMoney() + "$";
+    }
+
+    @Override
+    public String getSubStatusInfo() {
+        return "Stock: "+ getSaltStock() + " salt, " + getBioKeroseneStock() + " bioKerosene, " + getCrushedStoneStock() + " crushedStone";
+    }
+
+    @Override
     public String getType() {
         return "snow_cleaner";
     }
