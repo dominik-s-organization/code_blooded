@@ -12,6 +12,14 @@ public class MapGenerator {
     // Sáv egyedi azonosítója
     private static int laneIdCounter = 1;
 
+    /**
+     * Generál egy véletlenszerű, összefüggő várostérképet a megadott dimenziók alapján.
+     * A metódus polimorf módon hoz létre normál csomópontokat (Junction), 
+     * kereszteződéseket (CrossRoads) és alagutakat (Tunnel).
+     * @param game A fő játék objektum, amelyhez a térkép tartozik.
+     * @param rows A virtuális generálási rács sorainak száma.
+     * @param cols A virtuális generálási rács oszlopainak száma.
+     */
     public static void generateRandomMap(Game game, int rows, int cols) {
         CityMap map = game.getCityMap();
         Random rand = new Random();
