@@ -40,7 +40,7 @@ public class MenuPanel extends JPanel {
     * valamint konfigurálja a panel GridBagLayout elrendezését és hátterét.
     * @param console A konzol objektum a mentési parancsok feldolgozásához.
     * @param mainframe A főablak referenciája a nézetek közötti váltáshoz.
-    *//
+    */
    public MenuPanel(Console console, MainFrame mainframe) {
         this.console = console;
         this.mainFrame = mainframe;

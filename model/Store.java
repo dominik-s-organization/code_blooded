@@ -10,6 +10,16 @@ import java.util.Map;
  */
 public class Store implements Serializable {
     
+    private CityMap cityMap; // A várostérkép, amelyre a bolt hatással lehet (pl. új eszközök elhelyezése)
+
+    public void setCityMap(CityMap cityMap) {
+        this.cityMap = cityMap;
+    }
+
+    public CityMap getCityMap() {
+        return cityMap;
+    }
+
     /**
      * A boltban megvásárolható tárgyakat és azok árait tartalmazó beágyazott felsorolás (enum).
      */
@@ -126,6 +136,9 @@ public class Store implements Serializable {
                     SnowPlower sp = new SnowPlower();
                     sp.setOwner(buyer);
                     buyer.getSnowPlowers().add(sp);
+                    cityMap.addVehicle(sp);
+                    cityMap.getPoints().get(0).addVehicle(sp);
+                    sp.setCurrentPoint(cityMap.getPoints().get(0));
                 }
                 break;
             }

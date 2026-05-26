@@ -52,6 +52,7 @@ public class Game implements IdGenerator {
         city = new CityMap();
         players = new ArrayList<>();
         store = new Store();
+        store.setCityMap(city);
         idCounters = new HashMap<>();
         observers = new ArrayList<>();
         lanes = new ArrayList<>();
